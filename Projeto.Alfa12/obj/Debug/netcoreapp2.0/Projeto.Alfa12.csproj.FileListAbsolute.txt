@@ -1,0 +1,12 @@
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\bin\Debug\netcoreapp2.0\Projeto.Alfa12.deps.json
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\bin\Debug\netcoreapp2.0\Projeto.Alfa12.runtimeconfig.json
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\bin\Debug\netcoreapp2.0\Projeto.Alfa12.runtimeconfig.dev.json
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\bin\Debug\netcoreapp2.0\Projeto.Alfa12.dll
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\bin\Debug\netcoreapp2.0\Projeto.Alfa12.pdb
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\Projeto.Alfa12.csprojResolveAssemblyReference.cache
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\Projeto.Alfa12.csproj.CoreCompileInputs.cache
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\Projeto.Alfa12.AssemblyInfoInputs.cache
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\Projeto.Alfa12.AssemblyInfo.cs
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\Projeto.Alfa12.dll
+C:\Users\andri\source\repos\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\Projeto.Alfa12.pdb

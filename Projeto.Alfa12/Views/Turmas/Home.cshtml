@@ -1,0 +1,17 @@
+﻿@model Turma
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h2>Home</h2>
+
+<p>@Html.DisplayFor(model => model.Nome)</p>
+
+@foreach (var item in Model.IModulo)
+{
+    @Html.DisplayFor(x => item.Nome) <a asp-controller="Modulos" asp-action="Details" asp-route-id="@item.Id">Details</a>
+}
+
+
+

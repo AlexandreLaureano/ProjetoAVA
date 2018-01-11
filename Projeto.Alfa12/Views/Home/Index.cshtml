@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Projeto.Alfa12.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@{
+
+    if (!SignInManager.IsSignedIn(User))
+    {
+        <h2>Realize o Login</h2>
+
+    }
+    else
+    {
+        if (User.IsInRole("Professor"))
+        {
+            <h2>Página do Professor</h2>
+            var x = (Professor)await UserManager.GetUserAsync(User);
+            if (x.Autenticado == true)
+            {
+
+                <a asp-controller="Manage">Seu Perfil</a><br />
+                <a asp-controller="Turmas" asp-action="Index">Visualizar e criar turmas</a><br />
+                <a asp-controller="Turmas" asp-action="IndexProfessor">Adicionar alunos a sua turma</a><br />
+                <a asp-controller="Turmas" asp-action="IndexProfessor">Minhas Turmas</a><br />
+            }
+            else
+            {
+                <p>É necessário autenticação do Coordenador</p>
+
+                await SignInManager.SignOutAsync();
+
+            }
+
+        }
+        else if (User.IsInRole("Aluno"))
+        {
+
+            <h2>Página do Aluno</h2>
+
+            <a asp-controller="Manage">Seu Perfil</a><br />
+            <a asp-controller="Turmas" asp-action="IndexAluno">Minhas Turmas</a><br />
+            <a asp-controller="Turmas" asp-action="Index">Pesquisar turmas</a><br />
+            <a>enviar mensagem</a><br />
+            <a>visualizar ranking</a><br />
+
+        }
+        else if (User.IsInRole("Administrador"))
+        {
+
+            <h2>Página do Coordenador</h2>
+
+            <a asp-controller="Alunos" asp-action="Index">Editar Alunos</a><br />
+            <a asp-controller="Professores" asp-action="Index">Editar Professores</a><br />
+            <a asp-controller="Turmas">Ver Turmas</a><br />
+            <a>log</a>
+        }
+        else
+        {
+            <h2>Você não possui Autenticação</h2>
+
+        }
+
+    }
+}
+<hr />
+<div class="row">
+    <div class="col-md-3">
+        <h2>Application uses</h2>
+        <ul>
+            <li>Sample pages using ASP.NET Core MVC</li>
+            <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h2>How to</h2>
+        <ul>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h2>Overview</h2>
+        <ul>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h2>Run &amp; Deploy</h2>
+        <ul>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
+        </ul>
+    </div>
+</div>

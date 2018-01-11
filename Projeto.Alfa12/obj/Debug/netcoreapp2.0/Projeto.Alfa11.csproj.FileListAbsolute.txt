@@ -1,0 +1,12 @@
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\obj\Debug\netcoreapp2.0\Projeto.Alfa11.csproj.CoreCompileInputs.cache
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\obj\Debug\netcoreapp2.0\Projeto.Alfa11.AssemblyInfoInputs.cache
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\obj\Debug\netcoreapp2.0\Projeto.Alfa11.AssemblyInfo.cs
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\bin\Debug\netcoreapp2.0\Projeto.Alfa11.deps.json
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\bin\Debug\netcoreapp2.0\Projeto.Alfa11.runtimeconfig.json
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\bin\Debug\netcoreapp2.0\Projeto.Alfa11.runtimeconfig.dev.json
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\bin\Debug\netcoreapp2.0\Projeto.Alfa11.dll
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\bin\Debug\netcoreapp2.0\Projeto.Alfa11.pdb
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\obj\Debug\netcoreapp2.0\Projeto.Alfa11.dll
+c:\users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\obj\Debug\netcoreapp2.0\Projeto.Alfa11.pdb
+C:\Users\andri\source\repos\Projeto.Alfa11\Projeto.Alfa11\obj\Debug\netcoreapp2.0\Projeto.Alfa11.csprojResolveAssemblyReference.cache
