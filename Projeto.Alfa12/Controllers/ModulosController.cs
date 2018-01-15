@@ -11,6 +11,7 @@ using Projeto.Alfa12.Models;
 
 namespace Projeto.Alfa12.Controllers
 {
+    //[Authorize(Roles = "Professor")]
     public class ModulosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -26,7 +27,11 @@ namespace Projeto.Alfa12.Controllers
         // GET: Modulos
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Modulos.Include(m => m.Turma);
+            var user = _userManager.GetUserAsync(User);
+            var professor = (Professor)await user;
+
+            var applicationDbContext = _context.Modulos.Include(m => m.Turma).Where(x=>x.Turma.ProfessorId==professor.Id);
+            
             return View(await applicationDbContext.ToListAsync());
         }
 

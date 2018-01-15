@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using Projeto.Alfa12.Models;
 
 namespace Projeto.Alfa12.Controllers
 {
+    //[Authorize]
     public class TurmasController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,6 +29,7 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // GET: Turmas
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string SearchString = "")
         {
             //var turma = from t in _context.Turmas select t; colocar join
@@ -40,6 +43,7 @@ namespace Projeto.Alfa12.Controllers
             return View(await turma.ToListAsync());
         }
 
+        //[Authorize(Roles = "Professor")]
         public async Task<IActionResult> IndexProfessor()
         {
             var user = (Professor) await _userManager.GetUserAsync(User); 
@@ -48,6 +52,7 @@ namespace Projeto.Alfa12.Controllers
             return View(await turmas.ToListAsync());
         }
 
+        //[Authorize(Roles = "Aluno")]
         public async Task<IActionResult> IndexAluno()
         {
             var user = (Aluno)await _userManager.GetUserAsync(User);
@@ -64,6 +69,18 @@ namespace Projeto.Alfa12.Controllers
             return View(Lturma);
         }
 
+        public async Task<IActionResult> IndexAdmin(string SearchString = "")
+        {
+            //var turma = from t in _context.Turmas select t; colocar join
+            var turma = _context.Turmas.Include(t => t.Professor);
+
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                turma = turma.Where(s => s.Nome.Contains(SearchString)).Include(t => t.Professor);
+            }
+
+            return View(await turma.ToListAsync());
+        }
 
         // GET: Turmas/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -373,13 +390,6 @@ namespace Projeto.Alfa12.Controllers
 
             return View(turma);
         }
-
-
-       
-
-       
-
-      
 
     }
 }

@@ -38,6 +38,7 @@ namespace Projeto.Alfa12.Models
         public bool Ativo { get; set; }
         [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "Data de Nascimento")]
         public DateTime DataNascimento { get; set; }
 
         public ICollection<LogUsuario> Logs { get; set; }

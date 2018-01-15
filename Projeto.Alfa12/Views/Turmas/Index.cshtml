@@ -6,9 +6,6 @@
 
 <h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <form>
     <p>
         Title: <input type="text" name="SearchString">
@@ -66,15 +63,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Professor.FullName)
             </td>
+            @{
+        if (User.IsInRole("Aluno"))
+        {
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a asp-action="AddAluno" asp-route-id="@item.Id">Adicionar Alunos</a>|
-                <a asp-action="AddModulo" asp-route-id="@item.Id">Adicionar Modulos</a>|
                 <a asp-action="EntrarTurma" asp-route-id="@item.Id">Entrar na Turma</a>
 
             </td>
+
+        }
+            }
+
         </tr>
 }
     </tbody>
