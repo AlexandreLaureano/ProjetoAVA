@@ -64,8 +64,11 @@ namespace Projeto.Alfa12.Data
                 .WithMany("Alunos")
                 .HasForeignKey(t => t.TurmaId);
 
-    
 
+            builder.Entity<LogUsuario>()
+               .HasOne(x => x.Usuario)
+               .WithMany(y => y.Logs)
+               .HasForeignKey(l => l.UsuarioId);
 
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.

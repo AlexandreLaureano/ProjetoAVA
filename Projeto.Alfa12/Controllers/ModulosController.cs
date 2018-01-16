@@ -82,6 +82,9 @@ namespace Projeto.Alfa12.Controllers
             {
                 _context.Add(modulo);
                 await _context.SaveChangesAsync();
+                var user = (ApplicationUser)await _userManager.GetUserAsync(User);
+                LogUsuariosController log = new LogUsuariosController(_context);
+                await log.SetLog("Create Modulo :" + modulo.Nome, user.Id);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TurmaId"] = new SelectList(_context.Turmas, "Id", "Id", modulo.TurmaId);

@@ -28,6 +28,7 @@
                 <a asp-controller="Turmas" asp-action="Index">Visualizar e criar turmas</a><br />
                 <a asp-controller="Turmas" asp-action="IndexProfessor">Adicionar alunos a sua turma</a><br />
                 <a asp-controller="Turmas" asp-action="IndexProfessor">Minhas Turmas</a><br />
+                <a asp-controller="Modulos">Meus Módulos</a>
             }
             else
             {
@@ -58,7 +59,7 @@
             <a asp-controller="Alunos" asp-action="Index">Editar Alunos</a><br />
             <a asp-controller="Professores" asp-action="Index">Editar Professores</a><br />
             <a asp-controller="Turmas">Ver Turmas</a><br />
-            <a>log</a>
+            <a asp-controller="LogUsuarios">log</a>
         }
         else
         {

@@ -126,6 +126,11 @@ namespace Projeto.Alfa12.Controllers
             {
                 _context.Add(turma);
                 await _context.SaveChangesAsync();
+
+                LogUsuariosController log = new LogUsuariosController(_context);
+                await log.SetLog("Create Turma : " + turma.Nome, turma.Professor.Id);
+
+
                 return RedirectToAction(nameof(Index));
             }
             return View(turma);
@@ -167,6 +172,12 @@ namespace Projeto.Alfa12.Controllers
                 {
                     _context.Update(turma);
                     await _context.SaveChangesAsync();
+
+                    var user = (ApplicationUser) await _userManager.GetUserAsync(User);
+
+                    LogUsuariosController log = new LogUsuariosController(_context);
+                    await log.SetLog("Edit Turma => Id:" +turma.Id + ", Nome:" + turma.Nome, user.Id);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -212,6 +223,11 @@ namespace Projeto.Alfa12.Controllers
             var turma = await _context.Turmas.SingleOrDefaultAsync(m => m.Id == id);
             _context.Turmas.Remove(turma);
             await _context.SaveChangesAsync();
+
+            var user = (ApplicationUser)await _userManager.GetUserAsync(User);
+            LogUsuariosController log = new LogUsuariosController(_context);
+            await log.SetLog("Delete Turma => Id:" + turma.Id + ", Nome:" + turma.Nome, user.Id);
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -311,6 +327,10 @@ namespace Projeto.Alfa12.Controllers
                     //turmas[turmas.IndexOf(turma)] = turma;
                     //_context.Update(turma);
                     await _context.SaveChangesAsync();
+
+                    var usuario = (ApplicationUser)await _userManager.GetUserAsync(User);
+                    LogUsuariosController log = new LogUsuariosController(_context);
+                    await log.SetLog("Update Alunos da Turma => Id:" + turma.Id + ", Nome:" + turma.Nome, usuario.Id);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
