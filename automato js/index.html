@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Directed Graph Editor</title>
+    <link rel="stylesheet" href="teste.css">
+	<link rel="stylesheet" href="jquery.contextMenu.css">
+	<script type="text/javascript" src="jquery-3.2.1.js"></script>
+	
+	<script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript" src="jquery.contextMenu.js"></script>
+	<script type="text/javascript" src="jquery.ui.position.js"></script>
+	
+  </head>
+  
+  <body>
+  Shift move - Mover node </br>
+  Ctrl click - Novo node</br>
+  Ctrl click move - Novo link </br>
+  I - para estado inicial (verde {1}) </br>
+  F - para estado final(vermelho {*}) </br>
+  Estado amarelo é inicial e final</br>
+  <place></place> </br>
+ <input type="button" name="button2" id="button2" value="Gerar Json" onClick="javascript:convertejson();"/> </br>
+ <textarea rows="10" cols="40" name="text" id="arrow"> </textarea>
+ <textarea rows="10" cols="40" name="text" id="node"> </textarea>
+
+ 
+  </body>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+     <!-- <script src="server.js"></script>-->
+	<script src="teste.js"></script>
+	
+	
+
+</html>

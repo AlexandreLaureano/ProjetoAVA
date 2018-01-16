@@ -1,0 +1,100 @@
+svg {
+  background-color: #FFF;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  
+   border-style: dashed;
+}
+
+svg:not(.active):not(.ctrl) {
+  cursor: crosshair;
+}
+
+path.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 4px;
+  cursor: default;
+}
+
+svg:not(.active):not(.ctrl) path.link {
+  cursor: pointer;
+}
+
+path.link.selected {
+  stroke-dasharray: 10,2;
+}
+
+path.link.dragline {
+  pointer-events: none;
+}
+
+path.link.hidden {
+  stroke-width: 0;
+}
+
+path.text.nodetext{
+	text-anchor: middle;
+
+  font: 15px sans-serif;
+  pointer-events: none;
+}
+
+circle.node {
+	fill : #FFF;
+  stroke-width: 1.5px;
+  cursor: pointer;
+}
+
+circle.node.end {
+	fill: red;
+  stroke: #000 !important;
+  stroke-width: 2.5px;
+}
+
+circle.node.start{
+	fill: green;
+	stroke : #000 !important;
+	stroke-width: 2.5px;
+	r : 20;
+}
+
+circle.node.start.end{
+	fill: yellow;
+	stroke : #000 !important;
+}
+
+text.arrow{
+	text-anchor: top;
+  font-weight: bold;
+}
+text {
+  font: 12px sans-serif;
+  pointer-events: none;
+}
+
+text.id {
+  text-anchor: middle;
+  font-weight: bold;
+}
+
+text.nodetext{
+	text-anchor: middle;
+  font-weight: bold;
+  font: 15px sans-serif;
+}
+
+
+fixed{
+	stroke-width: 5px;;
+}
+
+path.text{
+    fill: none;
+    stroke: none;
+  font: 15px sans-serif;
+}
