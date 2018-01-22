@@ -1,0 +1,53 @@
+﻿@model ProductsListViewModel
+
+
+<h2>List</h2>
+<p>
+    <a asp-action="Create">Criar</a>
+</p>
+
+<form>
+    <p>
+        Title: <input type="text" name="SearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                Data de criação
+            </th>
+            <th>
+                Descrição
+            </th>
+            <th>
+                Área de conhecimento
+            </th>
+            <th>
+                Chave de Acesso
+            </th>
+            <th>
+                Pontos
+            </th>
+            <th>
+                Professor
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model.Itens)
+        {
+            @Html.Partial("ListTurma", p)
+        }
+    </tbody>
+</table>
+<div page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-secondary"
+
+     page-class-selected="btn-primary" class="btn-group pull-right m-1">
+</div>

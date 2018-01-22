@@ -18,6 +18,7 @@ namespace Projeto.Alfa12.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        public int PageSize = 2;
 
         public TurmasController(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
@@ -42,6 +43,23 @@ namespace Projeto.Alfa12.Controllers
 
             return View(await turma.ToListAsync());
         }
+
+        public ViewResult List(int productPage = 1, string SearchString = "")
+        => View(new ProductsListViewModel{
+            Itens = _context.Turmas.Include(t => t.Professor)
+            .Where(s=> s.Nome.Contains(SearchString))
+            .OrderBy(p => p.Id)
+            .Skip((productPage - 1) * PageSize)
+            .Take(PageSize),
+                PagingInfo = new PagingInfo {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                    TotalItems = SearchString == "" ?
+                    _context.Turmas.Count() :
+                    _context.Turmas.Where(s => s.Nome.Contains(SearchString)).Count()
+                }
+                
+        });
 
         //[Authorize(Roles = "Professor")]
         public async Task<IActionResult> IndexProfessor()
@@ -130,7 +148,7 @@ namespace Projeto.Alfa12.Controllers
                 LogUsuariosController log = new LogUsuariosController(_context);
                 await log.SetLog("Create Turma : " + turma.Nome, turma.Professor.Id);
 
-
+                TempData["alert"] = $"{turma.Nome} foi criada";
                 return RedirectToAction(nameof(Index));
             }
             return View(turma);

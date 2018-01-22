@@ -1,0 +1,36 @@
+﻿@model Turma
+
+
+   <tr>
+            <td>
+
+                @Model.Nome
+            </td>
+            <td>
+                @Model.DataCriacao
+            </td>
+            <td>
+                @Model.Descricao
+            </td>
+            <td>
+                @Model.AreaConhecimento
+            </td>
+            <td>
+                @Model.ChaveAcesso
+            </td>
+            <td>
+                @Model.MaxPonto
+            </td>
+            <td>
+                @{
+                @Model.Professor?.FullName ;
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@Model.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
+                <a asp-action="AddAluno" asp-route-id="@Model.Id">Adicionar Alunos</a>
+
+            </td>
+        </tr>

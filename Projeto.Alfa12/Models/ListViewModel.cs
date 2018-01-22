@@ -65,4 +65,21 @@ namespace Projeto.Alfa12.Models
         public int[] IdsToAdd { get; set; }
         public int[] IdsToDelete { get; set; }
     }
+
+    [NotMapped]
+    public class PagingInfo
+    {
+        public int TotalItems { get; set; }
+        public int ItemsPerPage { get; set; }
+        public int CurrentPage { get; set; }
+        public int TotalPages =>
+        (int)Math.Ceiling((decimal)TotalItems / ItemsPerPage);
+    }
+
+    [NotMapped]
+    public class ProductsListViewModel
+    {
+        public IEnumerable<Turma> Itens { get; set; }
+        public PagingInfo PagingInfo { get; set; }
+    }
 }

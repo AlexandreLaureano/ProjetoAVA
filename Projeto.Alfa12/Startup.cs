@@ -56,8 +56,15 @@ namespace Projeto.Alfa12
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+               name: "pagination",
+               template: "Turmas/List/Page{productPage}",
+               defaults: new { Controller = "Turmas", action = "List" });
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+               
             });
         }
     }
