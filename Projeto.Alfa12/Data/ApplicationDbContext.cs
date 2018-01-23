@@ -16,7 +16,6 @@ namespace Projeto.Alfa12.Data
         public DbSet<Professor> Professores { get; set; }
         public DbSet<Coordenador> Coordenadores { get; set; }
         public DbSet<AlunoConquista> AlunoConquistas { get; set; }
-        public DbSet<AlunoGamification> AlunoGamifications { get; set; }
         public DbSet<AlunoTurma> AlunoTurmas { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Conquista> Conquistas { get; set; }
@@ -49,9 +48,7 @@ namespace Projeto.Alfa12.Data
                 .HasKey(a => new { a.AlunoId, a.ConquistaId });
 
            
-
-            builder.Entity<AlunoGamification>()
-                .HasKey(a => a.AlunoId);
+            
 
             //Mapeamento aluno/turma
             builder.Entity<AlunoTurma>()

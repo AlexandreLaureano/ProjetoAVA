@@ -82,4 +82,11 @@ namespace Projeto.Alfa12.Models
         public IEnumerable<Turma> Itens { get; set; }
         public PagingInfo PagingInfo { get; set; }
     }
+
+    [NotMapped]
+    public class RankViewModel
+    {
+        public int Nome { get; set; }
+        public int? Ponto { get; set; }
+    }
 }

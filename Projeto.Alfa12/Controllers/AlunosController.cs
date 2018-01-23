@@ -124,10 +124,12 @@ namespace Projeto.Alfa12.Controllers
                     Email = model.Email,
                     DataNascimento = model.Birthday,
                     Ativo = true,
-                   // Discriminator = "Aluno",
+                    // Discriminator = "Aluno",
                     Nome = model.Firstname,
                     Sobrenome = model.Lastname,
-                    Ra = ra
+                    Ra = ra,
+                    PontoGeral = 0
+                    
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -148,7 +150,7 @@ namespace Projeto.Alfa12.Controllers
             return View(model);
         }
 
-
+      
         public int GetLastRa()
         {
             try
