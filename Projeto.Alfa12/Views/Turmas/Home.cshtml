@@ -5,10 +5,14 @@
 
 <p>@Html.DisplayFor(model => model.Nome)</p>
 
-@foreach (var item in Model.IModulo)
+@foreach (var item in Model.Modulos)
 {
-    @Html.DisplayFor(x => item.Nome) <a asp-controller="Modulos" asp-action="Details" asp-route-id="@item.Id">Details</a>
-}
+<div class="well">
+    @Html.DisplayFor(modelItem => item.Nome)
+    <a asp-controller="Modulos" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> 
+    | <a asp-controller="Modulos" asp-action="Home" asp-route-id="@item.Id">Acessar Modulo</a>
+</div>
+        }
 
 
 

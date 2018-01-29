@@ -75,7 +75,7 @@ namespace Projeto.Alfa12.Controllers
         {
             var user = (Aluno)await _userManager.GetUserAsync(User);
             List<Turma> Lturma = new List<Turma>();
-            var turmas = _context.Turmas.Include("Alunos.Aluno");
+            var turmas = _context.Turmas.Include("Alunos.Aluno").Include(x=>x.Professor);
       
             foreach (Turma t in turmas)
             {
@@ -149,7 +149,7 @@ namespace Projeto.Alfa12.Controllers
                 await log.SetLog("Create Turma : " + turma.Nome, turma.Professor.Id);
 
                 TempData["alert"] = $"{turma.Nome} foi criada";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexProfessor));
             }
             return View(turma);
         }
@@ -369,26 +369,14 @@ namespace Projeto.Alfa12.Controllers
         [HttpPost]
         public async Task<IActionResult> EntrarTurma(int id, [Bind("Id,ChaveAcesso")] Turma chave)
         {
-            var turma = await _context.Turmas.SingleOrDefaultAsync(m => m.Id == id);
+            var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(m => m.Id == id);
             var user = _userManager.GetUserAsync(User);
             Aluno aluno = (Aluno)await user;
             //var senha = chave.ChaveAcesso.Equals(null)  ? "" : chave.ChaveAcesso;
-            if (chave.ChaveAcesso == null)
+            if (!turma.IAluno.Contains(aluno))
             {
-                AlunoTurma at = new AlunoTurma
+                if (chave.ChaveAcesso == null)
                 {
-                    AlunoId = aluno.Id,
-                    TurmaId = turma.Id,
-                    // Ativo = true,
-                    DataIngressao = DateTime.Now
-                };
-                _context.AlunoTurmas.Update(at);
-            }
-            else
-            {
-                if (chave.ChaveAcesso.Equals(turma.ChaveAcesso))
-                {
-
                     AlunoTurma at = new AlunoTurma
                     {
                         AlunoId = aluno.Id,
@@ -400,11 +388,31 @@ namespace Projeto.Alfa12.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    if (chave.ChaveAcesso.Equals(turma.ChaveAcesso))
+                    {
+
+                        AlunoTurma at = new AlunoTurma
+                        {
+                            AlunoId = aluno.Id,
+                            TurmaId = turma.Id,
+                            // Ativo = true,
+                            DataIngressao = DateTime.Now
+                        };
+                        _context.AlunoTurmas.Update(at);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
                 }
+
+                await _context.SaveChangesAsync();
             }
-           
-            await _context.SaveChangesAsync();
+            else
+            {
+                TempData["alert"] = $"Você ja está na turma";
+                return RedirectToAction(nameof(Index));
+            }
 
             return RedirectToAction(nameof(Index));
         }

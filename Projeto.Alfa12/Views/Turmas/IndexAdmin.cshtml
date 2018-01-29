@@ -16,24 +16,27 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nome)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DataCriacao)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Descricao)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AreaConhecimento)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ChaveAcesso)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MaxPonto)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataCriacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AreaConhecimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChaveAcesso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxPonto)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Professor)
             </th>
@@ -43,6 +46,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nome)
             </td>

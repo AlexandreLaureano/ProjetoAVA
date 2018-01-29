@@ -2,11 +2,8 @@
 
 
 
-<h2>Index</h2>
+<h2>Minhas turmas</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -21,12 +18,6 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.AreaConhecimento)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ChaveAcesso)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MaxPonto)
                 </th>
             <th>
                 @Html.DisplayNameFor(model => model.Professor)
@@ -50,16 +41,11 @@
                 @Html.DisplayFor(modelItem => item.AreaConhecimento)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ChaveAcesso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaxPonto)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Professor.FullName)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Home" asp-route-id="@item.Id">Acessar Turma</a>
             </td>
         </tr>
 }

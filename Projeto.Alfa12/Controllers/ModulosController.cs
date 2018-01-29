@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Projeto.Alfa12.Data;
 using Projeto.Alfa12.Models;
 
@@ -17,7 +21,7 @@ namespace Projeto.Alfa12.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ModulosController(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
+        public ModulosController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -30,8 +34,8 @@ namespace Projeto.Alfa12.Controllers
             var user = _userManager.GetUserAsync(User);
             var professor = (Professor)await user;
 
-            var applicationDbContext = _context.Modulos.Include(m => m.Turma).Where(x=>x.Turma.ProfessorId==professor.Id);
-            
+            var applicationDbContext = _context.Modulos.Include(m => m.Turma).Where(x => x.Turma.ProfessorId == professor.Id);
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -65,9 +69,10 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // GET: Modulos/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["TurmaId"] = new SelectList(_context.Turmas, "Id", "Nome");
+            var user = (ApplicationUser)await _userManager.GetUserAsync(User);
+            ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
             return View();
         }
 
@@ -78,16 +83,17 @@ namespace Projeto.Alfa12.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Descricao,Url,TurmaId")] Modulo modulo)
         {
+            var user = (ApplicationUser)await _userManager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
                 _context.Add(modulo);
                 await _context.SaveChangesAsync();
-                var user = (ApplicationUser)await _userManager.GetUserAsync(User);
+
                 LogUsuariosController log = new LogUsuariosController(_context);
                 await log.SetLog("Create Modulo :" + modulo.Nome, user.Id);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TurmaId"] = new SelectList(_context.Turmas, "Id", "Id", modulo.TurmaId);
+            ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Id", modulo.TurmaId);
             return View(modulo);
         }
 
@@ -105,7 +111,7 @@ namespace Projeto.Alfa12.Controllers
                 {
                     return NotFound();
                 }
-                
+
                 if (modulo == null)
                 {
                     return NotFound();
@@ -115,7 +121,7 @@ namespace Projeto.Alfa12.Controllers
             }
             else
             {
-               
+
                 return RedirectToRoute(nameof(Index));
             }
         }
@@ -190,5 +196,46 @@ namespace Projeto.Alfa12.Controllers
         {
             return _context.Modulos.Any(e => e.Id == id);
         }
+
+        public IActionResult Home(int id)
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Aluno")]
+        public async Task<IActionResult> GetPonto(int idmod)
+        {
+            int x;
+
+            var requisicaoWeb = WebRequest.CreateHttp(" http://localhost:64466/api/values/2");
+            requisicaoWeb.Method = "GET";
+            using (var resposta = requisicaoWeb.GetResponse())
+            {
+                var streamDados = resposta.GetResponseStream();
+                StreamReader reader = new StreamReader(streamDados);
+                object objResponse = reader.ReadToEnd();
+
+                var post = JsonConvert.DeserializeObject<Teste>(objResponse.ToString());
+                x = post.Ponto;
+                streamDados.Close();
+                resposta.Close();
+            }
+
+            var user = _userManager.GetUserAsync(User);
+            var professor = (Aluno)await user;
+            var modulo = await _context.Modulos.Include(z=>z.Turma).SingleOrDefaultAsync(m => m.Id == idmod);
+
+            PontuacaoController p = new PontuacaoController(_context);
+            p.AddPoint(user.Id, modulo.Turma.Id, modulo.Id, x);
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
+
+    public class Teste{
+        public bool Acerto;
+       public int Ponto;
+       public string x, y;
+        }
 }
