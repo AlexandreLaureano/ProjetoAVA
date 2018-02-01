@@ -14,7 +14,7 @@ namespace Projeto.Alfa12.Controllers
             _context = context;
         }
 
-        public void AddPoint(int aluno,int turma,int modulo,int ponto = 1)
+        public void AddPoint(int aluno,int? turma,int modulo,int ponto = 1)
         {
             Pontuacao p = new Pontuacao
             {

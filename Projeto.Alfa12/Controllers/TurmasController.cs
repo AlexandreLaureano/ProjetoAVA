@@ -76,12 +76,16 @@ namespace Projeto.Alfa12.Controllers
             var user = (Aluno)await _userManager.GetUserAsync(User);
             List<Turma> Lturma = new List<Turma>();
             var turmas = _context.Turmas.Include("Alunos.Aluno").Include(x=>x.Professor);
-      
+            var alunoturmas = _context.AlunoTurmas.Where(x => x.AlunoId == user.Id);
             foreach (Turma t in turmas)
             {
                 if (t.IAluno.Contains(user))
                 {
-                    Lturma.Add(t);
+                    var alunoturma = _context.AlunoTurmas.Where(x => x.AlunoId == user.Id && x.TurmaId == t.Id && x.Ativo==true).SingleOrDefault();
+                    if (alunoturma!=null)
+                    {
+                        Lturma.Add(t);
+                    }
                 }
             }
             return View(Lturma);
@@ -272,8 +276,9 @@ namespace Projeto.Alfa12.Controllers
             alunos.Count();
             foreach (Aluno user in alunos)
             {
-
-                var list = turma.IAluno.Contains(user)
+              var alunoturma = _context.AlunoTurmas
+                    .Where(x => x.AlunoId == user.Id && x.TurmaId == turma.Id && x.Ativo == true).SingleOrDefault();    
+            var list = turma.IAluno.Contains(user) && alunoturma!=null
                  ? members : nonMembers;
                 list.Add(user);
 
@@ -317,7 +322,7 @@ namespace Projeto.Alfa12.Controllers
                             AlunoTurma at = new AlunoTurma {
                                 AlunoId = user.Id,
                                 TurmaId = turma.Id,
-                               // Ativo = true,
+                               Ativo = true,
                                 DataIngressao = DateTime.Now        
                         };
                             _context.AlunoTurmas.Update(at);
@@ -328,15 +333,17 @@ namespace Projeto.Alfa12.Controllers
                     //turmas[turmas. IndexOf(turma)] = turma;
                     //_context.Update(turma);
                     await _context.SaveChangesAsync();
+                   
                     foreach (int userId in model.IdsToDelete ?? new int[] { })
                     {
                         Aluno user = await _context.Alunos.SingleOrDefaultAsync(y => y.Id == userId);
                         if (user != null)
                         {
 
-                            AlunoTurma ut = new AlunoTurma();
-                            ut = _context.AlunoTurmas.SingleOrDefault(y =>  y.AlunoId == userId && y.TurmaId == turma.Id );
-                            _context.AlunoTurmas.Remove(ut);
+                            var alunoturma = _context.AlunoTurmas
+                     .SingleOrDefault(y => y.AlunoId == user.Id && y.TurmaId == id && y.Ativo == true);
+                            alunoturma.Ativo = false;
+                            _context.AlunoTurmas.Update(alunoturma);
                             //turma.Aluno.Remove(ut);
 
 
@@ -349,6 +356,7 @@ namespace Projeto.Alfa12.Controllers
                     var usuario = (ApplicationUser)await _userManager.GetUserAsync(User);
                     LogUsuariosController log = new LogUsuariosController(_context);
                     await log.SetLog("Update Alunos da Turma => Id:" + turma.Id + ", Nome:" + turma.Nome, usuario.Id);
+                    TempData["alert"] = $"Lista de alunos atualizada";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -372,8 +380,10 @@ namespace Projeto.Alfa12.Controllers
             var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(m => m.Id == id);
             var user = _userManager.GetUserAsync(User);
             Aluno aluno = (Aluno)await user;
+            var alunoturma = _context.AlunoTurmas.Where(x => x.AlunoId == aluno.Id && x.TurmaId == turma.Id && x.Ativo == true).SingleOrDefault();
             //var senha = chave.ChaveAcesso.Equals(null)  ? "" : chave.ChaveAcesso;
-            if (!turma.IAluno.Contains(aluno))
+           // if (!turma.IAluno.Contains(aluno))
+           if(alunoturma==null)
             {
                 if (chave.ChaveAcesso == null)
                 {
@@ -381,7 +391,7 @@ namespace Projeto.Alfa12.Controllers
                     {
                         AlunoId = aluno.Id,
                         TurmaId = turma.Id,
-                        // Ativo = true,
+                        Ativo = true,
                         DataIngressao = DateTime.Now
                     };
                     _context.AlunoTurmas.Update(at);
@@ -395,7 +405,7 @@ namespace Projeto.Alfa12.Controllers
                         {
                             AlunoId = aluno.Id,
                             TurmaId = turma.Id,
-                            // Ativo = true,
+                            Ativo = true,
                             DataIngressao = DateTime.Now
                         };
                         _context.AlunoTurmas.Update(at);
@@ -414,6 +424,23 @@ namespace Projeto.Alfa12.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        
+        public async Task<IActionResult> Sair(int id)
+        {
+           
+                var user = _userManager.GetUserAsync(User);
+                Aluno aluno = (Aluno)await user;
+               
+                var alunoturma = _context.AlunoTurmas
+                    .SingleOrDefault(y => y.AlunoId == aluno.Id && y.TurmaId == id && y.Ativo == true);
+                alunoturma.Ativo = false;
+                _context.AlunoTurmas.Update(alunoturma);
+                await _context.SaveChangesAsync();
+           
+            TempData["alert"] = $"Você saiu da turma";
             return RedirectToAction(nameof(Index));
         }
 

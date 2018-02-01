@@ -6,48 +6,54 @@
     <a asp-action="Create">Criar</a>
 </p>
 
-<form>
-    <p>
-        Title: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
-    </p>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Nome
-            </th>
-            <th>
-                Data de criação
-            </th>
-            <th>
-                Descrição
-            </th>
-            <th>
-                Área de conhecimento
-            </th>
-            <th>
-                Chave de Acesso
-            </th>
-            <th>
-                Pontos
-            </th>
-            <th>
-                Professor
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var p in Model.Itens)
-        {
-            @Html.Partial("ListTurma", p)
-        }
-    </tbody>
-</table>
-<div page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true"
-     page-class="btn" page-class-normal="btn-secondary"
 
-     page-class-selected="btn-primary" class="btn-group pull-right m-1">
-</div>
+<form class="navbar-form navbar-left">
+    Nome : <div class="input-group">
+        <input type="text" class="form-control" placeholder="Pesquisar" name="SearchString">
+        <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" value="Filter">
+                <i class="glyphicon glyphicon-search"></i>
+            </button>
+        </div>
+    </div>
+</form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Data de criação
+                </th>
+                <th>
+                    Descrição
+                </th>
+                <th>
+                    Área de conhecimento
+                </th>
+                <th>
+                    Chave de Acesso
+                </th>
+                <th>
+                    Pontos
+                </th>
+                <th>
+                    Professor
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model.Itens)
+            {
+                @Html.Partial("ListTurma", p)
+            }
+        </tbody>
+    </table>
+   
+    <div page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true"
+         page-class="btn" page-class-normal="btn-secondary"
+         page-class-selected="btn-primary" class="btn-group pull-right m-1">
+    </div>

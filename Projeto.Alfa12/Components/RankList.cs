@@ -22,7 +22,7 @@ namespace Projeto.Alfa12.Components
         {
             if (showList)
             {
-                return View("RankLista", _context.Alunos.OrderBy(x => x.PontoGeral));
+                return View("RankLista", _context.Alunos.OrderByDescending(x => x.PontoGeral).Take(5));
             }
             else
             {

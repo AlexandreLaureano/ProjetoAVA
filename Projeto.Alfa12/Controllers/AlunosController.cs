@@ -81,6 +81,11 @@ namespace Projeto.Alfa12.Controllers
                 {
                     _context.Update(aluno);
                     await _context.SaveChangesAsync();
+
+                    var user = _userManager.GetUserAsync(User);
+                    LogUsuariosController log = new LogUsuariosController(_context);
+                    await log.SetLog("Edit Aluno : " + aluno.FullName, user.Id);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

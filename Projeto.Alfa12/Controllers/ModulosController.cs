@@ -29,6 +29,7 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // GET: Modulos
+        [Authorize(Roles = "Professor")]
         public async Task<IActionResult> Index()
         {
             var user = _userManager.GetUserAsync(User);
@@ -199,14 +200,17 @@ namespace Projeto.Alfa12.Controllers
 
         public IActionResult Home(int id)
         {
-            return View();
+            return View(_context.Modulos.SingleOrDefault(x=>x.Id==id));
         }
 
+        [HttpPost]
         [Authorize(Roles = "Aluno")]
-        public async Task<IActionResult> GetPonto(int idmod)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GetPonto(int id)
         {
+            var modulo = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
             int x;
-
+            //url da pagina + algo
             var requisicaoWeb = WebRequest.CreateHttp(" http://localhost:64466/api/values/2");
             requisicaoWeb.Method = "GET";
             using (var resposta = requisicaoWeb.GetResponse())
@@ -222,13 +226,12 @@ namespace Projeto.Alfa12.Controllers
             }
 
             var user = _userManager.GetUserAsync(User);
-            var professor = (Aluno)await user;
-            var modulo = await _context.Modulos.Include(z=>z.Turma).SingleOrDefaultAsync(m => m.Id == idmod);
+            var aluno = (Aluno)await user;
 
             PontuacaoController p = new PontuacaoController(_context);
-            p.AddPoint(user.Id, modulo.Turma.Id, modulo.Id, x);
+            p.AddPoint(aluno.Id, modulo.TurmaId, modulo.Id, x);
 
-            return RedirectToAction(nameof(Index));
+           return RedirectToAction(nameof(Index));
         }
 
     }
