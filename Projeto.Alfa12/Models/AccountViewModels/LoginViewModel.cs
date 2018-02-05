@@ -8,11 +8,11 @@ namespace Projeto.Alfa12.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "É necessário inserir um email.")]
+        [EmailAddress(ErrorMessage ="Insira um email válido")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "É necessário inserir uma senha.")]
         [DataType(DataType.Password)]
         [Display(Name = "Senha")]
         public string Password { get; set; }

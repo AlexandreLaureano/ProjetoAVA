@@ -92,6 +92,7 @@ namespace Projeto.Alfa12.Controllers
 
                 LogUsuariosController log = new LogUsuariosController(_context);
                 await log.SetLog("Create Modulo :" + modulo.Nome, user.Id);
+                TempData["alert"] = $"{modulo.Nome} foi criado";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Id", modulo.TurmaId);
@@ -134,6 +135,8 @@ namespace Projeto.Alfa12.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Descricao,Url,TurmaId")] Modulo modulo)
         {
+            var user = (Professor) await _userManager.GetUserAsync(User);
+            
             if (id != modulo.Id)
             {
                 return NotFound();
@@ -145,6 +148,11 @@ namespace Projeto.Alfa12.Controllers
                 {
                     _context.Update(modulo);
                     await _context.SaveChangesAsync();
+
+                    LogUsuariosController log = new LogUsuariosController(_context);
+                    await log.SetLog("Update Modulo : " + modulo.Nome, user.Id);
+
+                    TempData["alert"] = $"{modulo.Nome} foi criado";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -190,6 +198,13 @@ namespace Projeto.Alfa12.Controllers
             var modulo = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
             _context.Modulos.Remove(modulo);
             await _context.SaveChangesAsync();
+
+            var user = await _userManager.GetUserAsync(User);
+            LogUsuariosController log = new LogUsuariosController(_context);
+            await log.SetLog("Delete Modulo : " + modulo.Nome +" " + modulo.Id, user.Id);
+
+            TempData["alert"] = $"{modulo.Nome} foi deletado";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -229,9 +244,11 @@ namespace Projeto.Alfa12.Controllers
             var aluno = (Aluno)await user;
 
             PontuacaoController p = new PontuacaoController(_context);
-            p.AddPoint(aluno.Id, modulo.TurmaId, modulo.Id, x);
+            await p.AddPoint(aluno.Id, modulo.TurmaId, modulo.Id, x);
+            
+            
 
-           return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
 
     }

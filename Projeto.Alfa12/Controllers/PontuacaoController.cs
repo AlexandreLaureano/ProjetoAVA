@@ -2,6 +2,7 @@
 using Projeto.Alfa12.Data;
 using Projeto.Alfa12.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace Projeto.Alfa12.Controllers
 {
@@ -14,7 +15,7 @@ namespace Projeto.Alfa12.Controllers
             _context = context;
         }
 
-        public void AddPoint(int aluno,int? turma,int modulo,int ponto = 1)
+        public async Task AddPoint(int aluno,int? turma,int modulo,int ponto = 1)
         {
             Pontuacao p = new Pontuacao
             {
@@ -26,6 +27,10 @@ namespace Projeto.Alfa12.Controllers
             };
             _context.Pontuacoes.Add(p);
             _context.SaveChanges();
+            
+            LogUsuariosController log = new LogUsuariosController(_context);
+            await log.SetLog(ponto+" pontos ganho : Módulo- " + modulo + " Turma-" +turma, aluno);
+            
         }
     }
 }

@@ -86,6 +86,8 @@ namespace Projeto.Alfa12.Controllers
                     LogUsuariosController log = new LogUsuariosController(_context);
                     await log.SetLog("Edit Aluno : " + aluno.FullName, user.Id);
 
+                    TempData["alert"] = $"{aluno.FullName} editado";
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -146,6 +148,7 @@ namespace Projeto.Alfa12.Controllers
                     //  await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     //await _signInManager.SignInAsync(user, isPersistent: false);
+                    TempData["alert"] = $"Usuário {user.Email} foi criado";
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);

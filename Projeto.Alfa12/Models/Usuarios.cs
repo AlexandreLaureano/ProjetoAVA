@@ -9,6 +9,9 @@ namespace Projeto.Alfa12.Models
         public int Ra { get; set; }
         public int? PontoGeral { get; set; }
 
+        [NotMapped]
+        public int PontoParcial { get; set; }
+
         private ICollection<AlunoTurma> Turmas { get; } = new List<AlunoTurma>();
 
 

@@ -8,12 +8,12 @@ namespace Projeto.Alfa12.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "É necessário inserir uma email.")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "É necessário inserir uma senha.")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Senha")]

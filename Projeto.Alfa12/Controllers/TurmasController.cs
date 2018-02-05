@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Projeto.Alfa12.Data;
 using Projeto.Alfa12.Models;
+using Projeto.Alfa12.Models.CreateViewModels;
 
 namespace Projeto.Alfa12.Controllers
 {
@@ -135,22 +136,27 @@ namespace Projeto.Alfa12.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Descricao,AreaConhecimento,ChaveAcesso,MaxPonto")] Turma turma)
+        public async Task<IActionResult> Create(TurmaViewModel turma)
         {
             var user = _userManager.GetUserAsync(User);
-            turma.Professor = (Professor)await user;
-            DateTime hoje = DateTime.Now;
-            turma.DataCriacao = hoje;
-            turma.MaxPonto = 100;
-            
-           
+            Turma create = new Turma
+            {
+            Professor = (Professor)await user,
+            DataCriacao = DateTime.Now,
+            MaxPonto = 100,
+            AreaConhecimento = turma.AreaConhecimento,
+            Descricao = turma.Descricao,
+            ChaveAcesso = turma.ChaveAcesso,
+            Nome = turma.Nome,            
+        };
+      
             if (ModelState.IsValid)
             {
-                _context.Add(turma);
+                _context.Add(create);
                 await _context.SaveChangesAsync();
 
                 LogUsuariosController log = new LogUsuariosController(_context);
-                await log.SetLog("Create Turma : " + turma.Nome, turma.Professor.Id);
+                await log.SetLog("Create Turma : " + turma.Nome, create.Professor.Id);
 
                 TempData["alert"] = $"{turma.Nome} foi criada";
                 return RedirectToAction(nameof(IndexProfessor));
@@ -417,6 +423,10 @@ namespace Projeto.Alfa12.Controllers
                 }
 
                 await _context.SaveChangesAsync();
+                LogUsuariosController log = new LogUsuariosController(_context);
+                await log.SetLog($"{aluno.FullName} entrou na turma {turma.Nome}", aluno.Id);
+
+                TempData["alert"] = $"Você entrou na turma";
             }
             else
             {
@@ -439,7 +449,10 @@ namespace Projeto.Alfa12.Controllers
                 alunoturma.Ativo = false;
                 _context.AlunoTurmas.Update(alunoturma);
                 await _context.SaveChangesAsync();
-           
+
+            LogUsuariosController log = new LogUsuariosController(_context);
+            await log.SetLog($"{aluno.FullName} saiu da turma {alunoturma.TurmaId}", aluno.Id);
+
             TempData["alert"] = $"Você saiu da turma";
             return RedirectToAction(nameof(Index));
         }

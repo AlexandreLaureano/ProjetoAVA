@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Projeto.Alfa12.Models;
 using Projeto.Alfa12.Models.ManageViewModels;
 using Projeto.Alfa12.Services;
+using Projeto.Alfa12.Data;
 
 namespace Projeto.Alfa12.Controllers
 {
@@ -25,6 +26,7 @@ namespace Projeto.Alfa12.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly ApplicationDbContext _context;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -33,13 +35,15 @@ namespace Projeto.Alfa12.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
         }
 
         [TempData]
@@ -100,8 +104,10 @@ namespace Projeto.Alfa12.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
                 }
             }
-
-            StatusMessage = "Your profile has been updated";
+            LogUsuariosController log = new LogUsuariosController(_context);
+            await log.SetLog("Update usuário : " + user.FullName, user.Id);
+            
+            StatusMessage = "Perfil atualizado com sucesso";
             return RedirectToAction(nameof(Index));
         }
 
@@ -172,7 +178,7 @@ namespace Projeto.Alfa12.Controllers
 
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            StatusMessage = "Sua senha foi alterada.";
 
             return RedirectToAction(nameof(ChangePassword));
         }

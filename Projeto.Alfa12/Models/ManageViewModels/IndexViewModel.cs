@@ -13,7 +13,7 @@ namespace Projeto.Alfa12.Models.ManageViewModels
 
         public bool IsEmailConfirmed { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "É necessário inserir um email.")]
         [EmailAddress]
         public string Email { get; set; }
 
