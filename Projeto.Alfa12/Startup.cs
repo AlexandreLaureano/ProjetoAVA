@@ -7,8 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Projeto.Alfa12.Data;
 using Projeto.Alfa12.Models;
 using Projeto.Alfa12.Services;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Projeto.Alfa12
 {
@@ -17,7 +15,6 @@ namespace Projeto.Alfa12
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-         //   AntiForgeryConfig.SuppressXFrameOptionsHeader = true;
         }
 
         public IConfiguration Configuration { get; }
@@ -25,28 +22,6 @@ namespace Projeto.Alfa12
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //iframe funcionar
-            //  services.AddAntiforgery(opts => { opts.SuppressXFrameOptionsHeader = true; });
-            services.AddMvc();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll",
-                    builder =>
-                    {
-                        builder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                        
-                    }
-                    );
-                
-            });
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
-            });
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -57,14 +32,13 @@ namespace Projeto.Alfa12
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-           
+            services.AddMvc();
             
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -80,10 +54,6 @@ namespace Projeto.Alfa12
 
             app.UseAuthentication();
 
-
-            app.UseCors("AllowAll");
-
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -94,17 +64,17 @@ namespace Projeto.Alfa12
                 routes.MapRoute(
                 name: null,
                 template: "Log/List/Page{productPage:int}",
-                defaults: new{ controller = "LogUsuarios", action = "List", productPage = 1});
+                defaults: new { controller = "LogUsuarios", action = "List", productPage = 1 });
 
                 routes.MapRoute(
                 name: null,
                 template: "Log/List/{category}",
-                defaults: new{    controller = "LogUsuarios", action = "List", productPage = 1 } );
+                defaults: new { controller = "LogUsuarios", action = "List", productPage = 1 });
 
                 routes.MapRoute(
                 name: null,
                 template: "Log/List",
-                defaults: new{ controller = "LogUsuarios", action = "List",productPage = 1 });
+                defaults: new { controller = "LogUsuarios", action = "List", productPage = 1 });
 
                 routes.MapRoute(
                  name: "pagination",
@@ -117,7 +87,6 @@ namespace Projeto.Alfa12
 
 
             });
-
         }
     }
 }

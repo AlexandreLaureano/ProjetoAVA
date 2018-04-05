@@ -21,3 +21,4 @@ C:\Users\andri\Documents\git\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2
 C:\Users\andri\Documents\git\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\Projeto.Alfa12.AssemblyInfo.cs
 C:\Users\andri\Documents\git\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\Projeto.Alfa12.dll
 C:\Users\andri\Documents\git\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\Projeto.Alfa12.pdb
+C:\Users\andri\Documents\git\Projeto.Alfa12\Projeto.Alfa12\obj\Debug\netcoreapp2.0\Projeto.Alfa12.csprojResolveAssemblyReference.cache
