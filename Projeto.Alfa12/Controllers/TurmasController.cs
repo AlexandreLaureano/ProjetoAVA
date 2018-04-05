@@ -147,7 +147,7 @@ namespace Projeto.Alfa12.Controllers
             AreaConhecimento = turma.AreaConhecimento,
             Descricao = turma.Descricao,
             ChaveAcesso = turma.ChaveAcesso,
-            Nome = turma.Nome,            
+            Nome = turma.Nome            
         };
       
             if (ModelState.IsValid)

@@ -83,10 +83,25 @@ namespace Projeto.Alfa12.Models
         public PagingInfo PagingInfo { get; set; }
     }
 
+    public class LogListViewModel
+    {
+        public IEnumerable<LogUsuario> Logs { get; set; }
+        public PagingInfo PagingInfo { get; set; }
+        public string CurrentCategory { get; set; }
+    }
+
     [NotMapped]
     public class RankViewModel
     {
         public int Nome { get; set; }
         public int? Ponto { get; set; }
+    }
+
+    [NotMapped]
+    public class RankListViewModel
+    {
+        public IEnumerable<Turma> Turmas { get; set; }
+        public int Op { get; set; }
+        public int? IdTurma { get; set; }
     }
 }

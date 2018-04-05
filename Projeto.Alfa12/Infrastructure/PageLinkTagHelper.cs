@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Projeto.Alfa12.Models;
+using System.Collections.Generic;
 
 namespace Projeto.Alfa12.Infrastructure
 {
@@ -26,6 +27,9 @@ namespace Projeto.Alfa12.Infrastructure
             public string PageClassNormal { get; set; }
             public string PageClassSelected { get; set; }
 
+        [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
+        public Dictionary<string, object> PageUrlValues { get; set; }
+        = new Dictionary<string, object>();
 
         public override void Process(TagHelperContext context,
             TagHelperOutput output)
@@ -35,8 +39,10 @@ namespace Projeto.Alfa12.Infrastructure
                 for (int i = 1; i <= PageModel.TotalPages; i++)
                 {
                     TagBuilder tag = new TagBuilder("a");
-                    tag.Attributes["href"] = urlHelper.Action(PageAction,
-                    new { productPage = i });
+                // tag.Attributes["href"] = urlHelper.Action(PageAction,
+                // new { productPage = i });
+                PageUrlValues["productPage"] = i;
+                tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
 
                 if (PageClassesEnabled)
                 {

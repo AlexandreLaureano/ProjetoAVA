@@ -53,13 +53,37 @@
         <div class="alert alert-success">@TempData["alert"]</div>
     }
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Today.Year</p>
-        </footer>
-    </div>
+        <div class="container body-content">
+            <ol class="breadcrumb">
+
+
+                @if (ViewContext.RouteData.Values["controller"].ToString() != "Home")
+                {
+            <li>
+                @Html.ActionLink("Home", "Index", "Home")
+            </li>
+            <li>
+                @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
+            </li>
+            <li class="active">
+                @Html.ActionLink(ViewContext.RouteData.Values["action"].ToString(), ViewContext.RouteData.Values["action"].ToString())
+            </li >
+}
+else
+{
+            <li class="active">
+                
+            </li>
+}
+
+            </ol>
+
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Today.Year</p>
+            </footer>
+        </div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

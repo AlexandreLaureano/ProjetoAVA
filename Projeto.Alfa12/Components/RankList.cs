@@ -21,21 +21,51 @@ namespace Projeto.Alfa12.Components
         //adicionar argumento para escolher que tipo de lista devo retornar, diaria/mensal/outras
         public IViewComponentResult Invoke(int op,bool? showList,int? turma)
         {
-            if (op == 0)
+            if (op == 0)//take 5, lista do Index
             {
-                return View("RankLista", _context.Alunos.OrderByDescending(x => x.PontoGeral).Take(5));
-            }
-            else if(op == 1){
-                var lista = _context.Pontuacoes.Where(x => x.Data <= DateTime.Now);
+                var lista = _context.Pontuacoes;
                 var alunos = _context.Alunos;
                 foreach (var a in alunos)
                 {
                     int ponto = lista.Where(x => x.AlunoId == a.Id).Sum(x => x.Pontos);
                     a.PontoParcial = lista.Where(x => x.AlunoId == a.Id).Sum(x => x.Pontos);
                 }
+                return View("RankLista", alunos.OrderByDescending(x => x.PontoParcial).Take(5));
+            }
+            else if (op == 1)// Lista total
+            {
+                var lista = _context.Pontuacoes;
+                var alunos = _context.Alunos;
+                foreach (var a in alunos)
+                {
+                    int ponto = lista.Where(x => x.AlunoId == a.Id).Sum(x => x.Pontos);
+                    a.PontoParcial = lista.Where(x => x.AlunoId == a.Id).Sum(x => x.Pontos);
+                }
+                return View("RankLista", alunos.OrderByDescending(x => x.PontoParcial));
+
+            }
+            else if(op == 2){// Lista de 7 dias
+                var lista = _context.Pontuacoes.Where(x =>/* x.Data <= DateTime.Now &&*/ x.Data <= DateTime.Now.AddDays(-3));
+                var alunos = _context.Alunos;
+                foreach (var a in alunos)
+                {
+                    int ponto = lista.Where(x => x.AlunoId == a.Id).Sum(x => x.Pontos);
+                    a.PontoParcial = lista.Where(x => x.AlunoId == a.Id).Sum(x => x.Pontos );
+                }
                 return View("RankLista", alunos.OrderByDescending(x=>x.PontoParcial));
             }
-            else if(op == 2)
+            else if (op == 3)
+            {// Lista do mês
+                var lista = _context.Pontuacoes.Where(x => x.Data <= DateTime.Now && x.Data >= DateTime.Now.AddDays(-DateTime.Now.Day));
+                var alunos = _context.Alunos;
+                foreach (var a in alunos)
+                {
+                    int ponto = lista.Where(x => x.AlunoId == a.Id).Sum(x => x.Pontos);
+                    a.PontoParcial = lista.Where(x => x.AlunoId == a.Id).Sum(x => x.Pontos);
+                }
+                return View("RankLista", alunos.OrderByDescending(x => x.PontoParcial));
+            }
+            else if(op == 4)// List por turma
             {
                 var lista = _context.Pontuacoes.Where(x => x.TurmaId==turma);
                 var t = _context.Turmas.Include("Alunos.Aluno").SingleOrDefault(y => y.Id == turma);

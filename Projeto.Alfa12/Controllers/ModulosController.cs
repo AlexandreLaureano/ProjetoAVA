@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Projeto.Alfa12.Data;
 using Projeto.Alfa12.Models;
+using Projeto.Alfa12.Models.CreateViewModels;
 
 namespace Projeto.Alfa12.Controllers
 {
@@ -45,7 +47,7 @@ namespace Projeto.Alfa12.Controllers
         {
 
             var user = _userManager.GetUserAsync(User);
-            var aluno = (Aluno)await user;
+            var aluno = await user;
             var modulo = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
             var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(i => i.Id == modulo.TurmaId);
             if (turma.IAluno.Contains(aluno))
@@ -82,17 +84,25 @@ namespace Projeto.Alfa12.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Descricao,Url,TurmaId")] Modulo modulo)
+        public async Task<IActionResult> Create(ModuloViewModel modulo)
         {
             var user = (ApplicationUser)await _userManager.GetUserAsync(User);
+            Modulo mod = new Modulo
+            {
+                Nome = modulo.Nome,
+                Descricao = modulo.Descricao,
+                TurmaId = modulo.TurmaId,
+                Url = modulo.Url
+            };
+
             if (ModelState.IsValid)
             {
-                _context.Add(modulo);
+                _context.Add(mod);
                 await _context.SaveChangesAsync();
 
                 LogUsuariosController log = new LogUsuariosController(_context);
-                await log.SetLog("Create Modulo :" + modulo.Nome, user.Id);
-                TempData["alert"] = $"{modulo.Nome} foi criado";
+                await log.SetLog("Create Modulo :" + mod.Nome, user.Id);
+                TempData["alert"] = $"{mod.Nome} foi criado";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Id", modulo.TurmaId);
@@ -213,7 +223,8 @@ namespace Projeto.Alfa12.Controllers
             return _context.Modulos.Any(e => e.Id == id);
         }
 
-        public IActionResult Home(int id)
+        //[EnableCors("AllowAll")]
+                public IActionResult Home(int id)
         {
             return View(_context.Modulos.SingleOrDefault(x=>x.Id==id));
         }

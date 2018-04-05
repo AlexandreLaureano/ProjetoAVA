@@ -12,6 +12,7 @@ namespace Projeto.Alfa12.Controllers
     public class LogUsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public int PageSize = 10;
 
         public LogUsuariosController(ApplicationDbContext context)
         {
@@ -25,6 +26,27 @@ namespace Projeto.Alfa12.Controllers
 
             return View(_context.Logs.ToList());
         }
+
+        public ViewResult List(string category, int productPage = 1)
+        => View(new LogListViewModel
+        {
+            Logs = _context.Logs
+            .Where(p => category == null || p.Acao.Contains(category))
+            .OrderByDescending(p => p.Data)
+            .Skip((productPage - 1) * PageSize)
+            .Take(PageSize)
+            .Include(x => x.Usuario),
+            PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,        
+                TotalItems = category == null ?
+                _context.Logs.Count() :
+                _context.Logs.Where(e =>
+                e.Acao.Contains(category)).Count()
+            },
+            CurrentCategory = category
+        });
 
         public async Task SetLog(string action, int IdUser)
         {
