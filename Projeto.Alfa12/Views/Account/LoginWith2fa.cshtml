@@ -3,20 +3,20 @@
     ViewData["Title"] = "Two-factor authentication";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2 class="title">@ViewData["Title"]</h2>
 <hr />
 <p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
 <div class="row">
     <div class="col-md-4">
         <form method="post" asp-route-returnUrl="@ViewData["ReturnUrl"]">
             <input asp-for="RememberMe" type="hidden" />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TwoFactorCode"></label>
+            <div asp-validation-summary="All" class="help is-danger"></div>
+            <div class="field">
+                <label asp-for="TwoFactorCode" class="label"></label>
                 <input asp-for="TwoFactorCode" class="form-control" autocomplete="off" />
-                <span asp-validation-for="TwoFactorCode" class="text-danger"></span>
+                <span asp-validation-for="TwoFactorCode" class="help is-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="field">
                 <div class="checkbox">
                     <label asp-for="RememberMachine">
                         <input asp-for="RememberMachine" />
@@ -24,8 +24,8 @@
                     </label>
                 </div>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-default">Log in</button>
+            <div class="field">
+                <button type="submit" class="button is-primary">Log in</button>
             </div>
         </form>
     </div>

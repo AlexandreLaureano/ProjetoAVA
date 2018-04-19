@@ -1,10 +1,10 @@
 ﻿@model Projeto.Alfa12.Models.Aluno
 
 
-<h2>Detalhes</h2>
+<h2 class="title">Detalhes</h2>
 
 <div>
-    <h4>Aluno</h4>
+    <h4 class="subtitle">Aluno</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -81,5 +81,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
-    <a asp-action="Index">Voltar</a>
+   <a asp-action="Index" class="button is-danger">Voltar</a>
 </div>

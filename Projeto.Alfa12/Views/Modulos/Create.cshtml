@@ -1,40 +1,40 @@
 ﻿@model ModuloViewModel
 
 
-<h2>Criar novo módulo</h2>
+<h2 class="title">Criar novo módulo</h2>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
+            <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+            <div class="field">
+                <label asp-for="Nome" class="label" class="label"></label>
+                <input asp-for="Nome" class="input" />
+                <span asp-validation-for="Nome" class="help is-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
+            <div class="field">
+                <label asp-for="Descricao" class="label" class="label"></label>
+                <input asp-for="Descricao" class="input" />
+                <span asp-validation-for="Descricao" class="help is-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Url" class="control-label"></label>
-                <input asp-for="Url" class="form-control" />
-                <span asp-validation-for="Url" class="text-danger"></span>
+            <div class="field">
+                <label asp-for="Url" class="label" class="label"></label>
+                <input asp-for="Url" class="input" />
+                <span asp-validation-for="Url" class="help is-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TurmaId" class="control-label"></label>
+            <div class="field">
+                <label asp-for="TurmaId" class="label" class="label"></label>
                 <select asp-for="TurmaId" class ="form-control" asp-items="ViewBag.TurmaId"></select>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="field">
+                <input type="submit" value="Salvar"class="button is-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Voltar</a>
+   <a asp-action="Index" class="button is-danger">Voltar</a>
 </div>
 

@@ -1,7 +1,7 @@
 ﻿@model LogListViewModel
 
 
-<h2>List</h2>
+<h2 class="title">List</h2>
 
 <a class="btn btn-block
 @("Create" == ViewBag.SelectedCategory ? "btn-primary": "btn-secondary")"
@@ -24,14 +24,14 @@
     Nome : <div class="input-group">
         <input type="text" class="form-control" placeholder="Pesquisar" name="SearchString">
         <div class="input-group-btn">
-            <button class="btn btn-default" type="submit" value="Filter">
+            <button class="button is-primary" type="submit" value="Filter">
                 <i class="glyphicon glyphicon-search"></i>
             </button>
         </div>
     </div>
 </form>
 
-<table class="table">
+<table class="table is-striped is-hoverable is-fullwidth ">
     <thead>
         <tr>
             <th>

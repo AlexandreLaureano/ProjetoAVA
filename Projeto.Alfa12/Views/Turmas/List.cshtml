@@ -1,26 +1,27 @@
 ﻿@model ProductsListViewModel
 
 
-<h2>List</h2>
+<h2 class="title">List</h2>
 <p>
-    <a asp-action="Create">Criar</a>
+    <a asp-action="Create" class="button is-success">Criar</a>
 </p>
 
 
-<form class="navbar-form navbar-left">
-    Nome : <div class="input-group">
-        <input type="text" class="form-control" placeholder="Pesquisar" name="SearchString">
-        <div class="input-group-btn">
-            <button class="btn btn-default" type="submit" value="Filter">
-                <i class="glyphicon glyphicon-search"></i>
-            </button>
+<form class="field has-addons">
+    <div class="control">
+        <input type="text" class="input" placeholder="Nome" name="SearchString">
         </div>
+    <div class="control">
+        <button class="button is-info" type="submit" value="Filter">
+            <i class="glyphicon glyphicon-search"></i>
+            Pesquisar
+        </button>
     </div>
 </form>
 
-    <table class="table">
+    <table class="table is-striped is-hoverable is-fullwidth ">
         <thead>
-            <tr>
+            <tr class="is-selected">
                 <th>
                     Nome
                 </th>
@@ -54,6 +55,6 @@
     </table>
    
     <div page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true"
-         page-class="btn" page-class-normal="btn-secondary"
-         page-class-selected="btn-primary" class="btn-group pull-right m-1">
+         page-class="pagination-link" page-class-normal="btn-secondary"
+         page-class-selected="pagination-link is-current" class="btn-group pull-right m-1">
     </div>

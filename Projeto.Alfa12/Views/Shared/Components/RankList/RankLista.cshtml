@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Aluno>
-<table class="table table-sm table-bordered">
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth ">
     <thead>
         <tr>
     <th>Aluno</th>
@@ -8,7 +8,7 @@
     </thead>
     @foreach (var p in Model)
     {
-        <tr>
+        <tr class="has-text-centered">
             <td>@p.FullName</td>
             <td class="text-right">
                 @p.PontoParcial

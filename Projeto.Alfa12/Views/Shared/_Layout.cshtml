@@ -1,21 +1,29 @@
 ﻿<!DOCTYPE html>
-<html>
+<html class="route-documentation fontawesome-i2svg-active fontawesome-i2svg-complete">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet"
-          asp-href-include="/lib/bootstrap/dist/**/*.min.css"
-          asp-href-exclude="**/*-reboot*,**/*-grid*" />
-    <title>Projeto.Alfa12</title>
 
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+        <!--<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />-->
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
+
+    <!--
+    <link rel="stylesheet"
+          asp-href-include="/lib/bootstrap/dist/**/*.min.css"
+          asp-href-exclude="**/*-reboot*,**/*-grid*" />-->
+    <title>Projeto.Alfa12</title>
+
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <!--<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+            asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />-->
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 
@@ -23,89 +31,129 @@
     <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js">
     </script>
+
+    <!--rodar menu...-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://bulma.io/vendor/clipboard-1.7.1.min.js"></script>
+    <script src="https://bulma.io/vendor/js.cookie-2.1.4.min.js"></script>
+    <script src="https://bulma.io/lib/main.js?v=201804141532"></script>
+
+
 </head>
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Projeto.Alfa05</a>
+<body class="layout-documentation page-overview">
+    <nav id="navbar" class="navbar is-spaced is-fixed-top is-info ">
+        <div class="container is-fluid">
+            <div class="navbar-brand">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-item">Projeto.Alfa05</a>
+
+                <div id="navbarBurger" class="navbar-burger burger" data-target="navMenuDocumentation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Página Inicial</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">Sobre</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contato</a></li>
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
+
+            <div id="navMenuDocumentation" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item  " asp-controller="Home" asp-action="Index">
+                        <span>Página Inicial</span>
+                    </a>
+                    <a class="navbar-item" asp-controller="Home" asp-action="About">
+                        <span>Sobre</span>
+                    </a>
+                    <a class="navbar-item" asp-controller="Home" asp-action="Contact">
+                        <span>Contato</span>
+                    </a>
+                </div>
+                <div class="navbar-end">
+                    @await Html.PartialAsync("_LoginPartial")
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="bg-info p-2"><h4>@ViewBag.Title</h4></div>
+    <div class="bg-info p-2"><h4 class="subtitle">@ViewBag.Title</h4></div>
     @if (TempData["alert"] != null)
     {
-        <div class="alert alert-success">@TempData["alert"]</div>
-    }
-
-        <div class="container body-content">
-            <ol class="breadcrumb">
-
-
-                @if (ViewContext.RouteData.Values["controller"].ToString() != "Home")
-                {
-            <li>
-                @Html.ActionLink("Home", "Index", "Home")
-            </li>
-            <li>
-                @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
-            </li>
-            <li class="active">
-                @Html.ActionLink(ViewContext.RouteData.Values["action"].ToString(), ViewContext.RouteData.Values["action"].ToString())
-            </li >
-}
-else
-{
-            <li class="active">
-                
-            </li>
-}
-
-            </ol>
-
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Today.Year</p>
-            </footer>
+    <article class="message">
+        <div class="message-header">
+            <p>
+                @TempData["alert"]
+            </p>
+            <button class="delete" aria-label="delete"></button>
         </div>
+    </article>
+            }
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+            <main class="bd-main">
+                <div class="bd-side-background"></div>
+                <div class="bd-main-container container">
+                    <div class="bd-duo">
 
-    @RenderSection("Scripts", required: false)
+
+                        <div class="bd-breadcrumb">
+                            <nav class="breadcrumb" aria-label="breadcrumbs">
+                                <ul>
+                                    @if ((ViewContext.RouteData.Values["controller"].ToString() != "Home") &&
+                                        (ViewContext.RouteData.Values["controller"].ToString() != "Account"))
+                                    {
+                                        <li>
+                                            @Html.ActionLink("Home", "Index", "Home")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
+                                        </li>
+                                        if (ViewContext.RouteData.Values["action"].ToString() != "Index")
+                                        {
+                                        <li class="is-active">
+                                            @Html.ActionLink(ViewContext.RouteData.Values["action"].ToString(), ViewContext.RouteData.Values["action"].ToString())
+                                        </li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li class="is-active">
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
+                        </div>
+                        
+
+                        @RenderBody()
+                    </div>
+                </div>
+
+            </main>
+            <footer class="footer">
+                <div class="container">
+                    <div class="content has-text-centered">
+                        <p>Alexandre - &copy; @DateTime.Today.Year</p>
+                    </div>
+                </div>
+            </footer>
+
+            <environment include="Development">
+                <script src="~/lib/jquery/dist/jquery.js"></script>
+                <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+                <script src="~/js/site.js" asp-append-version="true"></script>
+            </environment>
+            <environment exclude="Development">
+                <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                        asp-fallback-test="window.jQuery"
+                        crossorigin="anonymous"
+                        integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+                </script>
+                <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                        asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                        asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                        crossorigin="anonymous"
+                        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+                </script>
+                <script src="~/js/site.min.js" asp-append-version="true"></script>
+            </environment>
+
+            @RenderSection("Scripts", required: false)
 </body>
 </html>

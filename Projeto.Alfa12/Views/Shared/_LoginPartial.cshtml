@@ -6,27 +6,35 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Bem vindo @UserManager.GetUserAsync(User).Result.FullName!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Sair</button>
-            </li>
-        </ul>
+    <a class="navbar-item" asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">
+        Bem vindo @UserManager.GetUserAsync(User).Result.FullName!
+    </a>
+
+
+    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-item">
+        <button type="submit" class="button is-text">Sair</button>
     </form>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Registrar <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a asp-area="" asp-controller="Alunos" asp-action="Register">Registrar Aluno</a></li>
-                <li><a asp-area="" asp-controller="Professores" asp-action="Register">Registrar Professor</a></li>
-            </ul>
-        </li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Login"><span class="glyphicon glyphicon-log-in"></span> Entrar</a></li>
-    </ul>
+    <div class="navbar-item has-dropdown is-hoverable">
+
+        <a class="navbar-link" href="#">
+            Registrar <span class="caret"></span>
+        </a>
+        <div class="navbar-dropdown is-boxed">
+            <a class="navbar-item" asp-area="" asp-controller="Alunos" asp-action="Register">
+                <span>Registrar Aluno</span>
+            </a>
+            <a class="navbar-item" asp-area="" asp-controller="Professores" asp-action="Register">
+                <span>Registrar Professor</span>
+            </a>
+        </div>
+
+
+    </div>
+    <a class="navbar-item" asp-area="" asp-controller="Account" asp-action="Login">
+        <span class="glyphicon glyphicon-log-in"></span>
+        <span>Entrar</span>
+    </a>
 }

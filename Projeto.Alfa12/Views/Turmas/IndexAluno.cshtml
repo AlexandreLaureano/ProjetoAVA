@@ -2,9 +2,9 @@
 
 
 
-<h2>Minhas turmas</h2>
+<h2 class="title">Minhas turmas</h2>
 
-<table class="table">
+<table class="table is-striped is-hoverable is-fullwidth ">
     <thead>
         <tr>
                 <th>
@@ -44,7 +44,7 @@
                 @Html.DisplayFor(modelItem => item.Professor.FullName)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
                 <a asp-action="Home" asp-route-id="@item.Id">Acessar Turma</a>
             </td>
         </tr>

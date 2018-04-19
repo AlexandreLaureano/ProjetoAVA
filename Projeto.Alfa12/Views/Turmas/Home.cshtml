@@ -1,20 +1,34 @@
 ﻿@model Turma
 
 
-<h2>Home</h2>
+<h2 class="title">Home</h2>
 
 <p>@Html.DisplayFor(model => model.Nome)</p>
+<section class="section">
+    @foreach (var item in Model.Modulos)
+    {
 
-@foreach (var item in Model.Modulos)
-{
-<div class="well">
-    @Html.DisplayFor(modelItem => item.Nome)
-    <a asp-controller="Modulos" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> 
-    | <a asp-controller="Modulos" asp-action="Home" asp-route-id="@item.Id">Acessar Modulo</a>
-</div>
-        }
+        <div class="tile is-ancestor has-text-centered">
+            <div class="tile is-parent">
+                <article class="tile is-child box">
+                    <p class="title">  @Html.DisplayFor(modelItem => item.Nome)</p>
+                    <p class="subtitle">descriçãoo</p>
+                    <footer class="card-footer">
+                        
+                            <a class="card-footer-item" asp-controller="Modulos" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+                            <a class="card-footer-item" asp-controller="Modulos" asp-action="Home" asp-route-id="@item.Id">Acessar Modulo</a>
+                        
+                        <a asp-action="Sair" class="card-footer-item" asp-route-id="@Model.Id">Sair da turma</a>
+</footer>
 
-<a asp-action="Sair" class="btn btn-default" asp-route-id="@Model.Id">Sair da turma</a>
+                </article>
+            </div>
 
+        </div>
+
+    }
+
+
+</section>
 
 

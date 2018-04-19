@@ -41,17 +41,18 @@ namespace Projeto.Alfa12.Controllers
             {
                 turma = turma.Where(s => s.Nome.Contains(SearchString)).Include(t =>t.Professor);
             }
+         
 
             return View(await turma.ToListAsync());
         }
 
         public ViewResult List(int productPage = 1, string SearchString = "")
         => View(new ProductsListViewModel{
-            Itens = _context.Turmas.Include(t => t.Professor)
-            .Where(s=> s.Nome.Contains(SearchString))
+            Itens = _context.Turmas.Include(t => t.Professor)  
             .OrderBy(p => p.Id)
             .Skip((productPage - 1) * PageSize)
-            .Take(PageSize),
+            .Take(PageSize)
+             .Where(s => s.Nome.Contains(SearchString)),
                 PagingInfo = new PagingInfo {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,

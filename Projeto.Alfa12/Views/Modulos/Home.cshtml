@@ -1,15 +1,16 @@
 ﻿@model Modulo
 
-<h2>Home</h2>
+<h2 class="title">Home</h2>
 
 <div id="testDiv"></div>
-<iframe sandbox="allow-forms  allow-scripts allow-popups" src="http://localhost:63018/" width="600" height="600"></iframe>
+<iframe sandbox="allow-forms  allow-scripts allow-popups" src="https://localhost:44362/" width="600" height="600"></iframe>
 
 <form asp-action="GetPonto">
     <input type="hidden" asp-for="Id" />
-    <input type="submit" value="AddPonto" class="btn btn-default" />
+    <input type="submit" value="AddPonto" class="button is-primary" />
 </form>
-
+<!--
 <embed src="https://www.uol.com.br/" width="600" height="600" />
 <object data="https://www.uol.com.br/" width="600" height="600"></object>
 <script>$("#testDiv").load("https://www.uol.com.br/");</script>
+    -->

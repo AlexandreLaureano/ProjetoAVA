@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<Projeto.Alfa12.Models.Modulo>
 
 
-<h2>Seus Módulos</h2>
+<h2 class="title">Seus Módulos</h2>
 
 <p>
-    <a asp-action="Create">Criar novo módulo</a>
+    <a asp-action="Create" class="button is-success">Criar novo módulo</a>
 </p>
-<table class="table">
+<table class="table is-striped is-hoverable is-fullwidth ">
     <thead>
         <tr>
             <th>
@@ -46,9 +46,9 @@
                 @Html.DisplayFor(modelItem => item.Turma.Professor.FullName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>  |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
             </td>
         </tr>
 }

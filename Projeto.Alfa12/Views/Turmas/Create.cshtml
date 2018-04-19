@@ -1,44 +1,45 @@
 ﻿@model TurmaViewModel
 
 
-<h2>Criar Turma</h2>
+<h2 class="title">Criar Turma</h2>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
+            <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+            <div class="field">
+                <label asp-for="Nome" class="label" class="label"></label>
+                <input asp-for="Nome" class="input" />
+                <span asp-validation-for="Nome" class="help is-danger"></span>
             </div>
            
-            <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
+            <div class="field">
+                <label asp-for="Descricao" class="label" class="label"></label>
+                <input asp-for="Descricao" class="input" />
+                <span asp-validation-for="Descricao" class="help is-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="AreaConhecimento" class="control-label"></label>
-                <input asp-for="AreaConhecimento" class="form-control" />
-                <span asp-validation-for="AreaConhecimento" class="text-danger"></span>
+            <div class="field">
+                <label asp-for="AreaConhecimento" class="label" class="label"></label>
+                <input asp-for="AreaConhecimento" class="input" />
+                <span asp-validation-for="AreaConhecimento" class="help is-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ChaveAcesso" class="control-label"></label>
-                <input asp-for="ChaveAcesso" class="form-control" value=""/>
-                <span asp-validation-for="ChaveAcesso" class="text-danger"></span>
+            <div class="field">
+                <label asp-for="ChaveAcesso" class="label" class="label"></label>
+                <input asp-for="ChaveAcesso" class="input" value=""/>
+                <span asp-validation-for="ChaveAcesso" class="help is-danger"></span>
             </div>
-     
+            
+            <div>
+                <input type="submit" value="Salvar" class="button is-primary" />
+                <a asp-action="Index" class="button is-danger">Voltar</a>
+            </div>
            
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Voltar a lista</a>
+   
 </div>
 

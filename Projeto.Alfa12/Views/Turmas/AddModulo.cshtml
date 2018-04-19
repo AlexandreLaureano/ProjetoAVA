@@ -2,11 +2,11 @@
 
 
 
-<h2>Adicionar Modulos</h2>
+<h2 class="title">Adicionar Modulos</h2>
 <hr />
 
 
-<div asp-validation-summary="All" class="text-danger"></div>
+<div asp-validation-summary="All" class="help is-danger"></div>
 <form asp-action="AddModulo" method="post">
     <input type="hidden" name="TurmaName" value="@Model.Turma.Nome" />
     <input type="hidden" name="TurmaId" value="@Model.Turma.Id" />
@@ -48,8 +48,8 @@
             }
         }
     </table>
-    <input type="submit" class="btn btn-primary" value="Save" />
-    <a asp-action="Index" class="btn btn-default">Cancel</a>
+    <input type="submit" class="btn btn-primary" value="Salvar" />
+    <a asp-action="Index" class="button is-primary">Cancel</a>
 </form>
 
 @section Scripts {
