@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Módulos</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-3">
+        @await Html.PartialAsync("Creates/_ModNav")
+    </div>
+    <div class="col-md-9">
+        @RenderBody()
+    </div>
+</div>
+
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
+

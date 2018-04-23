@@ -5,7 +5,6 @@
 @model LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
-<h2 class="title">Login</h2>
 <div class="columns">
     <div class="column is-half" >
         <section>
@@ -15,22 +14,33 @@
                 <div asp-validation-summary="All" class="help is-danger"></div>
                 <div class="field">
                     <label asp-for="Email" class="label"></label>
-                    <input asp-for="Email" class="input" />
+                    <p class="control has-icons-left ">
+
+                        <input asp-for="Email" class="input" type="email" placeholder="Email">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </p>
                     <span asp-validation-for="Email" class="help is-danger"></span>
                 </div>
                 <div class="field">
                     <label asp-for="Password" class="label"></label>
-                    <input asp-for="Password" class="input" />
-                    <span asp-validation-for="Password" class="help is-danger"></span>
+                    <p class="control has-icons-left">
+                        <input asp-for="Password" class="input" type="password" placeholder="Sena">
+                            <span class="icon is-small is-left">
+                              <i class="fas fa-lock"></i>
+                            </span>
+                        </p>
+                        <span asp-validation-for="Password" class="help is-danger"></span>
                 </div>
-                <div class="field">
+                
                     <div class="checkbox">
                         <label asp-for="RememberMe">
                             <input asp-for="RememberMe" />
                             @Html.DisplayNameFor(m => m.RememberMe)
                         </label>
                     </div>
-                </div>
+                
                 <div class="field">
                     <button type="submit" class="button is-primary">Entrar</button>
                 </div>

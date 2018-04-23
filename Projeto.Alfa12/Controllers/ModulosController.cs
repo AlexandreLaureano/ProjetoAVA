@@ -76,7 +76,31 @@ namespace Projeto.Alfa12.Controllers
         {
             var user = (ApplicationUser)await _userManager.GetUserAsync(User);
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
-            return View();
+            return View("Creates/Create");
+        }
+        public async Task<IActionResult> Create2()
+        {
+            var user = (ApplicationUser)await _userManager.GetUserAsync(User);
+            ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
+            return View("Creates/Create2");
+        }
+        public async Task<IActionResult> Create3()
+        {
+            var user = (ApplicationUser)await _userManager.GetUserAsync(User);
+            ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
+            return View("Creates/Create3");
+        }
+        public async Task<IActionResult> Create4()
+        {
+            var user = (ApplicationUser)await _userManager.GetUserAsync(User);
+            ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
+            return View("Creates/Create4");
+        }
+        public async Task<IActionResult> Create5()
+        {
+            var user = (ApplicationUser)await _userManager.GetUserAsync(User);
+            ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
+            return View("Creates/Create5");
         }
 
         // POST: Modulos/Create
@@ -92,11 +116,22 @@ namespace Projeto.Alfa12.Controllers
                 Nome = modulo.Nome,
                 Descricao = modulo.Descricao,
                 TurmaId = modulo.TurmaId,
-                Url = modulo.Url
+                Url = modulo.Url,
+                Resposta = modulo.Resposta,
+                Texto = modulo.Texto,
+                Tipo = (TipoMod)modulo.Tipo
             };
 
             if (ModelState.IsValid)
             {
+                if (modulo.Arquivo != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await modulo.Arquivo.CopyToAsync(memoryStream);
+                        mod.Arquivo = memoryStream.ToArray();
+                    }
+                }
                 _context.Add(mod);
                 await _context.SaveChangesAsync();
 

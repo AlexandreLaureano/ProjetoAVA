@@ -1,0 +1,47 @@
+﻿@model ModuloViewModel
+
+
+<h2 class="title">Criar novo módulo</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+            <input asp-for="Tipo" value="5" type="hidden" />
+
+            <div class="field">
+                <label asp-for="Nome" class="label"></label>
+                <input asp-for="Nome" class="input" />
+                <span asp-validation-for="Nome" class="help is-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Descricao" class="label"></label>
+                <input asp-for="Descricao" class="input" />
+                <span asp-validation-for="Descricao" class="help is-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Texto" class="label"></label>
+                <textarea asp-for="Texto" class="form-control" rows="4" cols="50"></textarea>
+                <span asp-validation-for="Texto" class="help is-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Resposta" class="label"></label>
+                <textarea asp-for="Resposta" class="form-control" rows="4" cols="50"></textarea>
+                <span asp-validation-for="Resposta" class="help is-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="TurmaId" class="label"></label>
+                <select asp-for="TurmaId" class="form-control" asp-items="ViewBag.TurmaId"></select>
+            </div>
+            <div class="field">
+                <input type="submit" value="Salvar" class="button is-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+   <a asp-action="Index" class="button is-danger">Voltar</a>
+</div>
+

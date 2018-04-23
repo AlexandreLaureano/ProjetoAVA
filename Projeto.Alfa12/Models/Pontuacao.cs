@@ -8,6 +8,7 @@ namespace Projeto.Alfa12.Models
         public int Id { get; set; }
         public int? TurmaId { get; set; }
         public int Pontos { get; set; }
+        public Boolean Respondido { get; set; }
         public DateTime Data { get; set; }
 
         public int ModuloId { get; set; }

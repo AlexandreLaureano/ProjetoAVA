@@ -1,5 +1,8 @@
 ﻿@model Projeto.Alfa12.Models.Modulo
 
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
 
 
 <h2 class="title">Delete</h2>
@@ -34,7 +37,7 @@
             @Html.DisplayFor(model => model.Turma.Id)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="button is-primary" /> |

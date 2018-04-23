@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,5 +20,10 @@ namespace Projeto.Alfa12.Models.CreateViewModels
 
         [Display(Name ="Turma")]
         public int TurmaId { get; set; }
+
+        public IFormFile Arquivo { get; set; }
+        public string Texto { get; set; }
+        public string Resposta { get; set; }
+        public int Tipo { get; set; }
     }
 }

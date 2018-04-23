@@ -1,37 +1,32 @@
-﻿@model Projeto.Alfa12.Models.Modulo
-@{
-    Layout = "/Views/Shared/_Layout.cshtml";
-}
+﻿@model ModuloViewModel
 
 
-<h2 class="title">Edit</h2>
+<h2 class="title">Criar novo módulo</h2>
 
-<h4 class="subtitle">Modulo</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input asp-for="Tipo" value="1" type="hidden" />
             <div class="field">
-                <label asp-for="Nome" class="label" class="label"></label>
+                <label asp-for="Nome" class="label"></label>
                 <input asp-for="Nome" class="input" />
                 <span asp-validation-for="Nome" class="help is-danger"></span>
             </div>
             <div class="field">
-                <label asp-for="Descricao" class="label" class="label"></label>
+                <label asp-for="Descricao" class="label"></label>
                 <input asp-for="Descricao" class="input" />
                 <span asp-validation-for="Descricao" class="help is-danger"></span>
             </div>
             <div class="field">
-                <label asp-for="Url" class="label" class="label"></label>
+                <label asp-for="Url" class="label"></label>
                 <input asp-for="Url" class="input" />
                 <span asp-validation-for="Url" class="help is-danger"></span>
             </div>
             <div class="field">
-                <label asp-for="TurmaId" class="label" class="label"></label>
+                <label asp-for="TurmaId" class="label"></label>
                 <select asp-for="TurmaId" class="form-control" asp-items="ViewBag.TurmaId"></select>
-                <span asp-validation-for="TurmaId" class="help is-danger"></span>
             </div>
             <div class="field">
                 <input type="submit" value="Salvar" class="button is-primary" />
@@ -41,6 +36,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+   <a asp-action="Index" class="button is-danger">Voltar</a>
 </div>
 
