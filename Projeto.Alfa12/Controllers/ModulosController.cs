@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -22,6 +25,7 @@ namespace Projeto.Alfa12.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private static readonly HttpClient client = new HttpClient();
 
         public ModulosController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -272,8 +276,37 @@ namespace Projeto.Alfa12.Controllers
             var modulo = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
             int x;
             //url da pagina + algo
-            var requisicaoWeb = WebRequest.CreateHttp(" http://localhost:64466/api/values/2");
+
+            string myJson = "  { 'Acerto' : 's','Ponto': '3', 'y' = '1', 'x' = '2' }";
+            Pontos t = new Pontos { Acerto = true, ponto = 3, y = "1", x = "2" };
+
+            //string myJson = "{'Username': 'myusername','Password':'pass'}";
+            using (var client = new HttpClient())
+            {
+                // var response = await client.PostAsync(
+                //   "http://localhost:64466/api/values",
+                //  new StringContent(myJson, Encoding.UTF8, "application/json"));
+                HttpRequestMessage request = 
+                    new HttpRequestMessage(HttpMethod.Post, "http://localhost:64466/api/values");
+
+                string json = JsonConvert.SerializeObject(t);
+
+                request.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                HttpClient http = new HttpClient();
+                HttpResponseMessage response = await http.SendAsync(request);
+
+                var responseString = await response.Content.ReadAsStringAsync();
+                var post = JsonConvert.DeserializeObject<Pontos>(responseString.ToString());
+                x = post.ponto;
+            }
+
+
+
+
+            /*var requisicaoWeb = WebRequest.CreateHttp(" http://localhost:64466/api/values/2");
             requisicaoWeb.Method = "GET";
+           
             using (var resposta = requisicaoWeb.GetResponse())
             {
                 var streamDados = resposta.GetResponseStream();
@@ -284,7 +317,8 @@ namespace Projeto.Alfa12.Controllers
                 x = post.Ponto;
                 streamDados.Close();
                 resposta.Close();
-            }
+            }*/
+            
 
             var user = _userManager.GetUserAsync(User);
             var aluno = (Aluno)await user;
@@ -297,11 +331,12 @@ namespace Projeto.Alfa12.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+     
     }
 
-    public class Teste{
+    public class Pontos{
         public bool Acerto;
-       public int Ponto;
+       public int ponto;
        public string x, y;
         }
 }
