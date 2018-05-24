@@ -1,54 +1,64 @@
 ﻿@model TurmaEditModel
 
+    @{ 
+        ViewData["Nome"] = "Adicionar Alunos";
+    }
 
-<h2 class="title">Adicionar Alunos</h2>
-<hr />
 
 
 <div asp-validation-summary="All" class="help is-danger"></div>
 <form asp-action="AddAluno" method="post">
     <input type="hidden" name="TurmaName" value="@Model.Turma.Nome" />
     <input type="hidden" name="TurmaId" value="@Model.Turma.Id" />
-    <h6 class="bg-info panel-body">Adicionar na @Model.Turma.Nome</h6>
-    <table class="table table-bordered table-condensed">
-        @if (Model.NonMembers.Count() == 0)
+    
+    <div class="columns is-desktop">
+        <div class="column">
+            <h4 class="title is-4">Adicionar na @Model.Turma.Nome</h4>
+            <table class="table  is-striped is-narrow is-hoverable  ">
+                @if (Model.NonMembers.Count() == 0)
         {
             <tr><td colspan="2">Todos os alunos são membros</td></tr>
-        }
-        else
-        {
-            @foreach (Aluno user in Model.NonMembers)
-            {
-                <tr>
-                    <td>@user.FullName</td>
-                    <td>
-                        <input type="checkbox" name="IdsToAdd" value="@user.Id">
-                    </td>
-                </tr>
-            }
-        }
-    </table>
-    <h6 class="bg-info panel-body">Remover da @Model.Turma.Nome</h6>
-    <table class="table table-bordered table-condensed">
-        @if (Model.Members.Count() == 0)
+}
+else
+{
+        @foreach (Aluno user in Model.NonMembers)
+{
+        <tr>
+            <td>@user.FullName</td>
+            <td>
+                <input type="checkbox" name="IdsToAdd" value="@user.Id">
+            </td>
+        </tr>
+}
+}
+            </table>
+
+        </div>
+        <div class="column">
+            <h4 class="title is-4">
+                Remover da @Model.Turma.Nome</h4>
+                <table class="table is-striped is-narrow is-hoverable ">
+                    @if (Model.Members.Count() == 0)
         {
             <tr><td colspan="2">Não há nenhum membro</td></tr>
-        }
-        else
-        {
+}
+else
+{
             @foreach (Aluno user in Model.Members)
-            {
-                <tr>
-                    <td>@user.FullName</td>
-                    <td>
-                        <input type="checkbox" name="IdsToDelete" value="@user.Id">
-                    </td>
-                </tr>
-            }
-        }
-    </table>
-    <input type="submit" class="btn btn-primary" value="Salvar" />
-    <a asp-action="Index" class="button is-primary">Cancel</a>
+{
+            <tr>
+                <td>@user.FullName</td>
+                <td>
+                    <input type="checkbox" name="IdsToDelete" value="@user.Id">
+                </td>
+            </tr>
+}
+}
+                </table>
+</div>
+        </div>
+            <input type="submit" class="button is-primary" value="Salvar" />
+            <a asp-action="IndexProfessor" class="button is-danger">Cancelar</a>
 </form>
 
 @section Scripts {

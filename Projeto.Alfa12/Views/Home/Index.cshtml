@@ -93,7 +93,7 @@
 
                             <a asp-controller="Alunos" asp-action="Index">Editar Alunos</a><br />
                             <a asp-controller="Professores" asp-action="Index">Editar Professores</a><br />
-                            <a asp-controller="Turmas">Ver Turmas</a><br />
+                            <a asp-controller="Turmas" asp-action="IndexAdmin">Ver Turmas</a><br />
                             <a asp-controller="LogUsuarios">log</a>
                         }
                         else
@@ -123,7 +123,7 @@
                     <p class="subtitle">Ranking Geral</p>
                     <!--await Component.InvokeAsync("Poco")-->
                     <!--await Component.InvokeAsync(nameof(RankList))-->
-                    @await Component.InvokeAsync("RankList", new { op = 0, showList = true })
+                    @await Component.InvokeAsync("RankList", new { op = 0, showList = true, turma = 0 })
                 </div>
             </div>
         </div>

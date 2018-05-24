@@ -1,78 +1,80 @@
 ﻿@model IEnumerable<Projeto.Alfa12.Models.Turma>
 
-<h2 class="title">Index</h2>
+@{
+    ViewData["Nome"] = "Index";
+}
 
 <p>
     <a asp-action="Create" class="button is-success">Criar</a>
 </p>
 @if (Model.Count() == 0)
-    {
-        <tr><td colspan="2">Você não possui turmas</td></tr>
-    }
-    else
-    {
-        <table class="table is-striped is-hoverable is-fullwidth ">
-            <thead>
+{
+    <tr><td colspan="2">Você não possui turmas</td></tr>
+}
+else
+{
+    <table class="table is-striped is-hoverable is-fullwidth ">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataCriacao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descricao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AreaConhecimento)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ChaveAcesso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MaxPonto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Professor)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Nome)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DataCriacao)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Descricao)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.AreaConhecimento)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ChaveAcesso)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MaxPonto)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Professor)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nome)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DataCriacao)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Descricao)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AreaConhecimento)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ChaveAcesso)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MaxPonto)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Professor.FullName)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>  |
-                            <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a> |
-                            <a asp-action="AddAluno" asp-route-id="@item.Id">Adicionar Alunos</a> |
-                            <a asp-action="Home" asp-route-id="@item.Id">Acessar Turma</a>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataCriacao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AreaConhecimento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ChaveAcesso)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaxPonto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Professor.FullName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>  |
+                        <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a> |
+                        <a asp-action="AddAluno" asp-route-id="@item.Id">Adicionar Alunos</a> |
+                        <a asp-action="Home" asp-route-id="@item.Id">Acessar Turma</a>
 
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

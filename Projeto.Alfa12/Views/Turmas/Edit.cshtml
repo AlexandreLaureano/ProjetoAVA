@@ -1,8 +1,8 @@
 ﻿@model Projeto.Alfa12.Models.Turma
 
-
-<h2 class="title">Edit</h2>
-
+@{
+    ViewData["Nome"] = "Editar";
+}
 <h4 class="subtitle">Turma</h4>
 <hr />
 <div class="row">
@@ -15,7 +15,7 @@
                 <input asp-for="Nome" class="input" />
                 <span asp-validation-for="Nome" class="help is-danger"></span>
             </div>
-           
+
             <div class="field">
                 <label asp-for="Descricao" class="label" class="label"></label>
                 <input asp-for="Descricao" class="input" />
@@ -31,7 +31,7 @@
                 <input asp-for="ChaveAcesso" class="input" />
                 <span asp-validation-for="ChaveAcesso" class="help is-danger"></span>
             </div>
-       
+
             <div class="field">
                 <label asp-for="ProfessorId" class="label" class="label"></label>
                 <select asp-for="ProfessorId" class="form-control" asp-items="ViewBag.ProfessorId"></select>

@@ -102,6 +102,8 @@ namespace Projeto.Alfa12.Models
     {
         public IEnumerable<Turma> Turmas { get; set; }
         public int Op { get; set; }
-        public int? IdTurma { get; set; }
+        public int IdTurma { get; set; }
     }
+
+    
 }

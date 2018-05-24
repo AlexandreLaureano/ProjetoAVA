@@ -52,8 +52,36 @@ namespace Projeto.Alfa12.Controllers
 
             var user = _userManager.GetUserAsync(User);
             var aluno = await user;
+            var modulo = await _context.Modulos.Include("Pontuacao.Modulo").SingleOrDefaultAsync(m => m.Id == id);
+            var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(i => i.Id == modulo.TurmaId);
+            
+            if (turma.IAluno.Contains(aluno))
+            {
+               /* if (id == null)
+                {
+                    return NotFound();
+                }
+
+
+                if (modulo == null)
+                {
+                    return NotFound();
+                }*/
+
+                return View(modulo);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        public async Task<IActionResult> RespAluno(int? id) {
+            var user = _userManager.GetUserAsync(User);
+            var aluno = await user;
             var modulo = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
             var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(i => i.Id == modulo.TurmaId);
+            
             if (turma.IAluno.Contains(aluno))
             {
                 if (id == null)
@@ -67,7 +95,7 @@ namespace Projeto.Alfa12.Controllers
                     return NotFound();
                 }
 
-                return View(modulo);
+                return View("Respostas/RespAluno",modulo);
             }
             else
             {
@@ -75,8 +103,110 @@ namespace Projeto.Alfa12.Controllers
             }
         }
 
-        // GET: Modulos/Create
-        public async Task<IActionResult> Create()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RespAluno(int id, [Bind("Id,Resposta")] Modulo modulo)
+        {
+            var user = (Aluno)await _userManager.GetUserAsync(User);
+            if (id != modulo.Id)
+            {
+                return NotFound();
+            }
+
+            var mod = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
+
+            mod.Resposta = modulo.Resposta;
+            Pontuacao p = new Pontuacao
+            {
+                AlunoId = user.Id,
+                Data = DateTime.Now,
+                ModuloId = mod.Id,
+                Respondido = true,
+                Resposta = mod.Resposta,
+                TurmaId = mod.TurmaId
+
+            };
+            PontuacaoController pc = new PontuacaoController(_context);
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(mod);
+                    pc.AddResposta(p);
+                    await _context.SaveChangesAsync();
+
+                    LogUsuariosController log = new LogUsuariosController(_context);
+                    await log.SetLog("Resposta inserida : " + mod.Nome, user.Id);
+
+                    TempData["alert"] = $"{modulo.Nome} foi respondido";
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ModuloExists(modulo.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+
+            public async Task<IActionResult> RespProfessor(int? id)
+        {
+            var user = _userManager.GetUserAsync(User);
+            var professor = await user;
+            var modulo = await _context.Modulos.Include(m=>m.Pontuacao).SingleOrDefaultAsync(m => m.Id == id);
+            var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(i => i.Id == modulo.TurmaId);
+
+            if (turma.Professor.Equals(professor))
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+
+                if (modulo == null)
+                {
+                    return NotFound();
+                }
+                
+                return View("Respostas/RespProfessor",modulo);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RespProfessor(int id, [Bind("Id,Pontos,idpontuacao")] Modulo modulo)
+        {
+            PontuacaoController pc = new PontuacaoController(_context);
+            await pc.AddPoint(modulo.idpontuacao, modulo.Pontos);
+
+            var user = (Professor)await _userManager.GetUserAsync(User);
+            LogUsuariosController log = new LogUsuariosController(_context);
+            await log.SetLog("Nota inserida : " + modulo.Nome, user.Id);
+
+            TempData["alert"] = $"{modulo.Nome} foi atribuido nota";
+
+            var mod = await _context.Modulos.Include(m => m.Pontuacao).SingleOrDefaultAsync(m => m.Id == id);
+
+            return View("Respostas/RespProfessor", mod);
+        }
+
+
+
+            // GET: Modulos/Create
+            public async Task<IActionResult> Create()
         {
             var user = (ApplicationUser)await _userManager.GetUserAsync(User);
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
@@ -107,6 +237,8 @@ namespace Projeto.Alfa12.Controllers
             return View("Creates/Create5");
         }
 
+   
+
         // POST: Modulos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -114,6 +246,7 @@ namespace Projeto.Alfa12.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ModuloViewModel modulo)
         {
+           
             var user = (ApplicationUser)await _userManager.GetUserAsync(User);
             Modulo mod = new Modulo
             {
@@ -123,7 +256,8 @@ namespace Projeto.Alfa12.Controllers
                 Url = modulo.Url,
                 Resposta = modulo.Resposta,
                 Texto = modulo.Texto,
-                Tipo = (TipoMod)modulo.Tipo
+                Tipo = (TipoMod)modulo.Tipo,
+                MaxPonto = modulo.MaxPonto
             };
 
             if (ModelState.IsValid)
@@ -324,7 +458,7 @@ namespace Projeto.Alfa12.Controllers
             var aluno = (Aluno)await user;
 
             PontuacaoController p = new PontuacaoController(_context);
-            await p.AddPoint(aluno.Id, modulo.TurmaId, modulo.Id, x);
+          //  await p.AddPoint(aluno.Id, modulo.TurmaId, modulo.Id, x);
             
             
 

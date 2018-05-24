@@ -1,14 +1,36 @@
 ﻿@using Projeto.Alfa12.Views.Modulos.Creates
 
 
-<ul class="nav nav-pills nav-stacked">
+<div class="tabs is-boxed">
+    <ul>
+        <li class="">
+            <a asp-action="Create">
+                Create
+            </a>
+        </li> 
+        <li >
+            <a asp-action="Create2">
+                Create2
+            </a>
+        </li>
+        <li >
+            <a asp-action="Create3">
+                Create3
+            </a>
+        </li>
+        <li >
+            <a asp-action="Create4">
+                Create4
+            </a>
+        </li>
+        <li >
+            <a asp-action="Create5">
+                Create5
+            </a>
+        </li>
 
-    <li class="@ModNavPages.CreateNavClass(ViewContext)"><a asp-action="Create">Create</a></li>
-    <li class="@ModNavPages.Create2NavClass(ViewContext)"><a asp-action="Create2">Create2</a></li>
-    <li class="@ModNavPages.Create3NavClass(ViewContext)"><a asp-action="Create3">Create3</a></li>
-    <li class="@ModNavPages.Create4NavClass(ViewContext)"><a asp-action="Create4">Create4</a></li>
-    <li class="@ModNavPages.Create5NavClass(ViewContext)"><a asp-action="Create5">Create5</a></li>
+    </ul>
+    </div>
 
-
-</ul>
+             
 

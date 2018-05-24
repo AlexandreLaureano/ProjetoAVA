@@ -1,7 +1,7 @@
 ﻿@model Projeto.Alfa12.Models.Aluno
-
-
-<h2 class="title">Editar</h2>
+@{
+    ViewData["Nome"] = "Editar";
+}
 
 
 
@@ -39,19 +39,19 @@
                 <span asp-validation-for="DataNascimento" class="help is-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
-           
+
             <div class="field">
                 <label asp-for="Email" class="label" class="label"></label>
                 <input asp-for="Email" class="input" />
                 <span asp-validation-for="Email" class="help is-danger"></span>
             </div>
-           
+
             <div class="field">
                 <label asp-for="PhoneNumber" class="label" class="label"></label>
                 <input asp-for="PhoneNumber" class="input" />
                 <span asp-validation-for="PhoneNumber" class="help is-danger"></span>
             </div>
-           
+
             <div class="field">
                 <input type="submit" value="Salvar" class="button is-primary" />
             </div>
@@ -66,10 +66,10 @@
     </div>
 </div>
 
-    <div>
-       <a asp-action="Index" class="button is-danger">Voltar</a>
-    </div>
+<div>
+    <a asp-action="Index" class="button is-danger">Voltar</a>
+</div>
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

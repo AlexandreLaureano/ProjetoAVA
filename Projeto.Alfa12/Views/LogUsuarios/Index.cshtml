@@ -1,38 +1,40 @@
 ﻿@model IEnumerable<Projeto.Alfa12.Models.LogUsuario>
+@{
+    ViewData["Nome"] = "Index";
+}
 
-   
-    <h2 class="title">Index</h2>
+<h2 class="title">Log de atividades</h2>
 
-    <table class="table is-striped is-hoverable is-fullwidth ">
-        <thead>
+<table class="table is-striped is-hoverable is-fullwidth ">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Acao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Acao)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Data)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Usuario)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Acao)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Data)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Usuario.FullName)
-                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Acao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario.FullName)
+                </td>
 
-                </tr>
-            }
-        </tbody>
-    </table>
+            </tr>
+        }
+    </tbody>
+</table>

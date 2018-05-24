@@ -25,5 +25,8 @@ namespace Projeto.Alfa12.Models.CreateViewModels
         public string Texto { get; set; }
         public string Resposta { get; set; }
         public int Tipo { get; set; }
+
+        [RegularExpression("([0-9]+)", ErrorMessage = "Insira números válidos")]
+        public int MaxPonto { get; set; }
     }
 }

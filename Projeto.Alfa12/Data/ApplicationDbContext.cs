@@ -47,8 +47,11 @@ namespace Projeto.Alfa12.Data
             builder.Entity<AlunoConquista>()
                 .HasKey(a => new { a.AlunoId, a.ConquistaId });
 
-           
-            
+
+            builder.Entity<Pontuacao>()
+                .HasOne(t => t.Modulo)
+                .WithMany("Pontuacao")
+                .HasForeignKey(t => t.ModuloId);
 
             //Mapeamento aluno/turma
             builder.Entity<AlunoTurma>()

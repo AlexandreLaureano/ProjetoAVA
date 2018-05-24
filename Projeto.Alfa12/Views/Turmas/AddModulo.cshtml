@@ -1,11 +1,8 @@
 ﻿@model TurmaEditModulo
 
-
-
-<h2 class="title">Adicionar Modulos</h2>
-<hr />
-
-
+@{
+    ViewData["Nome"] = "Adiconar Módulos";
+}
 <div asp-validation-summary="All" class="help is-danger"></div>
 <form asp-action="AddModulo" method="post">
     <input type="hidden" name="TurmaName" value="@Model.Turma.Nome" />

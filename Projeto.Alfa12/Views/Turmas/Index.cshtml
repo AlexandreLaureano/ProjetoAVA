@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Projeto.Alfa12.Models.Turma>
 
-
-
-<h2 class="title">Index</h2>
+@{
+    ViewData["Nome"] = "Index";
+}
 
 <form>
     <p>
@@ -13,21 +13,21 @@
 <table class="table is-striped is-hoverable is-fullwidth ">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nome)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DataCriacao)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Descricao)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AreaConhecimento)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ChaveAcesso)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataCriacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AreaConhecimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChaveAcesso)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Professor)
             </th>
@@ -35,38 +35,39 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataCriacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AreaConhecimento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChaveAcesso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Professor.FullName)
-            </td>
-            @{
-        if (User.IsInRole("Aluno"))
+        @foreach (var item in Model)
         {
-            <td>
-                <a asp-action="EntrarTurma" asp-route-id="@item.Id">Entrar na Turma</a>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataCriacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AreaConhecimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChaveAcesso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Professor.FullName)
+                </td>
+                @{
+                    if (User.IsInRole("Aluno"))
+                    {
+                        <td>
+                            <a asp-action="EntrarTurma" asp-route-id="@item.Id">Entrar na Turma</a>
 
-            </td>
+                        </td>
 
+                    }
+                }
+
+            </tr>
         }
-            }
-
-        </tr>
-}
     </tbody>
 </table>

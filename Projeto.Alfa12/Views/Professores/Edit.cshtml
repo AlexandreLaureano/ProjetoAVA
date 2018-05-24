@@ -1,7 +1,9 @@
 ﻿@model Projeto.Alfa12.Models.Professor
 
+@{
+    ViewData["Nome"] = "Editar";
+}
 
-<h2 class="title">Edit</h2>
 
 <h4 class="subtitle">Professor</h4>
 <hr />
@@ -24,25 +26,25 @@
                 </div>
             </div>
             <div class="field">
-                <label asp-for="Nome" class="label" ></label>
+                <label asp-for="Nome" class="label"></label>
                 <input asp-for="Nome" class="input" />
                 <span asp-validation-for="Nome" class="help is-danger"></span>
             </div>
             <div class="field">
-                <label asp-for="Sobrenome" class="label" ></label>
+                <label asp-for="Sobrenome" class="label"></label>
                 <input asp-for="Sobrenome" class="input" />
                 <span asp-validation-for="Sobrenome" class="help is-danger"></span>
             </div>
 
             <div class="field">
-                <label asp-for="DataNascimento" class="label" ></label>
+                <label asp-for="DataNascimento" class="label"></label>
                 <input asp-for="DataNascimento" class="input" />
                 <span asp-validation-for="DataNascimento" class="help is-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
 
             <div class="field">
-                <label asp-for="Email" class="label" ></label>
+                <label asp-for="Email" class="label"></label>
                 <input asp-for="Email" class="input" />
                 <span asp-validation-for="Email" class="help is-danger"></span>
             </div>
@@ -62,7 +64,7 @@
 </div>
 
 <div>
-   <a asp-action="Index" class="button is-danger">Voltar</a>
+    <a asp-action="Index" class="button is-danger">Voltar</a>
 </div>
 
 @section Scripts {

@@ -15,8 +15,15 @@ namespace Projeto.Alfa12.Models
         public string Resposta { get; set; } //Resps
         public TipoMod Tipo { get; set; }
         public int MaxPonto { get; set; }
+        [NotMapped]
+        public int Pontos { get; set; }
+        [NotMapped]
+        public int idpontuacao { get; set; }
 
-        public ICollection<Pontuacao> Pontuacao { get; set; }
+        public ICollection<Pontuacao> Pontuacao { get; } = new List<Pontuacao>();
+
+        [NotMapped]
+        public IEnumerable<Aluno> IAluno => Pontuacao.Select(e => e.Aluno);
 
         public int? TurmaId { get; set; }
         public Turma Turma { get; set; }

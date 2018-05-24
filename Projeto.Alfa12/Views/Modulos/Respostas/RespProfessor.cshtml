@@ -1,0 +1,31 @@
+﻿@model Projeto.Alfa12.Models.Modulo
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+ 
+        ViewData["Nome"] = "Corrigir Atividades";
+    
+}
+
+
+<input asp-for="Id" value=@Model.Id type="hidden" />
+@foreach (var item in Model.Pontuacao)
+{
+    <form asp-action="RespProfessor">
+        <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+        <input asp-for="idpontuacao" value=@item.Id type="hidden" />
+
+        <p class="subtitle">resposta @Html.DisplayFor(modelItem => item.Resposta)</p>
+        <p class="subtitle">turma id @Html.DisplayFor(modelItem => item.TurmaId)</p>
+        <p class="subtitle">modulo id @Html.DisplayFor(modelItem => item.ModuloId)</p>
+        <p class="subtitle"> aluno id @Html.DisplayFor(modelItem => item.AlunoId)</p>
+        <p>Pontuação máxima disponivel é @Model.MaxPonto</p>
+        <div class="field">
+            <label asp-for="Pontos" class="label"></label>
+            <input asp-for="Pontos" class="input" value="@Html.ValueFor(modelitem => item.Pontos)" />
+            <span asp-validation-for="Pontos" class="help is-danger"></span>
+        </div>
+        <div class="field">
+            <input type="submit" value="Salvar" class="button is-primary" />
+        </div>
+    </form>
+}

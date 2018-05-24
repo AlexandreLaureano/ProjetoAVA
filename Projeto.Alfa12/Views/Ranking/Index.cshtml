@@ -1,17 +1,8 @@
 ﻿@model int
-<style>
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {
-        height: 450px
-    }
-    /* Set gray background color and 100% height */
-    .sidenav {
-        padding-top: 20px;
-        background-color: #f1f1f1;
-        height: 100%;
-    }
-</style>
 
+@{
+    ViewData["Nome"] = "Index";
+}
 @{
     if (User.IsInRole("Professor"))
     {
@@ -19,7 +10,7 @@
     }
     else if (User.IsInRole("Aluno"))
     {
-       
+
         <div class="container-fluid text-center">
             <div class="row content">
                 <div class="col-sm-2 sidenav">
@@ -29,7 +20,7 @@
                 </div>
                 <div class="col-sm-8 text-left">
                     <h1>Ranking</h1>
-                    @await Component.InvokeAsync("RankList", new { op = Model, showList = true })
+                    @await Component.InvokeAsync("RankList", new { op = Model, showList = true, turma = 0 })
 
                 </div>
             </div>
@@ -49,7 +40,7 @@
                 </div>
                 <div class="col-sm-8 text-left">
                     <h1>Ranking</h1>
-                    @await Component.InvokeAsync("RankList", new { op = Model, showList = true })
+                    @await Component.InvokeAsync("RankList", new { op = Model, showList = true, turma = 0 })
 
                 </div>
             </div>

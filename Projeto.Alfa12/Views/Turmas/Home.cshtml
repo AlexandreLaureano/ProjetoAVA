@@ -1,32 +1,46 @@
 ﻿@model Turma
 
-
-<h2 class="title">Home</h2>
-
+@{
+    ViewData["Nome"] = "Index";
+}
 <p>@Html.DisplayFor(model => model.Nome)</p>
 <section class="section">
-    @foreach (var item in Model.Modulos)
-    {
 
-        <div class="tile is-ancestor has-text-centered">
-            <div class="tile is-parent">
+
+
+
+    @foreach (var item in Model.Modulos.Select((x, i) => new { Value = x, Index = i }))
+    {
+        <div class=" tile is-ancestor has-text-centered  ">
+            <div class="tile is-parent  is-4">
                 <article class="tile is-child box">
-                    <p class="title">  @Html.DisplayFor(modelItem => item.Nome)</p>
-                    <p class="subtitle">descriçãoo</p>
+                    <p class="title">  @Html.DisplayFor(modelItem => item.Value.Nome)</p>
+                    <p class="subtitle">@Html.DisplayFor(modelItem => item.Value.Descricao)</p>
+                    <p>@Html.DisplayFor(modelItem => item.Value.Tipo) </p>
+
                     <footer class="card-footer">
-                        
-                            <a class="card-footer-item" asp-controller="Modulos" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
-                            <a class="card-footer-item" asp-controller="Modulos" asp-action="Home" asp-route-id="@item.Id">Acessar Modulo</a>
-                        
+
+                        <a class="card-footer-item" asp-controller="Modulos" asp-action="Details" asp-route-id="@item.Value.Id">Detalhes</a>
+                        @if (User.IsInRole("Aluno"))
+                        {
+                            <a class="card-footer-item" asp-controller="Modulos" asp-action="RespAluno" asp-route-id="@item.Value.Id">Acessar Modulo</a>
+
+                        }
+                        else
+                        {
+                            <a class="card-footer-item" asp-controller="Modulos" asp-action="RespProfessor" asp-route-id="@item.Value.Id">Acessar Modulo</a>
+                        }
                         <a asp-action="Sair" class="card-footer-item" asp-route-id="@Model.Id">Sair da turma</a>
-</footer>
+                    </footer>
 
                 </article>
             </div>
 
         </div>
 
+
     }
+
 
 
 </section>

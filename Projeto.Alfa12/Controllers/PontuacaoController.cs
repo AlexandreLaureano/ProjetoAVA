@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Projeto.Alfa12.Data;
 using Projeto.Alfa12.Models;
 using System;
@@ -15,21 +16,25 @@ namespace Projeto.Alfa12.Controllers
             _context = context;
         }
 
-        public async Task AddPoint(int aluno,int? turma,int modulo,int ponto = 1)
+        public void AddResposta(Pontuacao p)
         {
-            Pontuacao p = new Pontuacao
-            {
-                AlunoId = aluno,
-                TurmaId = turma,
-                ModuloId = modulo,
-                Pontos = ponto,
-                Data = DateTime.Now
-            };
             _context.Pontuacoes.Add(p);
+            _context.SaveChanges();
+        }
+
+        public async Task AddPoint(int id,int pontos)
+        {
+            var p = await _context.Pontuacoes.SingleOrDefaultAsync(m => m.Id == id);
+               // (m => m.ModuloId==pontuacao.ModuloId && m.AlunoId==pontuacao.AlunoId);
+
+            //Pontuacao p = pontuacao;
+            p.Pontos = pontos;
+
+            _context.Pontuacoes.Update(p);
             _context.SaveChanges();
             
             LogUsuariosController log = new LogUsuariosController(_context);
-            await log.SetLog(ponto+" pontos ganho : Módulo- " + modulo + " Turma-" +turma, aluno);
+            await log.SetLog(p.Pontos+" pontos ganho : Módulo- " + p.ModuloId + " Turma-" +p.TurmaId, p.AlunoId);
             
         }
     }

@@ -1,62 +1,63 @@
 ﻿@model IEnumerable<Projeto.Alfa12.Models.Professor>
-
-
-<h2 class="title">Index</h2>
+@{
+    ViewData["Nome"] = "Index";
+}
 
 <p>
-   <a asp-action="Create" class="button is-success">Novo</a>
+    <a asp-action="Create" class="button is-success">Novo</a>
 </p>
 <table class="table is-striped is-hoverable is-fullwidth ">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Autenticado)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nome)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sobrenome)
-                </th>
-                
-                <th>
-                    @Html.DisplayNameFor(model => model.DataNascimento)
-                </th>
-               
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-               
+            <th>
+                @Html.DisplayNameFor(model => model.Autenticado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sobrenome)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DataNascimento)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Autenticado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sobrenome)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.DataNascimento)
-            </td>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-          
-            <td class="buttons">
-                <a class="button is-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a>  
-                <a class="button is-info" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
-                <a class="button is-danger" asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autenticado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sobrenome)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataNascimento)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td >
+                    <a class="button is-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                    <a class="button is-info" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+                    <a class="button is-danger" asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

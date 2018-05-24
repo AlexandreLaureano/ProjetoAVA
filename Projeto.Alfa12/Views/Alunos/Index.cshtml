@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<Projeto.Alfa12.Models.Aluno>
-
+@{
+    ViewData["Nome"] = "Index";
+}
 
 <h2 class="title">Lista de Alunos</h2>
 
@@ -33,7 +35,7 @@
                     @Html.DisplayFor(modelItem => item.Ra)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FullName) 
+                    @Html.DisplayFor(modelItem => item.FullName)
                 </td>
 
                 <td>
@@ -45,8 +47,8 @@
                 </td>
 
                 <td>
-                     <a class="button is-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a>   |
-                   <a class="button is-info" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+                    <a class="button is-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a>   |
+                    <a class="button is-info" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
                 </td>
             </tr>
         }

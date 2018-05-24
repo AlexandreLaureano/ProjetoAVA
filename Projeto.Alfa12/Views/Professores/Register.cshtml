@@ -1,15 +1,17 @@
 ﻿@model AlunoRegister
 
-
+@{
+    ViewData["Nome"] = "Registrar";
+}
 <h2 class="title">Crie sua conta</h2>
 <div class="row">
     <div class="col-md-5">
         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-            
+
             <hr />
             <div asp-validation-summary="All" class="help is-danger"></div>
             <div class="field">
-                <label asp-for="Email" class="label" class="label"></label>
+                <label asp-for="Email" class="label"></label>
                 <input asp-for="Email" class="input" type="text" placeholder="Text input" />
                 <span asp-validation-for="Email" class="help is-danger"></span>
             </div>

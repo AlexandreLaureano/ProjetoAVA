@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Projeto.Alfa12.Data;
+using Projeto.Alfa12.Models;
 
 namespace Projeto.Alfa12.Controllers
 {
@@ -22,6 +23,11 @@ namespace Projeto.Alfa12.Controllers
             
             return View(id);
         } 
+
+        public IActionResult Escolha(RankListViewModel rank)
+        {
+            return View(rank);
+        }
         
 
     }

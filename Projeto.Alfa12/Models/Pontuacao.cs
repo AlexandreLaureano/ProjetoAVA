@@ -10,6 +10,7 @@ namespace Projeto.Alfa12.Models
         public int Pontos { get; set; }
         public Boolean Respondido { get; set; }
         public DateTime Data { get; set; }
+        public string Resposta { get; set; }
 
         public int ModuloId { get; set; }
         public int AlunoId { get; set; }

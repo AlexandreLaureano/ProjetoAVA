@@ -19,7 +19,7 @@ namespace Projeto.Alfa12.Components
         }
 
         //adicionar argumento para escolher que tipo de lista devo retornar, diaria/mensal/outras
-        public IViewComponentResult Invoke(int op,bool? showList,int? turma)
+        public async Task<IViewComponentResult> InvokeAsync(int op,bool? showList, int turma)
         {
             if (op == 0)//take 5, lista do Index
             {
@@ -68,7 +68,7 @@ namespace Projeto.Alfa12.Components
             else if(op == 4)// List por turma
             {
                 var lista = _context.Pontuacoes.Where(x => x.TurmaId==turma);
-                var t = _context.Turmas.Include("Alunos.Aluno").SingleOrDefault(y => y.Id == turma);
+                var t = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(y => y.Id == turma);
                 var alunos = t.IAluno.Distinct();
                 foreach (var a in alunos)
                 {
@@ -89,8 +89,21 @@ namespace Projeto.Alfa12.Components
             }
         }
 /*
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(int op, bool? showList, int turma)
         {
+             if (op == 1)// Lista total
+            {
+                var lista = _context.Pontuacoes;
+                var alunos = _context.Alunos;
+                foreach (var a in alunos)
+                {
+                    int ponto = lista.Where(x => x.AlunoId == a.Id).Sum(x => x.Pontos);
+                    a.PontoParcial = lista.Where(x => x.AlunoId == a.Id).Sum(x => x.Pontos);
+                }
+                return View("RankLista", alunos.OrderByDescending(x => x.PontoParcial));
+
+            }
+
             return View(new RankViewModel
             {
                 Nome = _context.Alunos.Count(),

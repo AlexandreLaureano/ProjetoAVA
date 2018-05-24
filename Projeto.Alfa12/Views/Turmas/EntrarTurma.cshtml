@@ -1,8 +1,9 @@
 ﻿@model Projeto.Alfa12.Models.Turma
 
 
-<h2 class="title">EntrarTurma</h2>
-
+@{
+    ViewData["Nome"] = "Entrar";
+}
 <h4 class="subtitle">Turma</h4>
 <hr />
 <div class="row">
@@ -11,7 +12,7 @@
             <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
             <div class="field">
                 <label asp-for="ChaveAcesso" class="label" class="label"></label>
-                <input asp-for="ChaveAcesso" class="form-control" value=""/>
+                <input asp-for="ChaveAcesso" class="form-control" value="" />
                 <span asp-validation-for="ChaveAcesso" class="help is-danger"></span>
             </div>
             <div class="field">

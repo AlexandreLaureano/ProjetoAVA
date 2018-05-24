@@ -1,7 +1,7 @@
 ﻿@model ModuloViewModel
 
 
-<h2 class="title">Criar novo módulo</h2>
+<h2 class="title">módulo resposta manual</h2>
 
 <hr />
 <div class="row">
@@ -33,6 +33,11 @@
             <div class="field">
                 <label asp-for="TurmaId" class="label"></label>
                 <select asp-for="TurmaId" class="form-control" asp-items="ViewBag.TurmaId"></select>
+            </div>
+            <div class="field">
+                <label asp-for="MaxPonto" class="label"></label>
+                <input asp-for="MaxPonto" class="input" type="text" pattern="[0-9]+$"/>
+                <span asp-validation-for="MaxPonto" class="help is-danger"></span>
             </div>
             <div class="field">
                 <input type="submit" value="Salvar" class="button is-primary" />

@@ -89,40 +89,52 @@
                 <div class="bd-side-background"></div>
                 <div class="bd-main-container container">
                     <div class="bd-duo">
+                        <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+                            <ul>
+                                @if ((ViewContext.RouteData.Values["controller"].ToString() != "Home") &&
+(ViewContext.RouteData.Values["controller"].ToString() != "Account"))
+            {
+                    <li>
+                        <a>
+                            <span class="icon is-small">
+                                <i class="fas fa-home" aria-hidden="true"></i>
+                            </span>
+                            <span>@Html.ActionLink("Início", "Index", "Home")</span>
+                        </a>
+
+                    </li>
+if (ViewData["Nome"].ToString() != "Index" )
+{
+                    <li>
+                        @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
+                    </li>
+                    <li class="is-active">
+                        @Html.ActionLink(ViewData["Nome"].ToString(), ViewContext.RouteData.Values["action"].ToString())
+                    </li>
+}
+else
+{
+                    <li class="is-active">
+                        @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
+                    </li>
 
 
-                        <div class="bd-breadcrumb">
-                            <nav class="breadcrumb" aria-label="breadcrumbs">
-                                <ul>
-                                    @if ((ViewContext.RouteData.Values["controller"].ToString() != "Home") &&
-                                        (ViewContext.RouteData.Values["controller"].ToString() != "Account"))
-                                    {
-                                        <li>
-                                            @Html.ActionLink("Home", "Index", "Home")
-                                        </li>
-                                        <li>
-                                            @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
-                                        </li>
-                                        if (ViewContext.RouteData.Values["action"].ToString() != "Index")
-                                        {
-                                        <li class="is-active">
-                                            @Html.ActionLink(ViewContext.RouteData.Values["action"].ToString(), ViewContext.RouteData.Values["action"].ToString())
-                                        </li>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <li class="is-active">
-                                        </li>
-                                    }
-                                </ul>
-                            </nav>
-                        </div>
-                        
+}
+}
+
+else
+{
+                    <li></li>
+}
+                            </ul>
+                        </nav>
+                        <hr>
+                    </div>
+                       
 
                         @RenderBody()
                     </div>
-                </div>
+                
 
             </main>
             <footer class="footer">

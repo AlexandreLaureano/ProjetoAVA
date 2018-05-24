@@ -15,12 +15,13 @@ namespace Projeto.Alfa12.Models
         private ICollection<AlunoTurma> Turmas { get; } = new List<AlunoTurma>();
 
 
-        public ICollection<Pontuacao> Pontuacao { get; set; }
+        public ICollection<Pontuacao> Pontuacao { get; } = new List<Pontuacao>();
         public ICollection<AlunoConquista> Conquistas { get; set; }
 
 
         [NotMapped]
         public IEnumerable<Turma> ITurma => Turmas.Select(e => e.Turma);
+        
     }
 
     public class Professor : ApplicationUser

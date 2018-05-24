@@ -1,0 +1,20 @@
+﻿@model RankListViewModel
+@{
+    ViewData["Nome"] = "Escolha";
+}
+
+<h2>Escolha</h2>
+
+<form asp-action="Escolha">
+    <label asp-for="IdTurma" class="label"></label>
+    <input asp-for="IdTurma" class="input" />
+
+    <label asp-for="Op" class="label"></label>
+    <input asp-for="Op" class="input" />
+    <div>
+        <input type="submit" value="Salvar" class="button is-primary" />
+    </div>
+    @await Component.InvokeAsync("RankList", new { op = Model.Op, showList = true ,turma = Model.IdTurma})
+
+
+</form>
