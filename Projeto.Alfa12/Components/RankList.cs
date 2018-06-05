@@ -88,11 +88,21 @@ namespace Projeto.Alfa12.Components
                 });
             }
         }
-/*
-        public IViewComponentResult Invoke(int op, bool? showList, int turma)
+
+        public IViewComponentResult InvokePorcent(int op, bool? showList, int turma)
         {
-             if (op == 1)// Lista total
+
+            /*
+select AlunoId,count(id) as qtd,sum(Pontos) as pontos,(
+select count(id) from modulos where TurmaId=2) as total
+  from pontuacoes where (turmaid=2 and Respondido=1)
+group by AlunoId
+
+            select de aluno, qnt feita, total ponto, qt total, falta fazer o calculo
+ */
+            if (op == 1)// Lista total
             {
+                
                 var lista = _context.Pontuacoes;
                 var alunos = _context.Alunos;
                 foreach (var a in alunos)
@@ -110,7 +120,7 @@ namespace Projeto.Alfa12.Components
                 Ponto = _context.Alunos.Sum(x => x.PontoGeral)
             });
         }
-        */
+        
         /*public IViewComponentResult Invoke() {
         return new HtmlContentViewComponentResult(
         new HtmlString("This is a <h3><i>string</i></h3>"));

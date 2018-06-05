@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "Ranking";
+
+    Layout = "/Views/Widget/_Layout.cshtml";
+}
+
+
+
+@model IEnumerable<Aluno>
+
+    <h2>Ranking</h2>
+
+<table class="card">
+    <thead>
+        <tr>
+            <th>Aluno</th>
+            <th>Pontos</th>
+        </tr>
+    </thead>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.FullName</td>
+            <td class="text-right">
+                @p.PontoParcial
+            </td>
+        </tr>
+    }
+
+</table>
+
+
