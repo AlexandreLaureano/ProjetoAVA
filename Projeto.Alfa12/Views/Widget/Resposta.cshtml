@@ -1,7 +1,20 @@
-﻿
+﻿@model Projeto.Alfa12.Models.Modulo
 @{
     ViewData["Title"] = "Resposta";
 }
 
 <h2>Resposta</h2>
 
+
+<form asp-controller="ModulosController" asp-action="RespAluno">
+    <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+    <input asp-for="Id" value=@Model.Id type="hidden" />
+    <div class="field">
+        <label asp-for="Resposta" class="label"></label>
+        <input asp-for="Resposta" class="input" />
+        <span asp-validation-for="Resposta" class="help is-danger"></span>
+    </div>
+    <div class="field">
+        <input type="submit" value="Salvar" class="button is-primary" />
+    </div>
+</form>

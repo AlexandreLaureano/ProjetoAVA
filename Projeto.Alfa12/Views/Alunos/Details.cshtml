@@ -2,83 +2,48 @@
 @{
     ViewData["Nome"] = "Detalhes";
 }
-<div>
-    <h4 class="subtitle">Aluno</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Ra)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ra)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Sobrenome)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Sobrenome)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ativo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ativo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DataNascimento)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DataNascimento)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailConfirmed)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmailConfirmed)
-        </dd>
+<h4 class="subtitle has-text-centered"><strong>@Html.DisplayFor(model => model.FullName)</strong> </h4>
+<hr />
+<div class="columns">
+    <div class="column is-one-third has-text-right">
+        <dl class="dl-horizontal">
+            <dt>
+                <strong> @Html.DisplayNameFor(model => model.Ra)</strong>
+            </dt>
+            <dt>
+                <strong>   @Html.DisplayNameFor(model => model.DataNascimento)</strong>
+            </dt>
+            <dt>
+                <strong>  Nome para login</strong>
+            </dt>
+            <dt>
+                <strong>  @Html.DisplayNameFor(model => model.Email)</strong>
+            </dt>
+        </dl>
+    </div>
+    <div class="column">
+        <dl class="dl-horizontal">
+            <dd>
+                @Html.DisplayFor(model => model.Ra)
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DataNascimento)
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumberConfirmed)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+        </dl>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AccessFailedCount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AccessFailedCount)
-        </dd>
-    </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-primary">Editar</a>
     <a asp-action="Index" class="button is-danger">Voltar</a>
 </div>

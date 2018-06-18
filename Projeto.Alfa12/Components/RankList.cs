@@ -120,7 +120,28 @@ group by AlunoId
                 Ponto = _context.Alunos.Sum(x => x.PontoGeral)
             });
         }
-        
+
+        public IViewComponentResult InvokeAluno(int aluno, int? turma)
+        {
+
+            // var pontos = _context.Pontuacoes.FromSql
+            //     context.Blogs.SqlQuery("SELECT * FROM dbo.Blogs").ToList();
+            var ponto = _context.Pontuacoes.Where(x => x.AlunoId == aluno).Sum(x => x.Pontos);
+
+            var pontoturma = _context.Pontuacoes.Where(x => x.AlunoId == aluno || x.TurmaId==turma).Sum(x => x.Pontos);
+
+            
+                return View("Pontos",ponto);
+
+            
+
+            return View(new RankViewModel
+            {
+                Nome = _context.Alunos.Count(),
+                Ponto = _context.Alunos.Sum(x => x.PontoGeral)
+            });
+        }
+
         /*public IViewComponentResult Invoke() {
         return new HtmlContentViewComponentResult(
         new HtmlString("This is a <h3><i>string</i></h3>"));

@@ -4,55 +4,62 @@
 @{
     ViewData["Nome"] = "Detalhes";
 }
-<div>
-    <h4 class="subtitle">Turma</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DataCriacao)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DataCriacao)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Descricao)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Descricao)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AreaConhecimento)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AreaConhecimento)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ChaveAcesso)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ChaveAcesso)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.MaxPonto)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.MaxPonto)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Professor)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Professor.FullName)
-        </dd>
-    </dl>
+
+<h4 class="subtitle"><strong>@Html.DisplayFor(model => model.Nome)</strong> </h4>
+<hr />
+<div class="columns">
+    <div class="column is-one-third has-text-right">
+        <dl class="dl-horizontal">
+            <dt>
+                <strong>@Html.DisplayNameFor(model => model.DataCriacao)   </strong>
+            </dt>
+            <dt>
+                <strong>@Html.DisplayNameFor(model => model.Descricao)</strong>
+            </dt>
+            <dt>
+                <strong>  @Html.DisplayNameFor(model => model.AreaConhecimento)</strong>
+            </dt>
+            <dt>
+                <strong> @Html.DisplayNameFor(model => model.ChaveAcesso)</strong>
+            </dt>
+            <dt>
+                <strong>  @Html.DisplayNameFor(model => model.MaxPonto)</strong>
+            </dt>
+            <dt>
+                <strong> @Html.DisplayNameFor(model => model.Professor)</strong>
+            </dt>
+        </dl>
+
+
+    </div>
+    <div class="column">
+        <dl class="dl-horizontal">
+
+            <dd>
+                @Html.DisplayFor(model => model.DataCriacao)
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Descricao)
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.AreaConhecimento)
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ChaveAcesso)
+            </dd>
+
+            <dd>
+                @Html.DisplayFor(model => model.MaxPonto)
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Professor.FullName)
+            </dd>
+        </dl>
+    </div>
+
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-primary">Edit</a> |
-    <a asp-action="Index" class="button is-danger">Voltar</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-primary">Editar</a>
+
 </div>

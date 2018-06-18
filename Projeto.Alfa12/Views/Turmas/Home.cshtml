@@ -3,46 +3,74 @@
 @{
     ViewData["Nome"] = "Index";
 }
-<p>@Html.DisplayFor(model => model.Nome)</p>
+<p class="title has-text-centered">@Html.DisplayFor(model => model.Nome)</p>
 <section class="section">
 
 
+    <div class="bd-content">
+        <!--var item in Model.Modulos.Select((x, i) => new { Value = x, Index = i }))-->
+        @for (var i = 0; i < Model.Modulos.Count; i = i + 2)
+        {
 
+            <div class=" tile is-ancestor has-text-centered  ">
+                <div class="tile is-parent  is-6">
+                    <article class="tile is-child box">
+                        <p class="title">  @Html.DisplayFor(modelItem => Model.Modulos[i].Nome)</p>
+                        <p class="subtitle">@Html.DisplayFor(modelItem => Model.Modulos[i].Descricao)</p>
+      
+                        <footer class="card-footer">
 
-    @foreach (var item in Model.Modulos.Select((x, i) => new { Value = x, Index = i }))
-    {
-        <div class=" tile is-ancestor has-text-centered  ">
-            <div class="tile is-parent  is-4">
-                <article class="tile is-child box">
-                    <p class="title">  @Html.DisplayFor(modelItem => item.Value.Nome)</p>
-                    <p class="subtitle">@Html.DisplayFor(modelItem => item.Value.Descricao)</p>
-                    <p>@Html.DisplayFor(modelItem => item.Value.Tipo) </p>
+                            <a class="card-footer-item button is-info" asp-controller="Modulos" asp-action="Details" asp-route-id="@Model.Modulos[i].Id">Detalhes</a>
+                            @if (User.IsInRole("Aluno"))
+                            {
+                                <a class="card-footer-item button is-link" asp-controller="Modulos" asp-action="RespAluno" asp-route-id="@Model.Modulos[i].Id">Acessar Modulo</a>
 
-                    <footer class="card-footer">
+                            }
+                            else
+                            {
+                                <a class="card-footer-item button is-link" asp-controller="Modulos" asp-action="RespProfessor" asp-route-id="@Model.Modulos[i].Id">Acessar Modulo</a>
+                            }
 
-                        <a class="card-footer-item" asp-controller="Modulos" asp-action="Details" asp-route-id="@item.Value.Id">Detalhes</a>
-                        @if (User.IsInRole("Aluno"))
-                        {
-                            <a class="card-footer-item" asp-controller="Modulos" asp-action="RespAluno" asp-route-id="@item.Value.Id">Acessar Modulo</a>
+                        </footer>
 
-                        }
-                        else
-                        {
-                            <a class="card-footer-item" asp-controller="Modulos" asp-action="RespProfessor" asp-route-id="@item.Value.Id">Acessar Modulo</a>
-                        }
-                        <a asp-action="Sair" class="card-footer-item" asp-route-id="@Model.Id">Sair da turma</a>
-                    </footer>
+                    </article>
+                </div>
+                @if (i + 1 < Model.Modulos.Count)
+                {
+                    <div class="tile is-parent  is-6">
+                        <article class="tile is-child box">
+                            <p class="title">  @Html.DisplayFor(modelItem => Model.Modulos[i + 1].Nome)</p>
+                            <p class="subtitle">@Html.DisplayFor(modelItem => Model.Modulos[i + 1].Descricao)</p>
+                           
 
-                </article>
+                            <footer class="card-footer">
+
+                                <a class="card-footer-item button is-info" asp-controller="Modulos" asp-action="Details" asp-route-id="@Model.Modulos[i + 1].Id">Detalhes</a>
+                                @if (User.IsInRole("Aluno"))
+                                {
+                                    <a class="card-footer-item button is-link" asp-controller="Modulos" asp-action="RespAluno" asp-route-id="@Model.Modulos[i + 1].Id">Acessar Modulo</a>
+
+                                }
+                                else
+                                {
+                                    <a class="card-footer-item button is-link" asp-controller="Modulos" asp-action="RespProfessor" asp-route-id="@Model.Modulos[i + 1].Id">Acessar Modulo</a>
+                                }
+                             
+                            </footer>
+
+                        </article>
+                    </div>
+                }
             </div>
 
-        </div>
 
+        }
 
-    }
-
-
+    </div>
 
 </section>
+<div class="has-text-right">
+    <a asp-action="Sair" class="button is-danger is-outlined " asp-route-id="@Model.Id">Sair da turma</a>
 
 
+</div>

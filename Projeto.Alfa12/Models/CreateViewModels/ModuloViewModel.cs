@@ -27,6 +27,7 @@ namespace Projeto.Alfa12.Models.CreateViewModels
         public int Tipo { get; set; }
 
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira números válidos")]
+        [Display(Name="Pontuação Máxima")]
         public int MaxPonto { get; set; }
     }
 }

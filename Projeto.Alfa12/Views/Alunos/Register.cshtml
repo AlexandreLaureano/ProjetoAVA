@@ -4,14 +4,14 @@
 }
 <h2 class="title">Crie sua conta</h2>
 
-<div class="row">
-    <div class="col-md-4">
+<div class="columns">
+    <div class="column is-half">
         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
             <hr />
             <div asp-validation-summary="All" class="help is-danger"></div>
             <div class="field">
                 <label asp-for="Email" class="label"></label>
-                <input asp-for="Email" class="input" type="text" placeholder="Text input" />
+                <input asp-for="Email" class="input" type="text" placeholder="Email" />
                 <span asp-validation-for="Email" class="help"></span>
                 <!--help is-success, help is-danger-->
             </div>

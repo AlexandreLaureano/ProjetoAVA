@@ -1,0 +1,39 @@
+﻿<nav id="navbar" class="navbar is-spaced is-fixed-top is-info ">
+    <div class="container is-fluid">
+        <div class="navbar-brand">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-item">Projeto.Alfa05</a>
+
+            <div id="navbarBurger" class="navbar-burger burger" data-target="navMenuDocumentation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenuDocumentation" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" asp-controller="Turmas" asp-action="Index">
+                        Turmas <span class="caret"></span>
+                    </a>
+                    <div class="navbar-dropdown is-boxed">
+                        <a class="navbar-item" asp-area="" asp-controller="Turmas" asp-action="IndexAluno">
+                            <span>Minhas Turmas</span>
+                        </a>
+                        <a class="navbar-item" asp-area="" asp-controller="Turmas" asp-action="Index">
+                            <span>Pesquisar Turmas</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <a class="navbar-item" asp-controller="Ranking" asp-action="Index">
+                    <span>Ranking</span>
+                </a>
+            </div>
+
+            <div class="navbar-end">
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </div>
+    </div>
+</nav>

@@ -25,7 +25,8 @@ namespace Projeto.Alfa12.Models
         public int? ProfessorId { get; set; }
         public Professor Professor { get; set; }
 
-        public ICollection<Modulo> Modulos { get; } = new List<Modulo>();
+      //  public ICollection<Modulo> Modulos { get; } = new List<Modulo>();
+        public List<Modulo> Modulos { get; } = new List<Modulo>();
 
         private ICollection<AlunoTurma> Alunos { get; } = new List<AlunoTurma>();
         

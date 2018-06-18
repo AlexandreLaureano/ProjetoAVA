@@ -4,24 +4,20 @@
 @{
     ViewData["Nome"] = "Entrar";
 }
-<h4 class="subtitle">Turma</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
+<div class="columns">
+    <div class="column-is-half">
         <form asp-action="EntrarTurma">
             <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
             <div class="field">
-                <label asp-for="ChaveAcesso" class="label" class="label"></label>
-                <input asp-for="ChaveAcesso" class="form-control" value="" />
+                <label asp-for="ChaveAcesso" class="label" ></label>
+                <input asp-for="ChaveAcesso" class="input" value="" />
                 <span asp-validation-for="ChaveAcesso" class="help is-danger"></span>
             </div>
             <div class="field">
                 <input type="submit" value="Entrar" class="button is-primary" />
+                <a asp-action="Index" class="button is-danger">Voltar</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>

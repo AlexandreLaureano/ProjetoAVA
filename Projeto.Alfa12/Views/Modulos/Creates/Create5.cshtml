@@ -4,8 +4,8 @@
 <h2 class="title">módulo resposta manual</h2>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="columns">
+    <div class="column is-half">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
             <input asp-for="Tipo" value="5" type="hidden" />
@@ -17,36 +17,39 @@
             </div>
             <div class="field">
                 <label asp-for="Descricao" class="label"></label>
-                <input asp-for="Descricao" class="input" />
+                <input asp-for="Descricao" class="textarea" />
                 <span asp-validation-for="Descricao" class="help is-danger"></span>
             </div>
             <div class="field">
                 <label asp-for="Texto" class="label"></label>
-                <textarea asp-for="Texto" class="form-control" rows="4" cols="50"></textarea>
+                <textarea asp-for="Texto" class="textarea"></textarea>
                 <span asp-validation-for="Texto" class="help is-danger"></span>
             </div>
             <div class="field">
                 <label asp-for="Resposta" class="label"></label>
-                <textarea asp-for="Resposta" class="form-control" rows="4" cols="50"></textarea>
+                <textarea asp-for="Resposta" class="textarea"></textarea>
                 <span asp-validation-for="Resposta" class="help is-danger"></span>
             </div>
             <div class="field">
                 <label asp-for="TurmaId" class="label"></label>
-                <select asp-for="TurmaId" class="form-control" asp-items="ViewBag.TurmaId"></select>
+                <div class="control">
+                    <div class="select">
+                        <select asp-for="TurmaId" asp-items="ViewBag.TurmaId"></select>
+                    </div>
+                </div>
             </div>
             <div class="field">
                 <label asp-for="MaxPonto" class="label"></label>
-                <input asp-for="MaxPonto" class="input" type="text" pattern="[0-9]+$"/>
+                <input asp-for="MaxPonto" class="input" type="text" pattern="[0-9]+$" />
                 <span asp-validation-for="MaxPonto" class="help is-danger"></span>
             </div>
-            <div class="field">
+            <div class="field"> 
                 <input type="submit" value="Salvar" class="button is-primary" />
+                <a asp-action="Index" class="button is-danger">Voltar</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-   <a asp-action="Index" class="button is-danger">Voltar</a>
-</div>
+
 

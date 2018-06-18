@@ -3,8 +3,8 @@
 @{
     ViewData["Nome"] = "Criar";
 }
-<div class="row">
-    <div class="col-md-4">
+<div class="columns">
+    <div class="column is-half">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
             <div class="field">
@@ -14,8 +14,8 @@
             </div>
 
             <div class="field">
-                <label asp-for="Descricao" class="label"></label>
-                <input asp-for="Descricao" class="input" />
+                <label class="label">Descrição</label>
+                <input asp-for="Descricao" class="textarea" />
                 <span asp-validation-for="Descricao" class="help is-danger"></span>
             </div>
             <div class="field">

@@ -51,132 +51,120 @@
 
 
 </head>
+
 <body class="layout-documentation page-overview">
-    <nav id="navbar" class="navbar is-spaced is-fixed-top is-info ">
-        <div class="container is-fluid">
-            <div class="navbar-brand">
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-item">Projeto.Alfa05</a>
-
-                <div id="navbarBurger" class="navbar-burger burger" data-target="navMenuDocumentation">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-
-            <div id="navMenuDocumentation" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item  " asp-controller="Home" asp-action="Index">
-                        <span>Página Inicial</span>
-                    </a>
-                    <a class="navbar-item" asp-controller="Home" asp-action="About">
-                        <span>Sobre</span>
-                    </a>
-                    <a class="navbar-item" asp-controller="Home" asp-action="Contact">
-                        <span>Contato</span>
-                    </a>
-                </div>
-                <div class="navbar-end">
-                    @await Html.PartialAsync("_LoginPartial")
-                </div>
-            </div>
-        </div>
-    </nav>
+    @{
+        if (User.IsInRole("Professor"))
+        {
+            @await Html.PartialAsync("navbar/_NavProfessor")
+        }
+        else if (User.IsInRole("Aluno"))
+        {
+            @await Html.PartialAsync("navbar/_NavAluno")
+        }
+        else if (User.IsInRole("Administrador"))
+        {
+            @await Html.PartialAsync("navbar/_NavAdm")
+        }
+        else
+        {
+            @await Html.PartialAsync("navbar/_Nav")
+        }
+    }
 
     <div class="bg-info p-2"><h4 class="subtitle">@ViewBag.Title</h4></div>
     @if (TempData["alert"] != null)
     {
-    <article class="message">
-        <div class="message-header">
-            <p>
-                @TempData["alert"]
-            </p>
-            <button class="delete" aria-label="delete"></button>
+        <article class="message">
+            <div class="message-header">
+                <p>
+                    @TempData["alert"]
+                </p>
+                <button class="delete" aria-label="delete"></button>
+            </div>
+        </article>
+    }
+
+    <main class="bd-main">
+        <div class="bd-side-background"></div>
+        <div class="bd-main-container container">
+            <div class="bd-duo">
+                <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+                    <ul>
+                        @if ((ViewContext.RouteData.Values["controller"].ToString() != "Home") &&
+                        (ViewContext.RouteData.Values["controller"].ToString() != "Account"))
+                        {
+                            <li>
+                                <a>
+                                    <span class="icon is-small">
+                                        <i class="fas fa-home" aria-hidden="true"></i>
+                                    </span>
+                                    <span>@Html.ActionLink("Início", "Index", "Home")</span>
+                                </a>
+
+                            </li>
+                            if (ViewData["Nome"].ToString() != "Index")
+                            {
+                                <li>
+                                    @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
+                                </li>
+                                <li class="is-active">
+                                    @Html.ActionLink(ViewData["Nome"].ToString(), ViewContext.RouteData.Values["action"].ToString())
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="is-active">
+                                    @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
+                                </li>
+
+
+                            }
+                        }
+
+                        else
+                        {
+                            <li></li>
+                        }
+                    </ul>
+                </nav>
+                <hr>
+            </div>
+
+            @RenderBody()
         </div>
-    </article>
-            }
-
-            <main class="bd-main">
-                <div class="bd-side-background"></div>
-                <div class="bd-main-container container">
-                    <div class="bd-duo">
-                        <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
-                            <ul>
-                                @if ((ViewContext.RouteData.Values["controller"].ToString() != "Home") &&
-(ViewContext.RouteData.Values["controller"].ToString() != "Account"))
-            {
-                    <li>
-                        <a>
-                            <span class="icon is-small">
-                                <i class="fas fa-home" aria-hidden="true"></i>
-                            </span>
-                            <span>@Html.ActionLink("Início", "Index", "Home")</span>
-                        </a>
-
-                    </li>
-if (ViewData["Nome"].ToString() != "Index" )
-{
-                    <li>
-                        @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
-                    </li>
-                    <li class="is-active">
-                        @Html.ActionLink(ViewData["Nome"].ToString(), ViewContext.RouteData.Values["action"].ToString())
-                    </li>
-}
-else
-{
-                    <li class="is-active">
-                        @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
-                    </li>
 
 
-}
-}
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>Alexandre - &copy; @DateTime.Today.Year</p>
+            </div>
+        </div>
+    </footer>
 
-else
-{
-                    <li></li>
-}
-                            </ul>
-                        </nav>
-                        <hr>
-                    </div>
-                       
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
 
-                        @RenderBody()
-                    </div>
-                
-
-            </main>
-            <footer class="footer">
-                <div class="container">
-                    <div class="content has-text-centered">
-                        <p>Alexandre - &copy; @DateTime.Today.Year</p>
-                    </div>
-                </div>
-            </footer>
-
-            <environment include="Development">
-                <script src="~/lib/jquery/dist/jquery.js"></script>
-                <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-                <script src="~/js/site.js" asp-append-version="true"></script>
-            </environment>
-            <environment exclude="Development">
-                <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                        asp-fallback-test="window.jQuery"
-                        crossorigin="anonymous"
-                        integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-                </script>
-                <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                        asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                        asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                        crossorigin="anonymous"
-                        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-                </script>
-                <script src="~/js/site.min.js" asp-append-version="true"></script>
-            </environment>
-
-            @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

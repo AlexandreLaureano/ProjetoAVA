@@ -3,26 +3,24 @@
     ViewData["Nome"] = "Editar";
 }
 
-
-
-<div class="row">
-    <div class="col-md-4">
-        <h4 class="subtitle">Aluno</h4>
-        <hr />
+<h4 class="title">@Model.FullName</h4>
+<div class="columns">
+    <div class="column is-half">
+     
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
             <div class="field">
-                <label asp-for="Ra" class="label" class="label"></label>
+                <label asp-for="Ra" class="label" ></label>
                 <input asp-for="Ra" class="input" />
                 <span asp-validation-for="Ra" class="help is-danger"></span>
             </div>
             <div class="field">
-                <label asp-for="Nome" class="label" class="label"></label>
+                <label asp-for="Nome" class="label" ></label>
                 <input asp-for="Nome" class="input" />
                 <span asp-validation-for="Nome" class="help is-danger"></span>
             </div>
             <div class="field">
-                <label asp-for="Sobrenome" class="label" class="label"></label>
+                <label asp-for="Sobrenome" class="label" ></label>
                 <input asp-for="Sobrenome" class="input" />
                 <span asp-validation-for="Sobrenome" class="help is-danger"></span>
             </div>
@@ -34,30 +32,31 @@
                 </div>
             </div>
             <div class="field">
-                <label asp-for="DataNascimento" class="label" class="label"></label>
+                <label asp-for="DataNascimento" class="label" ></label>
                 <input asp-for="DataNascimento" class="input" />
                 <span asp-validation-for="DataNascimento" class="help is-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
 
             <div class="field">
-                <label asp-for="Email" class="label" class="label"></label>
+                <label asp-for="Email" class="label" ></label>
                 <input asp-for="Email" class="input" />
                 <span asp-validation-for="Email" class="help is-danger"></span>
             </div>
 
             <div class="field">
-                <label asp-for="PhoneNumber" class="label" class="label"></label>
+                <label asp-for="PhoneNumber" class="label" ></label>
                 <input asp-for="PhoneNumber" class="input" />
                 <span asp-validation-for="PhoneNumber" class="help is-danger"></span>
             </div>
 
             <div class="field">
                 <input type="submit" value="Salvar" class="button is-primary" />
+                <a asp-action="Index" class="button is-danger">Voltar</a>
             </div>
         </form>
     </div>
-    <div class="col-md-6 col-md-offset-2">
+    <div class="column">
         <section>
             <h4 class="subtitle">Lista de Turmas Inseridas</h4>
             <hr />
@@ -66,9 +65,6 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index" class="button is-danger">Voltar</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

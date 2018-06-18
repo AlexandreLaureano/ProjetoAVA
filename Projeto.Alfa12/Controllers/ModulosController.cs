@@ -20,7 +20,7 @@ using Projeto.Alfa12.Models.CreateViewModels;
 
 namespace Projeto.Alfa12.Controllers
 {
-    //[Authorize(Roles = "Professor")]
+   
     public class ModulosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -35,15 +35,21 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // GET: Modulos
-        [Authorize(Roles = "Professor")]
         public async Task<IActionResult> Index()
         {
             var user = _userManager.GetUserAsync(User);
-            var professor = (Professor)await user;
+            if (User.IsInRole("Professor"))
+            {
+                var professor = (Professor)await user;
 
-            var applicationDbContext = _context.Modulos.Include(m => m.Turma).Where(x => x.Turma.ProfessorId == professor.Id);
+                var applicationDbContext = _context.Modulos.Include(m => m.Turma).Where(x => x.Turma.ProfessorId == professor.Id);
 
-            return View(await applicationDbContext.ToListAsync());
+                return View(await applicationDbContext.ToListAsync());
+            }
+            else
+            {
+                return View(await _context.Modulos.Include(m => m.Turma).ToListAsync());
+            }
         }
 
         // GET: Modulos/Details/5
@@ -76,6 +82,7 @@ namespace Projeto.Alfa12.Controllers
             }
         }
 
+        [Authorize(Roles = "Aluno")]
         public async Task<IActionResult> RespAluno(int? id) {
             var user = _userManager.GetUserAsync(User);
             var aluno = await user;
@@ -103,6 +110,7 @@ namespace Projeto.Alfa12.Controllers
             }
         }
 
+        [Authorize(Roles = "Aluno")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RespAluno(int id, [Bind("Id,Resposta")] Modulo modulo)
@@ -157,8 +165,8 @@ namespace Projeto.Alfa12.Controllers
             return View();
         }
 
-
-            public async Task<IActionResult> RespProfessor(int? id)
+        [Authorize(Roles = "Administrador,Professor")]
+        public async Task<IActionResult> RespProfessor(int? id)
         {
             var user = _userManager.GetUserAsync(User);
             var professor = await user;
@@ -185,6 +193,8 @@ namespace Projeto.Alfa12.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+
+        [Authorize(Roles = "Administrador,Professor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RespProfessor(int id, [Bind("Id,Pontos,idpontuacao")] Modulo modulo)
@@ -205,31 +215,36 @@ namespace Projeto.Alfa12.Controllers
 
 
 
-            // GET: Modulos/Create
-            public async Task<IActionResult> Create()
+        // GET: Modulos/Create
+        [Authorize(Roles = "Administrador,Professor")]
+        public async Task<IActionResult> Create()
         {
             var user = (ApplicationUser)await _userManager.GetUserAsync(User);
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
             return View("Creates/Create");
         }
+        [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Create2()
         {
             var user = (ApplicationUser)await _userManager.GetUserAsync(User);
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
             return View("Creates/Create2");
         }
+        [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Create3()
         {
             var user = (ApplicationUser)await _userManager.GetUserAsync(User);
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
             return View("Creates/Create3");
         }
+        [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Create4()
         {
             var user = (ApplicationUser)await _userManager.GetUserAsync(User);
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
             return View("Creates/Create4");
         }
+        [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Create5()
         {
             var user = (ApplicationUser)await _userManager.GetUserAsync(User);
@@ -237,11 +252,12 @@ namespace Projeto.Alfa12.Controllers
             return View("Creates/Create5");
         }
 
-   
+
 
         // POST: Modulos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Administrador,Professor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ModuloViewModel modulo)
@@ -283,6 +299,7 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // GET: Modulos/Edit/5
+        [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Edit(int? id)
         {
             var user = _userManager.GetUserAsync(User);
@@ -314,6 +331,7 @@ namespace Projeto.Alfa12.Controllers
         // POST: Modulos/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Administrador,Professor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Descricao,Url,TurmaId")] Modulo modulo)
@@ -335,7 +353,7 @@ namespace Projeto.Alfa12.Controllers
                     LogUsuariosController log = new LogUsuariosController(_context);
                     await log.SetLog("Update Modulo : " + modulo.Nome, user.Id);
 
-                    TempData["alert"] = $"{modulo.Nome} foi criado";
+                    TempData["alert"] = $"{modulo.Nome} foi alterado";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -355,6 +373,7 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // GET: Modulos/Delete/5
+        [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -374,6 +393,7 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // POST: Modulos/Delete/5
+        [Authorize(Roles = "Administrador,Professor")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

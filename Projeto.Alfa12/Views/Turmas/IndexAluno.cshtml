@@ -8,15 +8,9 @@
 
 <table class="table is-striped is-hoverable is-fullwidth ">
     <thead>
-        <tr>
+        <tr class="is-selected">
             <th>
                 @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataCriacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AreaConhecimento)
@@ -34,12 +28,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Nome)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataCriacao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descricao)
-                </td>
+                
                 <td>
                     @Html.DisplayFor(modelItem => item.AreaConhecimento)
                 </td>
@@ -47,8 +36,9 @@
                     @Html.DisplayFor(modelItem => item.Professor.FullName)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                    <a asp-action="Home" asp-route-id="@item.Id">Acessar Turma</a>
+                    <a class="button is-primary" asp-action="Home" asp-route-id="@item.Id">Acessar Turma</a>
+                    <a class="button is-info" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+
                 </td>
             </tr>
         }

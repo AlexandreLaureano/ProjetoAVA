@@ -4,6 +4,15 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@{if (!SignInManager.IsSignedIn(User)) {
+        Layout = "/Views/Shared/_LayoutHome.cshtml";
+    }
+    else
+    {
+
+
+    }
+}
 
 @{
 
@@ -62,58 +71,34 @@
                 <div class="column">
 
                     @{
-                        if (User.IsInRole("Professor"))
-                        {
-                            <h2 class="title">Página do Professor</h2>
-                            var x = (Professor)await UserManager.GetUserAsync(User);
-                            if (x.Autenticado == true)
-                            {
-                                <a asp-controller="Manage">Seu Perfil</a><br />
-                                <a asp-controller="Turmas" asp-action="Index">Visualizar turmas</a><br />
-                                <a asp-controller="Turmas" asp-action="IndexProfessor">Minhas Turmas</a><br />
-                                <a asp-controller="Modulos">Meus Módulos</a>
-                            }
-                        }
-                        else if (User.IsInRole("Aluno"))
-                        {
+        if (User.IsInRole("Professor"))
+        {
+                <!--<h2 class="title">Página do Professor</h2>-->
+var x = (Professor)await UserManager.GetUserAsync(User);
+if (x.Autenticado == true)
+{
+}
+}
+else if (User.IsInRole("Aluno"))
+{
+}
+else if (User.IsInRole("Administrador"))
+{
+}
+else
+{
+                <h2 class="title">Você não possui Autenticação</h2>
 
-                            <h2 class="title">Página do Aluno</h2>
-
-                            <a asp-controller="Manage">Seu Perfil</a><br />
-                            <a asp-controller="Turmas" asp-action="IndexAluno">Minhas Turmas</a><br />
-                            <a asp-controller="Turmas" asp-action="Index">Pesquisar turmas</a><br />
-                            <a>enviar mensagem</a><br />
-                            <a>visualizar ranking</a><br />
-
-                        }
-                        else if (User.IsInRole("Administrador"))
-                        {
-
-                            <h2 class="title">Página do Coordenador</h2>
-
-                            <a asp-controller="Alunos" asp-action="Index">Editar Alunos</a><br />
-                            <a asp-controller="Professores" asp-action="Index">Editar Professores</a><br />
-                            <a asp-controller="Turmas" asp-action="IndexAdmin">Ver Turmas</a><br />
-                            <a asp-controller="LogUsuarios">log</a>
-                        }
-                        else
-                        {
-                            <h2 class="title">Você não possui Autenticação</h2>
-
-                        }
+}
 
                     }
 
                 </div>
                 <div class="column">
-                    <h2 class="title">Texto 1</h2>
-                    <ul>
-                        <li>t</li>
-                        <li>t</li>
-                    </ul>
+                    <p>Utilize o menu superior para acessar ou pesquisar suas turmas</p>
                 </div>
                 <div class="column">
-                    <h2 class="title">Texto 2</h2>
+                    <h2 class="title"></h2>
                 </div>
 
 

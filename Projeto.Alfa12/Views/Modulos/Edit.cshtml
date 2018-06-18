@@ -6,12 +6,10 @@
    
 }
 
-
-
-<h4 class="subtitle">Modulo</h4>
+<h4 class="title">@Model.Nome</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="columns">
+    <div class="column is-half">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -21,8 +19,8 @@
                 <span asp-validation-for="Nome" class="help is-danger"></span>
             </div>
             <div class="field">
-                <label asp-for="Descricao" class="label"></label>
-                <input asp-for="Descricao" class="input" />
+                <label  class="label">Descrição</label>
+                <input asp-for="Descricao" class="textarea" />
                 <span asp-validation-for="Descricao" class="help is-danger"></span>
             </div>
             <div class="field">
@@ -31,18 +29,28 @@
                 <span asp-validation-for="Url" class="help is-danger"></span>
             </div>
             <div class="field">
+                <label asp-for="Texto" class="label"></label>
+                <input asp-for="Texto" class="textarea" />
+                <span asp-validation-for="Texto" class="help is-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Arquivo" class="label"></label>
+                <input asp-for="Arquivo" class="input " type="file">
+                <span asp-validation-for="Arquivo" class="help is-danger"></span>
+            </div>
+            <div class="field">
                 <label asp-for="TurmaId" class="label"></label>
-                <select asp-for="TurmaId" class="form-control" asp-items="ViewBag.TurmaId"></select>
+                <div class="control">
+                    <div class="select">
+                        <select asp-for="TurmaId" asp-items="ViewBag.TurmaId"></select>
+                    </div>
+                </div>
                 <span asp-validation-for="TurmaId" class="help is-danger"></span>
             </div>
             <div class="field">
                 <input type="submit" value="Salvar" class="button is-primary" />
+                <a asp-action="Index" class="butto-is-danger">Voltar</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

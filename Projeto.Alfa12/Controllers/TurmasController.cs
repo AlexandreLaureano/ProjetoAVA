@@ -19,7 +19,7 @@ namespace Projeto.Alfa12.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public int PageSize = 2;
+        public int PageSize = 7;
 
         public TurmasController(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
@@ -32,19 +32,37 @@ namespace Projeto.Alfa12.Controllers
 
         // GET: Turmas
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string SearchString = "")
+        public ViewResult Index(int productPage = 1, string SearchString = "")
+        => View(new ProductsListViewModel
         {
-            //var turma = from t in _context.Turmas select t; colocar join
-            var turma = _context.Turmas.Include(t => t.Professor);
-
-            if (!String.IsNullOrEmpty(SearchString))
+            Itens = _context.Turmas.Include(t => t.Professor)
+            .OrderBy(p => p.Id)
+            .Skip((productPage - 1) * PageSize)
+            .Take(PageSize)
+             .Where(s => s.Nome.Contains(SearchString)),
+            PagingInfo = new PagingInfo
             {
-                turma = turma.Where(s => s.Nome.Contains(SearchString)).Include(t =>t.Professor);
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItems = SearchString == "" ?
+                    _context.Turmas.Count() :
+                    _context.Turmas.Where(s => s.Nome.Contains(SearchString)).Count()
             }
-         
 
-            return View(await turma.ToListAsync());
-        }
+        });
+        /* public async Task<IActionResult> Index(string SearchString = "")
+         {
+             //var turma = from t in _context.Turmas select t; colocar join
+             var turma = _context.Turmas.Include(t => t.Professor);
+
+             if (!String.IsNullOrEmpty(SearchString))
+             {
+                 turma = turma.Where(s => s.Nome.Contains(SearchString)).Include(t =>t.Professor);
+             }
+
+
+             return View(await turma.ToListAsync());
+         }*/
 
         public ViewResult List(int productPage = 1, string SearchString = "")
         => View(new ProductsListViewModel{

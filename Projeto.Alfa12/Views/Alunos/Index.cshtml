@@ -3,13 +3,14 @@
     ViewData["Nome"] = "Index";
 }
 
-<h2 class="title">Lista de Alunos</h2>
-
+<p>
+    <a asp-action="Create" class="button is-success">Novo</a>
+</p>
 <table class="table is-striped is-hoverable is-fullwidth ">
     <thead>
         <tr>
             <th>
-                @Html.DisplayName("Identificador do Aluno")
+                Id
             </th>
             <th>
                 @Html.DisplayName("Nome")
@@ -47,7 +48,7 @@
                 </td>
 
                 <td>
-                    <a class="button is-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a>   |
+                    <a class="button is-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a>   
                     <a class="button is-info" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
                 </td>
             </tr>

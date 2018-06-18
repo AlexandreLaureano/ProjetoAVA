@@ -3,26 +3,57 @@
 @{
     ViewData["Nome"] = "Index";
 }
+
 @{
     if (User.IsInRole("Professor"))
     {
+        <div class="container-fluid text-center">
+            
+                <div id="tabs" class="tabs is-toggle">
+                    <ul>
+                        <li class="is-active">
+                            <a asp-action="Index" asp-route-id="1" >Rank Geral</a>
+                        </li>
+                        <li>
+                            <a asp-action="Index" asp-route-id="2">Rank Semanal</a>
+                        </li>
+                        <li>
+                            <a asp-action="Index" asp-route-id="3">Rank do Mês</a>
+                        </li>              
+                    </ul>
+                </div>
+               
+                <div class="col-sm-8 text-left">
+                    <h1>Ranking</h1>
+                    @await Component.InvokeAsync("RankList", new { op = Model, showList = true, turma = 0 })
 
+               
+            </div>
+        </div>
     }
     else if (User.IsInRole("Aluno"))
     {
 
         <div class="container-fluid text-center">
-            <div class="row content">
-                <div class="col-sm-2 sidenav">
-                    <p><a asp-action="Index" asp-route-id="1">Rank Geral</a></p>
-                    <p><a asp-action="Index" asp-route-id="2">Rank Semanal</a></p>
-                    <p><a asp-action="Index" asp-route-id="3">Rank do Mês</a></p>
+            
+                <div id="tabs" class="tabs is-toggle">
+                    <ul>
+                        <li class="is-active">
+                            <a asp-action="Index" asp-route-id="1" >Rank Geral</a>
+                        </li>
+                        <li>
+                            <a asp-action="Index" asp-route-id="2">Rank Semanal</a>
+                        </li>
+                        <li>
+                            <a asp-action="Index" asp-route-id="3">Rank do Mês</a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="col-sm-8 text-left">
                     <h1>Ranking</h1>
                     @await Component.InvokeAsync("RankList", new { op = Model, showList = true, turma = 0 })
 
-                </div>
+               
             </div>
         </div>
     }
@@ -32,18 +63,25 @@
     else
     {
         <div class="container-fluid text-center">
-            <div class="row content">
-                <div class="col-sm-2 sidenav">
-                    <p><a asp-action="Index" asp-route-id="1">Rank Geral</a></p>
-                    <p><a asp-action="Index" asp-route-id="2">Rank Semanal</a></p>
-                    <p><a asp-action="Index" asp-route-id="3">Rank do Mês</a></p>
-                </div>
+            <div id="tabs" class="tabs is-toggle">
+                <ul>
+                    <li class="is-active">
+                        <a asp-action="Index" asp-route-id="1" >Rank Geral</a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-route-id="2">Rank Semanal</a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-route-id="3">Rank do Mês</a>
+                    </li>
+                </ul>
+            </div>
                 <div class="col-sm-8 text-left">
                     <h1>Ranking</h1>
                     @await Component.InvokeAsync("RankList", new { op = Model, showList = true, turma = 0 })
 
                 </div>
-            </div>
+            
         </div>
     }
 }

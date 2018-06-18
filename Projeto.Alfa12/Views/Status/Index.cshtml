@@ -2,6 +2,7 @@
 @model int
 @{
     ViewData["Nome"] = "Index";
+    Layout = "_LayoutHome";
 }
 
 @{
@@ -54,10 +55,12 @@
 
 }
 
-<div class="jumbotron">
 
-    <h1>Error @Model</h1>
-
-    <h3>@statusmessage</h3>
-
-</div>
+<section class="hero is-medium is-light is-bold">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">Error @Model</h1>
+            <h3 class="subtitle">@statusmessage</h3>
+        </div>
+    </div>
+</section>

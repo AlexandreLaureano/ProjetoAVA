@@ -1,57 +1,46 @@
-﻿@model IEnumerable<Projeto.Alfa12.Models.Turma>
+﻿@model ProductsListViewModel
 
 @{
     ViewData["Nome"] = "Index";
 }
 
-<form>
-    <p>
-        Title: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
-    </p>
+<form class="field has-addons">
+    <div class="control">
+        <input type="text" class="input" placeholder="Nome" name="SearchString">
+    </div>
+    <div class="control">
+        <button class="button is-info" type="submit" value="Filter">
+            <i class="glyphicon glyphicon-search"></i>
+            Pesquisar
+        </button>
+    </div>
 </form>
 <table class="table is-striped is-hoverable is-fullwidth ">
     <thead>
-        <tr>
+        <tr class="is-selected">
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                Nome
+            </th>
+           
+            <th>
+                Área de conhecimento
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataCriacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AreaConhecimento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ChaveAcesso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Professor)
+                Professor
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Itens)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nome)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataCriacao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descricao)
-                </td>
+              
                 <td>
                     @Html.DisplayFor(modelItem => item.AreaConhecimento)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ChaveAcesso)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Professor.FullName)
@@ -59,10 +48,12 @@
                 @{
                     if (User.IsInRole("Aluno"))
                     {
-                        <td>
-                            <a asp-action="EntrarTurma" asp-route-id="@item.Id">Entrar na Turma</a>
+                <td>
+                   
+                    <a class="button is-primary" asp-action="EntrarTurma" asp-route-id="@item.Id">Entrar na Turma</a>
+                    <a class="button is-info" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
 
-                        </td>
+                </td>
 
                     }
                 }
@@ -71,3 +62,8 @@
         }
     </tbody>
 </table>
+
+<div page-model="@Model.PagingInfo" page-action="Index" page-classes-enabled="true"
+     page-class="pagination-link" page-class-normal="btn-secondary"
+     page-class-selected="pagination-link is-current" class="btn-group pull-right m-1">
+</div>

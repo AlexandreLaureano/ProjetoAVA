@@ -3,48 +3,50 @@
 @{
     ViewData["Nome"] = "Editar";
 }
-<h4 class="subtitle">Turma</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<h4 class="title">@Model.Nome</h4>
+
+<div class="columns">
+    <div class="column is-half">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="field">
-                <label asp-for="Nome" class="label" class="label"></label>
+                <label asp-for="Nome" class="label"></label>
                 <input asp-for="Nome" class="input" />
                 <span asp-validation-for="Nome" class="help is-danger"></span>
             </div>
 
             <div class="field">
-                <label asp-for="Descricao" class="label" class="label"></label>
+                <label asp-for="Descricao" class="label"></label>
                 <input asp-for="Descricao" class="input" />
                 <span asp-validation-for="Descricao" class="help is-danger"></span>
             </div>
             <div class="field">
-                <label asp-for="AreaConhecimento" class="label" class="label"></label>
+                <label asp-for="AreaConhecimento" class="label"></label>
                 <input asp-for="AreaConhecimento" class="input" />
                 <span asp-validation-for="AreaConhecimento" class="help is-danger"></span>
             </div>
             <div class="field">
-                <label asp-for="ChaveAcesso" class="label" class="label"></label>
+                <label asp-for="ChaveAcesso" class="label"></label>
                 <input asp-for="ChaveAcesso" class="input" />
                 <span asp-validation-for="ChaveAcesso" class="help is-danger"></span>
             </div>
 
             <div class="field">
-                <label asp-for="ProfessorId" class="label" class="label"></label>
-                <select asp-for="ProfessorId" class="form-control" asp-items="ViewBag.ProfessorId"></select>
+                <label asp-for="ProfessorId" class="label"></label>
+                <div class="control">
+                    <div class="select">
+                         <select asp-for="ProfessorId" class="form-control" asp-items="ViewBag.ProfessorId"></select>
+                    </div>
+                </div>
                 <span asp-validation-for="ProfessorId" class="help is-danger"></span>
             </div>
+           
             <div class="field">
                 <input type="submit" value="Salvar" class="button is-primary" />
+                <a asp-action="Index" class="button is-danger">Voltar</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

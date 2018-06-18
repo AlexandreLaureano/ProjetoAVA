@@ -5,10 +5,9 @@
 }
 
 
-<h4 class="subtitle">Professor</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<h4 class="title">@Model.FullName</h4>
+<div class="columns">
+    <div class="column is-half">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
             <div class="field">
@@ -51,20 +50,17 @@
 
 
             <div class="field">
-                <label asp-for="PhoneNumber" class="label"></label>
+                <label class="label">Telefone</label>
                 <input asp-for="PhoneNumber" class="input" />
                 <span asp-validation-for="PhoneNumber" class="help is-danger"></span>
             </div>
 
             <div class="field">
                 <input type="submit" value="Salvar" class="button is-primary" />
+                <a asp-action="Index" class="button is-danger">Voltar</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index" class="button is-danger">Voltar</a>
 </div>
 
 @section Scripts {

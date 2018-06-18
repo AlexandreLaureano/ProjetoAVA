@@ -1,43 +1,43 @@
 ﻿@model Projeto.Alfa12.Models.Modulo
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-   
-        ViewData["Nome"] = "Detalhes";
-   
+    ViewData["Nome"] = "Detalhes";
 }
+<h4 class="subtitle has-text-centered"><strong>@Html.DisplayFor(model => model.Nome)</strong> </h4>
+<hr />
+<div class="columns">
+    <div class="column is-one-third has-text-right">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Url)
+            </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Turma)
+            </dt>
 
+            
+        </dl>
+    </div>
+    <div class="column">
+        <dl class="dl-horizontal">
+            <dd>
+                @Html.DisplayFor(model => model.Descricao)
+            </dd>
 
-<div>
-    <h4 class="subtitle">Modulo</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Descricao)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Descricao)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Url)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Url)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Turma)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Turma.Id)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+            <dd>
+                @Html.DisplayFor(model => model.Url)
+            </dd>
+
+            <dd>
+                @Html.DisplayFor(model => model.Turma.Id)
+            </dd>
+        </dl>
+        </div>
+    </div>     
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-primary">Edit</a> 
+                <a asp-action="Index" class="button is-danger">Back to List</a>
+            </div>

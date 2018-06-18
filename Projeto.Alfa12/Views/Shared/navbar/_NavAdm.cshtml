@@ -1,0 +1,43 @@
+﻿<nav id="navbar" class="navbar is-spaced is-fixed-top is-info ">
+    <div class="container is-fluid">
+        <div class="navbar-brand">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-item">Projeto.Alfa05</a>
+
+            <div id="navbarBurger" class="navbar-burger burger" data-target="navMenuDocumentation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenuDocumentation" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        Usuários <span class="caret"></span>
+                    </a>
+                    <div class="navbar-dropdown is-boxed">
+                        <a class="navbar-item" asp-area="" asp-controller="Alunos" asp-action="Index">
+                            <span>Alunos</span>
+                        </a>
+                        <a class="navbar-item" asp-area="" asp-controller="Professores" asp-action="Index">
+                            <span>Professores</span>
+                        </a>
+                    </div>
+                </div>
+                <a class="navbar-item" asp-controller="Turmas" asp-action="IndexAdmin">
+                    <span>Turmas</span>
+                </a>
+                <a class="navbar-item" asp-controller="Modulos" asp-action="Index">
+                    <span>Modulos</span>
+                </a>
+                <a class="navbar-item" asp-controller="LogUsuarios" asp-action="Index">
+                    <span>Log</span>
+                </a>
+            </div>
+            <div class="navbar-end">
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </div>
+    </div>
+</nav>
