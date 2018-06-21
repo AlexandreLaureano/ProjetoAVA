@@ -16,6 +16,8 @@ namespace Projeto.Alfa12.Models
         public string Resposta { get; set; } //Resps
         public TipoMod Tipo { get; set; }
         public int MaxPonto { get; set; }
+        public bool Visivel { get; set; }
+        public bool Respondido { get; set; }
         [NotMapped]
         public int Pontos { get; set; }
         [NotMapped]

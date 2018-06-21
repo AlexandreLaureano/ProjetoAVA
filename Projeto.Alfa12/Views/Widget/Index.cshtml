@@ -1,7 +1,44 @@
 ﻿
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<div class="columns">
+    <div class="column ">
+        <section>
+            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post"  asp-action="Login" asp-controller="Account">
+               
+                <div asp-validation-summary="All" class="help is-danger"></div>
+                <div class="field">
+                    <label asp-for="Email" class="label"></label>
+                    <p class="control has-icons-left ">
+                        <input asp-for="Email" class="input" type="email" placeholder="Email">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </p>
+                    <span asp-validation-for="Email" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Password" class="label"></label>
+                    <p class="control has-icons-left">
+                        <input asp-for="Password" class="input" type="password" placeholder="Sena">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </p>
+                    <span asp-validation-for="Password" class="help is-danger"></span>
+                </div>
 
+               
+                <div class="field">
+                    <button type="submit" class="button is-primary">Entrar</button>
+                </div>
+               
+            </form>
+        </section>
+    </div>
+
+</div>

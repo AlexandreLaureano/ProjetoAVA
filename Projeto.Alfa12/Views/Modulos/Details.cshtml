@@ -18,7 +18,7 @@
                 @Html.DisplayNameFor(model => model.Turma)
             </dt>
 
-            
+
         </dl>
     </div>
     <div class="column">
@@ -35,9 +35,30 @@
                 @Html.DisplayFor(model => model.Turma.Id)
             </dd>
         </dl>
-        </div>
-    </div>     
-            <div>
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-primary">Edit</a> 
-                <a asp-action="Index" class="button is-danger">Back to List</a>
-            </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-primary">Edit</a>
+    <a asp-action="Index" class="button is-danger">Back to List</a>
+</div>
+
+<code class="language-html" data-lang="html">
+    <span class="nt"><</span>div class="responsive"<span class="nt">></span>
+  <span class="nt"><</span>iframe class="embedly-embed" src="https://localhost:44398/widget/Resposta/@Model.Id"
+     width="500" height="281" scrolling="no" frameborder="1"
+      style="border: 2px solid ;" allowfullscreen<span class="nt">></span><span class="nt"><</span>/iframe><span class="nt">></span>
+   <span class="nt"><</span>/div<span class="nt">></span>
+
+
+
+</code>
+<div class="responsive">
+    <iframe class="embedly-embed"src="https://localhost:44398/widget/Resposta/@Model.Id"
+            width="500" height="281" scrolling="no" frameborder="1" 
+            style="border: 2px solid ;" allowfullscreen></iframe>
+</div>
+<div class="responsive">
+    <iframe class="embedly-embed" src="https://localhost:44398/widget/Ranking/1006" 
+            width="500" height="281" scrolling="no" frameborder="1" 
+            style="border: 3px solid ;"allowfullscreen></iframe>
+</div>

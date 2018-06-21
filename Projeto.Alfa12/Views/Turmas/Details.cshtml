@@ -26,6 +26,9 @@
                 <strong>  @Html.DisplayNameFor(model => model.MaxPonto)</strong>
             </dt>
             <dt>
+                <strong>  @Html.DisplayNameFor(model => model.PontoAtual)</strong>
+            </dt>
+            <dt>
                 <strong> @Html.DisplayNameFor(model => model.Professor)</strong>
             </dt>
         </dl>
@@ -50,6 +53,9 @@
 
             <dd>
                 @Html.DisplayFor(model => model.MaxPonto)
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.PontoAtual)
             </dd>
             <dd>
                 @Html.DisplayFor(model => model.Professor.FullName)

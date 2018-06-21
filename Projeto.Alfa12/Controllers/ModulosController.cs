@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,7 +15,7 @@ using Projeto.Alfa12.Models.CreateViewModels;
 
 namespace Projeto.Alfa12.Controllers
 {
-   
+    [Authorize]
     public class ModulosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -115,39 +110,143 @@ namespace Projeto.Alfa12.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RespAluno(int id, [Bind("Id,Resposta")] Modulo modulo)
         {
-            var user = (Aluno)await _userManager.GetUserAsync(User);
-            if (id != modulo.Id)
-            {
-                return NotFound();
-            }
-
-            var mod = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
-
-            mod.Resposta = modulo.Resposta;
-            Pontuacao p = new Pontuacao
-            {
-                AlunoId = user.Id,
-                Data = DateTime.Now,
-                ModuloId = mod.Id,
-                Respondido = true,
-                Resposta = mod.Resposta,
-                TurmaId = mod.TurmaId
-
-            };
-            PontuacaoController pc = new PontuacaoController(_context);
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (id != modulo.Id)
+                        {
+                            return NotFound();
+                        }
+
+                    var user = (Aluno)await _userManager.GetUserAsync(User);
+                    var mod = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
+
+                    mod.Resposta = modulo.Resposta;
+                    mod.Respondido = true;
+                    //Os pontos, o professor adiciona
+                    Pontuacao p = new Pontuacao
+                    {
+                        AlunoId = user.Id,
+                        Data = DateTime.Now,
+                        ModuloId = mod.Id,
+                        Respondido = true,
+                        Resposta = mod.Resposta,
+                        TurmaId = mod.TurmaId
+                    };
+
+                    PontuacaoController pc = new PontuacaoController(_context);
+                    LogUsuariosController log = new LogUsuariosController(_context);
+
                     _context.Update(mod);
                     pc.AddResposta(p);
-                    await _context.SaveChangesAsync();
-
-                    LogUsuariosController log = new LogUsuariosController(_context);
                     await log.SetLog("Resposta inserida : " + mod.Nome, user.Id);
 
+                    await _context.SaveChangesAsync();
+
                     TempData["alert"] = $"{modulo.Nome} foi respondido";
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ModuloExists(modulo.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+        [Authorize(Roles = "Aluno")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RespAlunoOnline(int id, [Bind("Id,Resposta")] Modulo modulo)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (id != modulo.Id)
+                        {
+                            return NotFound();
+                        }
+
+                    var user = _userManager.GetUserAsync(User);
+                    var aluno = (Aluno)await user;
+                    var mod = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
+                    int x;
+
+            //string myJson = "  { 'Acerto' : 's','Ponto': '3', 'y' = '1', 'x' = '2' }";
+            //classe de dados de envio
+                    RequisicaoResposta RR = new RequisicaoResposta
+                    {
+                        aluno = aluno.Id,
+                        modulo = mod.Id,
+                        resposta = modulo.Resposta
+                    };
+                    RequisicaoResposta resulthttp;
+
+            
+                    using (var client = new HttpClient())
+                    {
+                        // var response = await client.PostAsync(
+                        //   "http://localhost:64466/api/values",
+                        //  new StringContent(myJson, Encoding.UTF8, "application/json"));
+                        HttpRequestMessage request =
+                          //  new HttpRequestMessage(HttpMethod.Post, "http://localhost:64466/api/values");
+                        new HttpRequestMessage(HttpMethod.Post, mod.Url);
+
+                        string json = JsonConvert.SerializeObject(RR);
+                        request.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                        HttpClient http = new HttpClient();
+                        HttpResponseMessage response = await http.SendAsync(request);
+
+                        var responseString = await response.Content.ReadAsStringAsync();
+                        var post = JsonConvert.DeserializeObject<RequisicaoResposta>(responseString.ToString());
+                       resulthttp = post;
+                        x = post.ponto;
+                    }
+
+                    PontuacaoController pc = new PontuacaoController(_context);
+                    LogUsuariosController log = new LogUsuariosController(_context);
+
+                    //tratar porcentagem de acerto
+                    if (resulthttp.Acerto.Equals(true))
+                    {
+                        mod.Resposta = resulthttp.resposta;
+                        mod.Pontos = resulthttp.ponto;
+                        mod.Respondido = true;
+                    }
+                    else
+                    {
+                        mod.Pontos = 0;
+                        mod.Respondido = true;
+                    }
+
+                    Pontuacao p = new Pontuacao
+                    {
+                        AlunoId = aluno.Id,
+                        Data = DateTime.Now,
+                        ModuloId = mod.Id,
+                        Respondido = true,
+                        Resposta = mod.Resposta,
+                        TurmaId = mod.TurmaId,
+                        Pontos = resulthttp.ponto
+                    };
+          
+           
+                    _context.Update(mod);
+                    pc.AddResposta(p);
+                    await log.SetLog("Resposta inserida : " + mod.Nome, user.Id);
+                    await _context.SaveChangesAsync();
+
+                    TempData["alert"] = $"{mod.Nome} foi respondido";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -180,7 +279,6 @@ namespace Projeto.Alfa12.Controllers
                     return NotFound();
                 }
 
-
                 if (modulo == null)
                 {
                     return NotFound();
@@ -199,17 +297,16 @@ namespace Projeto.Alfa12.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RespProfessor(int id, [Bind("Id,Pontos,idpontuacao")] Modulo modulo)
         {
-            PontuacaoController pc = new PontuacaoController(_context);
-            await pc.AddPoint(modulo.idpontuacao, modulo.Pontos);
-
             var user = (Professor)await _userManager.GetUserAsync(User);
+            PontuacaoController pc = new PontuacaoController(_context);
             LogUsuariosController log = new LogUsuariosController(_context);
+
+            await pc.AddPoint(modulo.idpontuacao, modulo.Pontos);
             await log.SetLog("Nota inserida : " + modulo.Nome, user.Id);
 
             TempData["alert"] = $"{modulo.Nome} foi atribuido nota";
 
             var mod = await _context.Modulos.Include(m => m.Pontuacao).SingleOrDefaultAsync(m => m.Id == id);
-
             return View("Respostas/RespProfessor", mod);
         }
 
@@ -223,6 +320,7 @@ namespace Projeto.Alfa12.Controllers
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
             return View("Creates/Create");
         }
+
         [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Create2()
         {
@@ -230,6 +328,7 @@ namespace Projeto.Alfa12.Controllers
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
             return View("Creates/Create2");
         }
+
         [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Create3()
         {
@@ -237,6 +336,7 @@ namespace Projeto.Alfa12.Controllers
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
             return View("Creates/Create3");
         }
+
         [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Create4()
         {
@@ -244,6 +344,7 @@ namespace Projeto.Alfa12.Controllers
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Nome");
             return View("Creates/Create4");
         }
+
         [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Create5()
         {
@@ -262,22 +363,32 @@ namespace Projeto.Alfa12.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ModuloViewModel modulo)
         {
-           
             var user = (ApplicationUser)await _userManager.GetUserAsync(User);
-            Modulo mod = new Modulo
-            {
-                Nome = modulo.Nome,
-                Descricao = modulo.Descricao,
-                TurmaId = modulo.TurmaId,
-                Url = modulo.Url,
-                Resposta = modulo.Resposta,
-                Texto = modulo.Texto,
-                Tipo = (TipoMod)modulo.Tipo,
-                MaxPonto = modulo.MaxPonto
-            };
-
             if (ModelState.IsValid)
-            {
+            { 
+                Modulo mod = new Modulo
+                {
+                    Nome = modulo.Nome,
+                    Descricao = modulo.Descricao,
+                    TurmaId = modulo.TurmaId,
+                    Url = modulo.Url,
+                    Resposta = modulo.Resposta,
+                    Texto = modulo.Texto,
+                    Tipo = (TipoMod)modulo.Tipo,
+                    MaxPonto = modulo.MaxPonto     ,
+                    Respondido = false
+                };
+
+               
+                var turma = await _context.Turmas.FirstOrDefaultAsync(x => x.Id == modulo.TurmaId);
+
+                var pontos = _context.Turmas.Include(x => x.Modulos).Where(t => t.Id == modulo.TurmaId).Sum(x=>x.Modulos.Sum(t=>t.MaxPonto));
+                if (pontos + modulo.MaxPonto > turma.MaxPonto)
+                {
+                    TempData["alert"] = $"Pontuação máxima ultrapassada";
+                    return RedirectToAction(nameof(Index));
+                }
+               
                 if (modulo.Arquivo != null)
                 {
                     using (var memoryStream = new MemoryStream())
@@ -286,12 +397,16 @@ namespace Projeto.Alfa12.Controllers
                         mod.Arquivo = memoryStream.ToArray();
                     }
                 }
+
+                turma.PontoAtual += modulo.MaxPonto;
+                _context.Update(turma);
                 _context.Add(mod);
                 await _context.SaveChangesAsync();
 
                 LogUsuariosController log = new LogUsuariosController(_context);
                 await log.SetLog("Create Modulo :" + mod.Nome, user.Id);
                 TempData["alert"] = $"{mod.Nome} foi criado";
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Id", modulo.TurmaId);
@@ -411,17 +526,38 @@ namespace Projeto.Alfa12.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<ActionResult> Visibilidade(int id,int turma)
+        {
+            var modulo = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
+            if (modulo.Visivel == true)
+            {
+                modulo.Visivel = false;
+            }
+            else
+            {
+                modulo.Visivel = true;
+            }
+            _context.Update(modulo);
+            await _context.SaveChangesAsync();
+            
+            
+            
+            return  RedirectToAction("Home","Turmas", new  { id = ViewData["Turma"]});
+
+        }
+
         private bool ModuloExists(int id)
         {
             return _context.Modulos.Any(e => e.Id == id);
         }
 
         //[EnableCors("AllowAll")]
-                public IActionResult Home(int id)
+        public IActionResult Home(int id)
         {
             return View(_context.Modulos.SingleOrDefault(x=>x.Id==id));
         }
 
+        //Não utilizado
         [HttpPost]
         [Authorize(Roles = "Aluno")]
         [ValidateAntiForgeryToken]
@@ -429,10 +565,9 @@ namespace Projeto.Alfa12.Controllers
         {
             var modulo = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
             int x;
-            //url da pagina + algo
-
+            
             string myJson = "  { 'Acerto' : 's','Ponto': '3', 'y' = '1', 'x' = '2' }";
-            Pontos t = new Pontos { Acerto = true, ponto = 3, y = "1", x = "2" };
+            RequisicaoResposta t = new RequisicaoResposta { Acerto = true, ponto = 3};
 
             //string myJson = "{'Username': 'myusername','Password':'pass'}";
             using (var client = new HttpClient())
@@ -451,12 +586,9 @@ namespace Projeto.Alfa12.Controllers
                 HttpResponseMessage response = await http.SendAsync(request);
 
                 var responseString = await response.Content.ReadAsStringAsync();
-                var post = JsonConvert.DeserializeObject<Pontos>(responseString.ToString());
+                var post = JsonConvert.DeserializeObject<RequisicaoResposta>(responseString.ToString());
                 x = post.ponto;
             }
-
-
-
 
             /*var requisicaoWeb = WebRequest.CreateHttp(" http://localhost:64466/api/values/2");
             requisicaoWeb.Method = "GET";
@@ -472,15 +604,12 @@ namespace Projeto.Alfa12.Controllers
                 streamDados.Close();
                 resposta.Close();
             }*/
-            
-
+ 
             var user = _userManager.GetUserAsync(User);
             var aluno = (Aluno)await user;
 
             PontuacaoController p = new PontuacaoController(_context);
           //  await p.AddPoint(aluno.Id, modulo.TurmaId, modulo.Id, x);
-            
-            
 
             return RedirectToAction(nameof(Index));
         }
@@ -488,9 +617,11 @@ namespace Projeto.Alfa12.Controllers
      
     }
 
-    public class Pontos{
+    public class RequisicaoResposta{
         public bool Acerto;
        public int ponto;
-       public string x, y;
+       public string resposta;
+        public int aluno;
+        public int modulo;
         }
 }

@@ -69,6 +69,7 @@ namespace Projeto.Alfa12.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                   
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

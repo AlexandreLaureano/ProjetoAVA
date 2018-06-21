@@ -10,6 +10,7 @@ using Projeto.Alfa12.Models.AccountViewModels;
 
 namespace Projeto.Alfa12.Controllers
 {
+    [Authorize]
     //[Authorize(Roles = "Administrador")]
     public class AlunosController : Controller
     {
@@ -48,6 +49,7 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // GET: Alunos/Edit/5
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,7 +86,7 @@ namespace Projeto.Alfa12.Controllers
 
                     var user = _userManager.GetUserAsync(User);
                     LogUsuariosController log = new LogUsuariosController(_context);
-                    await log.SetLog("Edit Aluno : " + aluno.FullName, user.Id);
+                    await log.SetLog("Editar Aluno : " + aluno.FullName, user.Id);
 
                     TempData["alert"] = $"{aluno.FullName} editado";
 

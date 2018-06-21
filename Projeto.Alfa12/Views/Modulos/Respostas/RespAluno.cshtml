@@ -1,53 +1,76 @@
 ﻿@model Projeto.Alfa12.Models.Modulo
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-   
-        ViewData["Nome"] = "Responder Atividades";
-   
+
+    ViewData["Nome"] = "Responder Atividades";
+
 }
 
 
-<h2>RespAluno</h2>
- Ferramenta = 1,
-        ConteudoPdf,
-        ConteudoTexto,
-        RespAuto,
-        RespManual
 @{
 
     if (Model.Tipo == (TipoMod)5)
     {
-        <p class="subtitle">Descrição:@Html.DisplayFor(model => Model.Descricao)</p>
-        <p class="subtitle">Texto:@Html.DisplayFor(model => Model.Texto)</p>
+        <p class="subtitle">Descrição da atividade</p>
+        <p>@Html.DisplayFor(model => Model.Descricao)</p>
+        <p class="subtitle">Texto</p>
+        <p>@Html.DisplayFor(model => Model.Texto)</p>
 
         <form asp-action="RespAluno">
             <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
             <input asp-for="Id" value=@Model.Id type="hidden" />
             <div class="field">
                 <label asp-for="Resposta" class="label"></label>
-                <input asp-for="Resposta" class="input" />
+              
+                <textarea asp-for="Resposta" class="textarea"></textarea>
+              
                 <span asp-validation-for="Resposta" class="help is-danger"></span>
             </div>
-            <div class="field">
-                <input type="submit" value="Salvar" class="button is-primary" />
-            </div>
+         
+                <div class="field">
+                    <input type="submit" value="Salvar" class="button is-primary" />
+                </div>
+          
         </form>
     }
     else if (Model.Tipo == (TipoMod)4)
     {
-        <p>Tipo 4</p>
+        <p> RespAuto</p>
+        <p class="subtitle">Descrição da atividade</p>
+        <p>@Html.DisplayFor(model => Model.Descricao)</p>
+        <p class="subtitle">Texto</p>
+        <p>@Html.DisplayFor(model => Model.Texto)</p>
+
+        <form asp-action="RespAlunoOnline">
+            <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+            <input asp-for="Id" value=@Model.Id type="hidden" />
+            <div class="field">
+                <label asp-for="Resposta" class="label"></label>
+              
+                <textarea asp-for="Resposta" class="textarea"></textarea>
+                
+                <span asp-validation-for="Resposta" class="help is-danger"></span>
+            </div>
+           
+                <div class="field">
+                    <input type="submit" value="Salvar" class="button is-primary" />
+                </div>
+           
+        </form>
     }
     else if (Model.Tipo == (TipoMod)3)
     {
-        <p>Tipo 3</p>
+        <p>ConteudoTexto</p>
     }
     else if (Model.Tipo == (TipoMod)2)
     {
-        <p>Tipo 2</p>
+        <p>
+            ConteudoPdf
+        </p>
     }
     else if (Model.Tipo == (TipoMod)1)
     {
-        <p>Tipo 1</p>
+        <p>Ferramenta</p>
     }
     else
     {

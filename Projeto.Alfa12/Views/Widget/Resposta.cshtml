@@ -6,7 +6,7 @@
 <h2>Resposta</h2>
 
 
-<form asp-controller="ModulosController" asp-action="RespAluno">
+<form asp-controller="ModulosController" asp-action="RespAluno" asp-route-returnurl="@ViewData["ReturnUrl"]">
     <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
     <input asp-for="Id" value=@Model.Id type="hidden" />
     <div class="field">

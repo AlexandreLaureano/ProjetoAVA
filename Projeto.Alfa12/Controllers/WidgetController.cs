@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,18 +38,12 @@ namespace Projeto.Alfa12.Controllers
 
         }
 
-        public IActionResult Login()
+        [Authorize]
+        public async Task<IActionResult> Resposta(int? id, string returnUrl)
         {
-            return View();
-        }
-
-        public async Task<IActionResult> Resposta(int? id)
-        {
+            ViewData["ReturnUrl"] = returnUrl;
             var user = _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-               return RedirectToAction(nameof(Login));
-            }
+            
             var aluno = await user;
             var modulo = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
             var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(i => i.Id == modulo.TurmaId);
@@ -74,10 +69,12 @@ namespace Projeto.Alfa12.Controllers
             }
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string returnUrl)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
+
 
         public IActionResult NotTurma()
         {

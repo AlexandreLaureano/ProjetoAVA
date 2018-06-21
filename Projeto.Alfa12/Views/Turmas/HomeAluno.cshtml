@@ -2,7 +2,6 @@
 
 @{
     ViewData["Nome"] = "Index";
-    ViewData["Turma"] = Model.Id;
 }
 <p class="title has-text-centered">@Html.DisplayFor(model => model.Nome)</p>
 <section class="section">
@@ -21,14 +20,13 @@
       
                         <footer class="card-footer">
 
-                            <a class="card-footer-item button is-info" asp-controller="Modulos" asp-action="Visibilidade" asp-route-id="@Model.Modulos[i].Id" asp-route-turma="@Model.Id">
-                            @if (Model.Modulos[i].Visivel.Equals(true)) { <p>Ocultar</p> } else { <p>Exibir</p> } </a>
+                            <a class="card-footer-item button is-info" asp-controller="Modulos" asp-action="Details" asp-route-id="@Model.Modulos[i].Id">Detalhes</a>
+                            @if (User.IsInRole("Aluno"))
+                            {
+                                <a class="card-footer-item button is-link" asp-controller="Modulos" asp-action="RespAluno" asp-route-id="@Model.Modulos[i].Id">Acessar Modulo</a>
+
+                            }
                            
-                        <a class="card-footer-item button is-link" asp-controller="Modulos" asp-action="RespProfessor" asp-route-id="@Model.Modulos[i].Id">Acessar Modulo</a>
-                        <a class="card-footer-item button is-info" asp-controller="Modulos" asp-action="Details" asp-route-id="@Model.Modulos[i ].Id">Detalhes</a>
-
-                          
-
                         </footer>
 
                     </article>
@@ -42,19 +40,14 @@
                            
 
                             <footer class="card-footer">
-                                <a class="card-footer-item button is-info" asp-controller="Modulos" asp-action="Visibilidade" asp-route-id="@Model.Modulos[i + 1].Id">
-                                    @if (Model.Modulos[i +1].Visivel.Equals(true))
-                                    {<p>Ocultar</p> }
-                                else
-                                { <p>Exibir</p>}
-                                </a>
 
-                               
-                            <a class="card-footer-item button is-link" asp-controller="Modulos" asp-action="RespProfessor" asp-route-id="@Model.Modulos[i + 1].Id">Acessar Modulo</a>
-                            <a class="card-footer-item button is-info" asp-controller="Modulos" asp-action="Details" asp-route-id="@Model.Modulos[i + 1].Id">Detalhes</a>
+                                <a class="card-footer-item button is-info" asp-controller="Modulos" asp-action="Details" asp-route-id="@Model.Modulos[i + 1].Id">Detalhes</a>
+                                @if (User.IsInRole("Aluno"))
+                                {
+                                    <a class="card-footer-item button is-link" asp-controller="Modulos" asp-action="RespAluno" asp-route-id="@Model.Modulos[i + 1].Id">Acessar Modulo</a>
 
-
-
+                                }
+                             
                             </footer>
 
                         </article>

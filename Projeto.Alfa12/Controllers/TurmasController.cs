@@ -13,7 +13,7 @@ using Projeto.Alfa12.Models.CreateViewModels;
 
 namespace Projeto.Alfa12.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class TurmasController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -64,6 +64,7 @@ namespace Projeto.Alfa12.Controllers
              return View(await turma.ToListAsync());
          }*/
 
+        [AllowAnonymous]
         public ViewResult List(int productPage = 1, string SearchString = "")
         => View(new ProductsListViewModel{
             Itens = _context.Turmas.Include(t => t.Professor)  
@@ -81,7 +82,7 @@ namespace Projeto.Alfa12.Controllers
                 
         });
 
-        //[Authorize(Roles = "Professor")]
+        [Authorize(Roles = "Professor")]
         public async Task<IActionResult> IndexProfessor()
         {
             var user = (Professor) await _userManager.GetUserAsync(User); 
@@ -90,7 +91,7 @@ namespace Projeto.Alfa12.Controllers
             return View(await turmas.ToListAsync());
         }
 
-        //[Authorize(Roles = "Aluno")]
+        [Authorize(Roles = "Aluno")]
         public async Task<IActionResult> IndexAluno()
         {
             var user = (Aluno)await _userManager.GetUserAsync(User);
@@ -111,6 +112,7 @@ namespace Projeto.Alfa12.Controllers
             return View(Lturma);
         }
 
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> IndexAdmin(string SearchString = "")
         {
             //var turma = from t in _context.Turmas select t; colocar join
@@ -131,10 +133,12 @@ namespace Projeto.Alfa12.Controllers
             {
                 return NotFound();
             }
+            var pontos = _context.Turmas.Include(x => x.Modulos).Where(t => t.Id == id).Sum(x => x.Modulos.Sum(t => t.MaxPonto));
 
             var turma = await _context.Turmas
                 .Include(t => t.Professor)
                 .SingleOrDefaultAsync(m => m.Id == id);
+            turma.PontoAtual = pontos;
             if (turma == null)
             {
                 return NotFound();
@@ -143,16 +147,17 @@ namespace Projeto.Alfa12.Controllers
             return View(turma);
         }
 
+        [Authorize(Roles = "Administrador,Professor")]
         // GET: Turmas/Create
         public IActionResult Create()
         {
-           
             return View();
         }
 
         // POST: Turmas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Administrador,Professor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TurmaViewModel turma)
@@ -160,14 +165,14 @@ namespace Projeto.Alfa12.Controllers
             var user = _userManager.GetUserAsync(User);
             Turma create = new Turma
             {
-            Professor = (Professor)await user,
-            DataCriacao = DateTime.Now,
-            MaxPonto = 100,
-            AreaConhecimento = turma.AreaConhecimento,
-            Descricao = turma.Descricao,
-            ChaveAcesso = turma.ChaveAcesso,
-            Nome = turma.Nome            
-        };
+                Professor = (Professor)await user,
+                DataCriacao = DateTime.Now,
+                MaxPonto = 1000,
+                AreaConhecimento = turma.AreaConhecimento,
+                Descricao = turma.Descricao,
+                ChaveAcesso = turma.ChaveAcesso,
+                Nome = turma.Nome            
+            };
       
             if (ModelState.IsValid)
             {
@@ -184,6 +189,7 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // GET: Turmas/Edit/5
+        [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -204,6 +210,7 @@ namespace Projeto.Alfa12.Controllers
         // POST: Turmas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Administrador,Professor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Descricao,AreaConhecimento,ChaveAcesso,ProfessorId")] Turma turma)
@@ -244,6 +251,8 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // GET: Turmas/Delete/5
+        //Mudar para ativo
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -263,6 +272,7 @@ namespace Projeto.Alfa12.Controllers
         }
 
         // POST: Turmas/Delete/5
+        [Authorize(Roles = "Administrador")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -289,12 +299,7 @@ namespace Projeto.Alfa12.Controllers
             List<Aluno> members = new List<Aluno>();
             List<Aluno> nonMembers = new List<Aluno>();
 
-            /* var posts = _context.Turmas.Include("UserTurma.User").Include(x=> x.User).ToList();
-            var postss = _context.Turmas.Include(e => e.UserTurma).ToList(); // Won't work*/
-
-            //var turma = await _context.Turmas.Include("AlunoTurma.Aluno").Include(x => x.IAluno).SingleOrDefaultAsync(i => i.Id == id);
             var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(i => i.Id == id);
-            //var turma = await _context.Turmas.Include(x => x.Alunos).Include(y => y.Alunos).SingleOrDefaultAsync(i => i.Id == id);
             turma.Id = id;
             var alunos = _context.Alunos.ToList();
 
@@ -302,11 +307,12 @@ namespace Projeto.Alfa12.Controllers
             foreach (Aluno user in alunos)
             {
               var alunoturma = _context.AlunoTurmas
-                    .Where(x => x.AlunoId == user.Id && x.TurmaId == turma.Id && x.Ativo == true).SingleOrDefault();    
-            var list = turma.IAluno.Contains(user) && alunoturma!=null
+                    .Where(x => x.AlunoId == user.Id && x.TurmaId == turma.Id && x.Ativo == true)
+                    .SingleOrDefault();    
+                var list = turma.IAluno.Contains(user) && alunoturma!=null
                  ? members : nonMembers;
-                list.Add(user);
 
+                list.Add(user);
             }
 
             return View(new TurmaEditModel
@@ -325,38 +331,29 @@ namespace Projeto.Alfa12.Controllers
             {
                 return NotFound();
             }
-            //var turma = await _context.Turmas.Include("AlunoTurma.Aluno").Include(x => x.IAluno).SingleOrDefaultAsync(i => i.Id == id);
-
-           // var turma = await _context.Turmas.Include(x => x.Alunos).Include(y => y.Alunos).SingleOrDefaultAsync(i => i.Id == id);
 
             var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(i => i.Id == id);
 
-            var context = _context.AlunoTurmas;
-            
+            var context = _context.AlunoTurmas;         
             if (ModelState.IsValid)
             {
                 try
                 {
-                    //var turma = turmas.SingleOrDefault(x => x.Id == model.TurmaId);
-
                     foreach (int userId in model.IdsToAdd ?? new int[] { })
                     {
                         Aluno user = await _context.Alunos.SingleOrDefaultAsync(y => y.Id == userId);
                         if (user != null)
                         {
-                            AlunoTurma at = new AlunoTurma {
+                            AlunoTurma at = new AlunoTurma
+                            {
                                 AlunoId = user.Id,
                                 TurmaId = turma.Id,
                                Ativo = true,
                                 DataIngressao = DateTime.Now        
-                        };
-                            _context.AlunoTurmas.Update(at);
-                            //turma.UserTurma.Add(new AlunoTurma { TurmaId = turma.Id, AlunoId = user.Id });
-                            /// turma.ITurma.Add(user);
+                            };
+                            _context.AlunoTurmas.Update(at);   
                         }
-                    }
-                    //turmas[turmas. IndexOf(turma)] = turma;
-                    //_context.Update(turma);
+                    }     
                     await _context.SaveChangesAsync();
                    
                     foreach (int userId in model.IdsToDelete ?? new int[] { })
@@ -366,16 +363,11 @@ namespace Projeto.Alfa12.Controllers
                         {
 
                             var alunoturma = _context.AlunoTurmas
-                     .SingleOrDefault(y => y.AlunoId == user.Id && y.TurmaId == id && y.Ativo == true);
+                            .SingleOrDefault(y => y.AlunoId == user.Id && y.TurmaId == id && y.Ativo == true);
                             alunoturma.Ativo = false;
-                            _context.AlunoTurmas.Update(alunoturma);
-                            //turma.Aluno.Remove(ut);
-
-
+                            _context.AlunoTurmas.Update(alunoturma);                           
                         }
                     }
-                    //turmas[turmas.IndexOf(turma)] = turma;
-                    //_context.Update(turma);
                     await _context.SaveChangesAsync();
 
                     var usuario = (ApplicationUser)await _userManager.GetUserAsync(User);
@@ -458,24 +450,25 @@ namespace Projeto.Alfa12.Controllers
 
         
         public async Task<IActionResult> Sair(int id)
-        {
-           
-                var user = _userManager.GetUserAsync(User);
-                Aluno aluno = (Aluno)await user;
+        {  
+             var user = _userManager.GetUserAsync(User);
+             Aluno aluno = (Aluno)await user;
                
-                var alunoturma = _context.AlunoTurmas
+             var alunoturma = 
+                    _context.AlunoTurmas
                     .SingleOrDefault(y => y.AlunoId == aluno.Id && y.TurmaId == id && y.Ativo == true);
-                alunoturma.Ativo = false;
-                _context.AlunoTurmas.Update(alunoturma);
-                await _context.SaveChangesAsync();
+             alunoturma.Ativo = false;
+             _context.AlunoTurmas.Update(alunoturma);
+             await _context.SaveChangesAsync();
 
-            LogUsuariosController log = new LogUsuariosController(_context);
-            await log.SetLog($"{aluno.FullName} saiu da turma {alunoturma.TurmaId}", aluno.Id);
+             LogUsuariosController log = new LogUsuariosController(_context);
+             await log.SetLog($"{aluno.FullName} saiu da turma {alunoturma.TurmaId}", aluno.Id);
+             TempData["alert"] = $"Você saiu da turma";
 
-            TempData["alert"] = $"Você saiu da turma";
-            return RedirectToAction(nameof(Index));
+             return RedirectToAction(nameof(Index));
         }
 
+        //verificar se aluno pode ver
         public async Task<IActionResult> Home(int? id)
         {
            
@@ -488,6 +481,27 @@ namespace Projeto.Alfa12.Controllers
                 .Include(t => t.Professor)
                 .Include(m => m.Modulos)
                 .SingleOrDefaultAsync(m => m.Id == id);
+            if (turma == null)
+            {
+                return NotFound();
+            }
+
+            return View(turma);
+        }
+
+        public async Task<IActionResult> HomeAluno(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var turma = await _context.Turmas
+                .Include(t => t.Professor)
+                .Include(m => m.Modulos)
+                .SingleOrDefaultAsync(m => m.Id == id);
+            
             if (turma == null)
             {
                 return NotFound();

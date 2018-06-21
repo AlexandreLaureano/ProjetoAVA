@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Projeto.Alfa12.Data;
@@ -9,6 +10,7 @@ using Projeto.Alfa12.Models;
 
 namespace Projeto.Alfa12.Controllers
 {
+   
     public class LogUsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,7 +21,7 @@ namespace Projeto.Alfa12.Controllers
             _context = context;
         }
 
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Index()
         {
             var log = _context.Logs.Include(x => x.Usuario).ToList();
@@ -27,6 +29,7 @@ namespace Projeto.Alfa12.Controllers
             return View(_context.Logs.ToList());
         }
 
+        [Authorize(Roles = "Administrador")]
         public ViewResult List(string category, int productPage = 1)
         => View(new LogListViewModel
         {

@@ -14,6 +14,7 @@ using Projeto.Alfa12.Models.AccountViewModels;
 namespace Projeto.Alfa12.Controllers
 {
     //[Authorize(Roles = "Administrador")]
+    [Authorize]
     public class ProfessoresController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -49,9 +50,10 @@ namespace Projeto.Alfa12.Controllers
             return View(professor);
         }
 
-      
+
 
         // GET: Professores/Edit/5
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

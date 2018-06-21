@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Projeto.Alfa12.Controllers
 {
+
     public class PontuacaoController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -18,7 +19,8 @@ namespace Projeto.Alfa12.Controllers
 
         public void AddResposta(Pontuacao p)
         {
-            _context.Pontuacoes.Add(p);
+           
+            _context.Add(p);
             _context.SaveChanges();
         }
 

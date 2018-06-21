@@ -4,7 +4,8 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@{if (!SignInManager.IsSignedIn(User)) {
+@{if (!SignInManager.IsSignedIn(User))
+    {
         Layout = "/Views/Shared/_LayoutHome.cshtml";
     }
     else
@@ -19,47 +20,47 @@
     if (!SignInManager.IsSignedIn(User))
     {
 
-<section class="hero is-medium is-light is-bold">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <h2 class="title">Bem Vindo....</h2>
-            <h3 class="subtitle is-3">Ambiente de treinamento modular gamificado</h3>
-        </div>
-        </div>
-</section>
-<section class="section">
-    <div class="tile is-ancestor has-text-centered">
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <p class="title">Modular</p>
-                <!--<p class="subtitle">img de modulo</p>-->
-                <div class="content">
-                    <p><i class="fas fa-th fa-9x"></i></p>
+        <section class="hero is-medium is-light is-bold">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <h2 class="title">Bem Vindo....</h2>
+                    <h3 class="subtitle is-3">Ambiente de treinamento modular gamificado</h3>
                 </div>
-            </article>
-        </div>
-        <div class="tile is-parent has-text-centered">
-            <article class="tile is-child box">
-                <p class="title">Aprendizagem</p>
-                <!--<p class="subtitle">AvA</p>-->
-                <div class="content">
-                    <p><i class="fas fa-book fa-9x"></i></p>
+            </div>
+        </section>
+        <section class="section">
+            <div class="tile is-ancestor has-text-centered">
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <p class="title">Modular</p>
+                        <!--<p class="subtitle">img de modulo</p>-->
+                        <div class="content">
+                            <p><i class="fas fa-th fa-9x"></i></p>
+                        </div>
+                    </article>
                 </div>
-            </article>
-        </div>
-        <div class="tile is-parent has-text-centered">
-            <article class="tile is-child box">
-                <p class="title">Gamificado</p>
-                <!--<p class="subtitle">jogos</p>-->
-                <div class="content">
-                    <p><i class="fas fa-gamepad fa-9x"></i></p>
+                <div class="tile is-parent has-text-centered">
+                    <article class="tile is-child box">
+                        <p class="title">Aprendizagem</p>
+                        <!--<p class="subtitle">AvA</p>-->
+                        <div class="content">
+                            <p><i class="fas fa-book fa-9x"></i></p>
+                        </div>
+                    </article>
                 </div>
-            </article>
-        </div>
-    </div>
-</section>
+                <div class="tile is-parent has-text-centered">
+                    <article class="tile is-child box">
+                        <p class="title">Gamificado</p>
+                        <!--<p class="subtitle">jogos</p>-->
+                        <div class="content">
+                            <p><i class="fas fa-gamepad fa-9x"></i></p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
         <h4 class="subtitle"><a asp-controller="Account" asp-action="Login">Clique aqui para realizar o Login</a></h4>
-        
+
     }
     else
     {
@@ -71,25 +72,27 @@
                 <div class="column">
 
                     @{
-        if (User.IsInRole("Professor"))
-        {
-                <!--<h2 class="title">Página do Professor</h2>-->
-var x = (Professor)await UserManager.GetUserAsync(User);
-if (x.Autenticado == true)
-{
-}
-}
-else if (User.IsInRole("Aluno"))
-{
-}
-else if (User.IsInRole("Administrador"))
-{
-}
-else
-{
-                <h2 class="title">Você não possui Autenticação</h2>
+                        if (User.IsInRole("Professor"))
+                        {
+                            <!--<h2 class="title">Página do Professor</h2>-->
+                            var x = (Professor)await UserManager.GetUserAsync(User);
+                            if (x.Autenticado == true)
+                            {
+                            }
+                        }
+                        else if (User.IsInRole("Aluno"))
+                        {
+                            var a = (Aluno)await UserManager.GetUserAsync(User);
+                            @await Component.InvokeAsync("AlunoPonto", new { aluno = a.Id })
+                        }
+                        else if (User.IsInRole("Administrador"))
+                        {
+                        }
+                        else
+                        {
+                            <h2 class="title">Você não possui Autenticação</h2>
 
-}
+                        }
 
                     }
 

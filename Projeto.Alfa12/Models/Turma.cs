@@ -22,6 +22,9 @@ namespace Projeto.Alfa12.Models
         [Display(Name = "Pontos")]
         public int? MaxPonto{ get; set; }
 
+        [NotMapped]
+        public int PontoAtual { get; set; }
+
         public int? ProfessorId { get; set; }
         public Professor Professor { get; set; }
 

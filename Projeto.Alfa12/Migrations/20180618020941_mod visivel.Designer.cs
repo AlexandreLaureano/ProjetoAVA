@@ -13,9 +13,10 @@ using System;
 namespace Projeto.Alfa12.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180618020941_mod visivel")]
+    partial class modvisivel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,8 +303,6 @@ namespace Projeto.Alfa12.Migrations
                     b.Property<int>("MaxPonto");
 
                     b.Property<string>("Nome");
-
-                    b.Property<bool>("Respondido");
 
                     b.Property<string>("Resposta");
 
