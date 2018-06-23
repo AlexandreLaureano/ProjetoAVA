@@ -17,7 +17,7 @@ namespace Projeto.Alfa12.Controllers
 {
     [Authorize]
     public class ModulosController : Controller
-    {
+    {   
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private static readonly HttpClient client = new HttpClient();
@@ -51,12 +51,13 @@ namespace Projeto.Alfa12.Controllers
         public async Task<IActionResult> Details(int? id)
         {
 
-            var user = _userManager.GetUserAsync(User);
-            var aluno = await user;
+            //var user = _userManager.GetUserAsync(User);
+           // var aluno = await user;
             var modulo = await _context.Modulos.Include("Pontuacao.Modulo").SingleOrDefaultAsync(m => m.Id == id);
             var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(i => i.Id == modulo.TurmaId);
-            
-            if (turma.IAluno.Contains(aluno))
+
+            return View(modulo);
+            /*if (turma.IAluno.Contains(aluno))
             {
                /* if (id == null)
                 {
@@ -67,14 +68,14 @@ namespace Projeto.Alfa12.Controllers
                 if (modulo == null)
                 {
                     return NotFound();
-                }*/
+                }
 
                 return View(modulo);
             }
             else
             {
                 return RedirectToAction(nameof(Index));
-            }
+            }*/
         }
 
         [Authorize(Roles = "Aluno")]
@@ -83,7 +84,14 @@ namespace Projeto.Alfa12.Controllers
             var aluno = await user;
             var modulo = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
             var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(i => i.Id == modulo.TurmaId);
-            
+            var pontuacao = await _context.Pontuacoes.Where(x => x.ModuloId == id && x.AlunoId == aluno.Id).SingleOrDefaultAsync();
+
+            ModuloPontuacaoViewModel MP = new ModuloPontuacaoViewModel
+            {
+                modulo = modulo,
+                pontuacao = pontuacao
+            };
+
             if (turma.IAluno.Contains(aluno))
             {
                 if (id == null)
@@ -97,7 +105,7 @@ namespace Projeto.Alfa12.Controllers
                     return NotFound();
                 }
 
-                return View("Respostas/RespAluno",modulo);
+                return View("Respostas/RespAluno",MP);
             }
             else
             {
@@ -108,13 +116,14 @@ namespace Projeto.Alfa12.Controllers
         [Authorize(Roles = "Aluno")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RespAluno(int id, [Bind("Id,Resposta")] Modulo modulo)
+        public async Task<IActionResult> RespAluno(int id, ModuloPontuacaoViewModel mp)
         {
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (id != modulo.Id)
+                    if (id != mp.modulo.Id)
                         {
                             return NotFound();
                         }
@@ -122,7 +131,7 @@ namespace Projeto.Alfa12.Controllers
                     var user = (Aluno)await _userManager.GetUserAsync(User);
                     var mod = await _context.Modulos.SingleOrDefaultAsync(m => m.Id == id);
 
-                    mod.Resposta = modulo.Resposta;
+                    //mod.Resposta = modulo.Resposta;
                     mod.Respondido = true;
                     //Os pontos, o professor adiciona
                     Pontuacao p = new Pontuacao
@@ -131,7 +140,7 @@ namespace Projeto.Alfa12.Controllers
                         Data = DateTime.Now,
                         ModuloId = mod.Id,
                         Respondido = true,
-                        Resposta = mod.Resposta,
+                        Resposta = mp.pontuacao.Resposta,
                         TurmaId = mod.TurmaId
                     };
 
@@ -144,11 +153,11 @@ namespace Projeto.Alfa12.Controllers
 
                     await _context.SaveChangesAsync();
 
-                    TempData["alert"] = $"{modulo.Nome} foi respondido";
+                    TempData["alert"] = $"{mp.modulo.Nome} foi respondido";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ModuloExists(modulo.Id))
+                    if (!ModuloExists(mp.modulo.Id))
                     {
                         return NotFound();
                     }
@@ -271,6 +280,8 @@ namespace Projeto.Alfa12.Controllers
             var professor = await user;
             var modulo = await _context.Modulos.Include(m=>m.Pontuacao).SingleOrDefaultAsync(m => m.Id == id);
             var turma = await _context.Turmas.Include("Alunos.Aluno").SingleOrDefaultAsync(i => i.Id == modulo.TurmaId);
+
+            var alunos = _context.Alunos.Include(p => p.Pontuacao.Where(m => m.ModuloId == id).SingleOrDefault());
 
             if (turma.Professor.Equals(professor))
             {

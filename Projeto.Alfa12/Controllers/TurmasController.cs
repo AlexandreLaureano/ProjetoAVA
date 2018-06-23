@@ -507,6 +507,16 @@ namespace Projeto.Alfa12.Controllers
                 return NotFound();
             }
 
+            var user = _userManager.GetUserAsync(User);
+            Aluno aluno = (Aluno)await user;
+
+            
+            var pontosTurma = _context.Turmas.Include(x => x.Modulos).Where(t => t.Id == id).Sum(x => x.Modulos.Sum(t => t.MaxPonto));
+            var pontosAluno = _context.Pontuacoes.Where(x => x.AlunoId == aluno.Id).Sum(z => z.Pontos);
+            if (pontosTurma != 0) { 
+            int total = pontosAluno / pontosTurma;
+            ViewData["Total"] = total;
+            }
             return View(turma);
         }
 

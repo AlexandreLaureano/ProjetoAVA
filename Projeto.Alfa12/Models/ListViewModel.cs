@@ -105,5 +105,19 @@ namespace Projeto.Alfa12.Models
         public int IdTurma { get; set; }
     }
 
-    
+    [NotMapped]
+    public class ModuloPontuacaoViewModel
+    {
+        public Modulo modulo { get; set; }
+        public Pontuacao pontuacao { get; set; }
+    }
+
+    [NotMapped]
+    public class AlunoPontos
+    {
+        public Modulo modulo { get; set; }
+        public Pontuacao pontuacao { get; set; }
+    }
+
+
 }

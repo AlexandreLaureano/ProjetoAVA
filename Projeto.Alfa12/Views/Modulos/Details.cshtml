@@ -6,26 +6,23 @@
 <h4 class="subtitle has-text-centered"><strong>@Html.DisplayFor(model => model.Nome)</strong> </h4>
 <hr />
 <div class="columns">
-    <div class="column is-one-third has-text-right">
+    <div class="column is-one-four has-text-right">
         <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </dt>
+
             <dt>
                 @Html.DisplayNameFor(model => model.Url)
             </dt>
             <dt>
                 @Html.DisplayNameFor(model => model.Turma)
             </dt>
-
+            <dt>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </dt>
 
         </dl>
     </div>
     <div class="column">
         <dl class="dl-horizontal">
-            <dd>
-                @Html.DisplayFor(model => model.Descricao)
-            </dd>
 
             <dd>
                 @Html.DisplayFor(model => model.Url)
@@ -34,31 +31,35 @@
             <dd>
                 @Html.DisplayFor(model => model.Turma.Id)
             </dd>
+            <dd>
+                <div class="content">
+                    <p>
+                        @Html.DisplayFor(model => model.Descricao)
+                    </p>
+                </div>
+            </dd>
+
         </dl>
     </div>
-</div>
+    @if (Model.Tipo == (TipoMod)5 || Model.Tipo == (TipoMod)4)
+    {
+    <div class="column">
+        <div class="content">
+            Widget Resposta
+            <pre>
+&lt;div class="responsive"&gt;
+&lt;iframe class="embedly-embed" 
+src="https://localhost:44398/widget/Resposta/@Model.Id"
+width="500" height="281" scrolling="no" frameborder="1"
+style="border: 2px solid ;" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+</pre>
+        </div>
+        </div>
+    }
+    </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-primary">Edit</a>
     <a asp-action="Index" class="button is-danger">Back to List</a>
 </div>
 
-<code class="language-html" data-lang="html">
-    <span class="nt"><</span>div class="responsive"<span class="nt">></span>
-  <span class="nt"><</span>iframe class="embedly-embed" src="https://localhost:44398/widget/Resposta/@Model.Id"
-     width="500" height="281" scrolling="no" frameborder="1"
-      style="border: 2px solid ;" allowfullscreen<span class="nt">></span><span class="nt"><</span>/iframe><span class="nt">></span>
-   <span class="nt"><</span>/div<span class="nt">></span>
-
-
-
-</code>
-<div class="responsive">
-    <iframe class="embedly-embed"src="https://localhost:44398/widget/Resposta/@Model.Id"
-            width="500" height="281" scrolling="no" frameborder="1" 
-            style="border: 2px solid ;" allowfullscreen></iframe>
-</div>
-<div class="responsive">
-    <iframe class="embedly-embed" src="https://localhost:44398/widget/Ranking/1006" 
-            width="500" height="281" scrolling="no" frameborder="1" 
-            style="border: 3px solid ;"allowfullscreen></iframe>
-</div>

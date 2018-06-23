@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Projeto.Alfa12.Data;
 using Projeto.Alfa12.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Projeto.Alfa12.Controllers
@@ -38,6 +39,16 @@ namespace Projeto.Alfa12.Controllers
             LogUsuariosController log = new LogUsuariosController(_context);
             await log.SetLog(p.Pontos+" pontos ganho : Módulo- " + p.ModuloId + " Turma-" +p.TurmaId, p.AlunoId);
             
+        }
+
+        public int MediaPonto(int aluno,int turma)
+        {
+            var pontosTurma = _context.Turmas.Include(x => x.Modulos).Where(t => t.Id == turma).Sum(x => x.Modulos.Sum(t => t.MaxPonto));
+            var pontosAluno = _context.Pontuacoes.Where(x => x.AlunoId == aluno).Sum(z => z.Pontos);
+
+            var total = pontosAluno / pontosTurma;
+
+            return total;
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Projeto.Alfa12.Models
         public string Texto { get; set; } //ConteudoTexto, Resps
         public string Resposta { get; set; } //Resps
         public TipoMod Tipo { get; set; }
+
         public int MaxPonto { get; set; }
         public bool Visivel { get; set; }
         public bool Respondido { get; set; }
@@ -23,7 +24,7 @@ namespace Projeto.Alfa12.Models
         [NotMapped]
         public int idpontuacao { get; set; }
 
-        public ICollection<Pontuacao> Pontuacao { get; } = new List<Pontuacao>();
+        public List<Pontuacao> Pontuacao { get; } = new List<Pontuacao>();
 
         [NotMapped]
         public IEnumerable<Aluno> IAluno => Pontuacao.Select(e => e.Aluno);

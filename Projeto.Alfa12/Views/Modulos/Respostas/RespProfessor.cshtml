@@ -1,31 +1,101 @@
 ﻿@model Projeto.Alfa12.Models.Modulo
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
- 
-        ViewData["Nome"] = "Corrigir Atividades";
-    
+
+    ViewData["Nome"] = "Corrigir Atividades";
+
 }
 
+<h2 class="title  has-text-centered"> @Model.Nome</h2>
+
+
+<div class="container  ">
+    <div class="notification">
+        @Model.Descricao
+    </div>
+</div>
 
 <input asp-for="Id" value=@Model.Id type="hidden" />
-@foreach (var item in Model.Pontuacao)
+@if (Model.Tipo == (TipoMod)5 || Model.Tipo == (TipoMod)4)
 {
-    <form asp-action="RespProfessor">
-        <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
-        <input asp-for="idpontuacao" value=@item.Id type="hidden" />
+    <section class="section">
 
-        <p class="subtitle">resposta @Html.DisplayFor(modelItem => item.Resposta)</p>
-        <p class="subtitle">turma id @Html.DisplayFor(modelItem => item.TurmaId)</p>
-        <p class="subtitle">modulo id @Html.DisplayFor(modelItem => item.ModuloId)</p>
-        <p class="subtitle"> aluno id @Html.DisplayFor(modelItem => item.AlunoId)</p>
-        <p>Pontuação máxima disponivel é @Model.MaxPonto</p>
-        <div class="field">
-            <label asp-for="Pontos" class="label"></label>
-            <input asp-for="Pontos" class="input" value="@Html.ValueFor(modelitem => item.Pontos)" />
-            <span asp-validation-for="Pontos" class="help is-danger"></span>
+        <div class="bd-content">
+            <!--foreach (var item in Model.Pontuacao)-->
+            @for (var i = 0; i < Model.Pontuacao.Count; i = i + 2)
+
+            {
+                <div class="columns  ">
+                    <div class="column is-half">
+                        <form asp-action="RespProfessor">
+                            <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+                            <input asp-for="idpontuacao" value=@Model.Pontuacao[i].Id type="hidden" />
+
+
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        Aluno: @Html.DisplayFor(modelItem => Model.Pontuacao[i].Aluno.FullName)
+                                    </p>
+                                </header>
+                                <div class="card-content">
+                                    <div class="content">
+                                        Resposta: @Html.DisplayFor(modelItem => Model.Pontuacao[i].Resposta)
+                                    </div>
+                                </div>
+                                <footer class="card-footer">
+                                    <div class="card-footer-item">
+                                        <label asp-for="Pontos" class="label"> </label>
+                                        <input asp-for="Pontos" class="input" style="width: 7em" type="number" min="0" max="@Model.MaxPonto" value="@Html.ValueFor(modelitem => Model.Pontuacao[i].Pontos)" />
+                                        <span asp-validation-for="Pontos" class="help is-danger"></span>
+                                    </div>
+                                    <div class="card-footer-item">
+                                        <input type="submit" value="Salvar" class="button is-primary" />
+                                    </div>
+                                </footer>
+                            </div>
+
+                        </form>
+                    </div>
+                    @if (i + 1 < Model.Pontuacao.Count)
+                    {
+                        <div class="column is-half">
+                            <form asp-action="RespProfessor">
+                                <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+                                <input asp-for="idpontuacao" value=@Model.Pontuacao[i + 1].Id type="hidden" />
+
+
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            Aluno: @Html.DisplayFor(modelItem => Model.Pontuacao[i + 1].Aluno.FullName)
+                                        </p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            Resposta: @Html.DisplayFor(modelItem => Model.Pontuacao[i + 1].Resposta)
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <div class="card-footer-item">
+                                            <label asp-for="Pontos" class="label"> </label>
+                                            <input asp-for="Pontos" class="input" style="width: 7em" type="number" min="0" max="@Model.MaxPonto" value="@Html.ValueFor(modelitem => Model.Pontuacao[i + 1].Pontos)" />
+                                            <span asp-validation-for="Pontos" class="help is-danger"></span>
+                                        </div>
+                                        <div class="card-footer-item">
+                                            <input type="submit" value="Salvar" class="button is-primary" />
+                                        </div>
+                                    </footer>
+                                </div>
+
+                            </form>
+                        </div>
+                    }
+                </div>
+
+            }
+
         </div>
-        <div class="field">
-            <input type="submit" value="Salvar" class="button is-primary" />
-        </div>
-    </form>
+        <p>A pontuação máxima disponível para cada resposta dessa turma é @Model.MaxPonto</p>
+    </section>
 }
