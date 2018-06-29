@@ -48,7 +48,7 @@
                 @{
                     if (User.IsInRole("Aluno"))
                     {
-                <td>
+                <td class="has-text-right">
                    
                     <a class="button is-primary" asp-action="EntrarTurma" asp-route-id="@item.Id">Entrar na Turma</a>
                     <a class="button is-info" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>

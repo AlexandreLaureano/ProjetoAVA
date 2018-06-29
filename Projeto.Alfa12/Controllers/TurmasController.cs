@@ -469,6 +469,8 @@ namespace Projeto.Alfa12.Controllers
         }
 
         //verificar se aluno pode ver
+
+        [Authorize(Roles = "Administrador,Professor")]
         public async Task<IActionResult> Home(int? id)
         {
            
@@ -496,19 +498,24 @@ namespace Projeto.Alfa12.Controllers
             {
                 return NotFound();
             }
+            var user = _userManager.GetUserAsync(User);
+            Aluno aluno = (Aluno)await user;
 
             var turma = await _context.Turmas
                 .Include(t => t.Professor)
                 .Include(m => m.Modulos)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            
+
+            var mod = _context.Modulos.Include(p => p.Pontuacao.Where(a=>a.AlunoId==aluno.Id))
+                .Where(t=>t.TurmaId==id);
+
+           
             if (turma == null)
             {
                 return NotFound();
             }
 
-            var user = _userManager.GetUserAsync(User);
-            Aluno aluno = (Aluno)await user;
+          
 
             
             var pontosTurma = _context.Turmas.Include(x => x.Modulos).Where(t => t.Id == id).Sum(x => x.Modulos.Sum(t => t.MaxPonto));

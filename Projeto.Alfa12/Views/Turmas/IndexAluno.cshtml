@@ -35,9 +35,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Professor.FullName)
                 </td>
-                <td>
+                <td class="has-text-right">
                     <a class="button is-primary" asp-action="HomeAluno" asp-route-id="@item.Id">Acessar Turma</a>
-                    <a class="button is-info" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+                    <!--<a class="button is-info" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>-->
 
                 </td>
             </tr>

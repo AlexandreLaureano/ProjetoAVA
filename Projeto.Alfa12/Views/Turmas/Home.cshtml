@@ -68,8 +68,15 @@
     </div>
 
 </section>
-<div class="has-text-right">
-    <a asp-action="Sair" class="button is-danger is-outlined " asp-route-id="@Model.Id">Sair da turma</a>
+<div class="columns">
+    <div class="column has-text-left">
+        <a asp-controller="Modulos" asp-action="Create" class="button is-success">Criar novo módulo</a>
+    </div>
+ 
+            <div class="column has-text-right">
+                <a asp-action="IndexProfessor" class="button is-danger">Voltar</a>
+
+            </div>
 
 
-</div>
+        </div>

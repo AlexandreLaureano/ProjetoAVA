@@ -43,10 +43,10 @@
     </div>
     @if (Model.Tipo == (TipoMod)5 || Model.Tipo == (TipoMod)4)
     {
-    <div class="column">
-        <div class="content">
-            Widget Resposta
-            <pre>
+        <div class="column">
+            <div class="content">
+                Widget Resposta
+                <pre>
 &lt;div class="responsive"&gt;
 &lt;iframe class="embedly-embed" 
 src="https://localhost:44398/widget/Resposta/@Model.Id"
@@ -54,12 +54,18 @@ width="500" height="281" scrolling="no" frameborder="1"
 style="border: 2px solid ;" allowfullscreen&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 </pre>
-        </div>
+            </div>
         </div>
     }
-    </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-primary">Edit</a>
-    <a asp-action="Index" class="button is-danger">Back to List</a>
+    else
+    {
+        <div class="column">
+          
+        </div>
+    }
 </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-primary">Edit</a>
+        <a asp-action="Index" class="button is-danger">Back to List</a>
+    </div>
 

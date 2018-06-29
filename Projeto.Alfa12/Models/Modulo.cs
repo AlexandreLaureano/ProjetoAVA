@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -15,7 +16,7 @@ namespace Projeto.Alfa12.Models
         public string Texto { get; set; } //ConteudoTexto, Resps
         public string Resposta { get; set; } //Resps
         public TipoMod Tipo { get; set; }
-
+        public DateTime DataMax { get; set; }
         public int MaxPonto { get; set; }
         public bool Visivel { get; set; }
         public bool Respondido { get; set; }

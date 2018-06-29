@@ -29,5 +29,9 @@ namespace Projeto.Alfa12.Models.CreateViewModels
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira números válidos")]
         [Display(Name="Pontuação Máxima")]
         public int MaxPonto { get; set; }
+
+        [Required(ErrorMessage = "Informe uma data máxima para o envio da resposta")]
+        [Display(Name = "Data Máxima para responder")]
+        public DateTime DataMax { get; set; }
     }
 }

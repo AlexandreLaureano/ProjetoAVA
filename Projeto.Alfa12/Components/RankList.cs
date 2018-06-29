@@ -45,7 +45,7 @@ namespace Projeto.Alfa12.Components
 
             }
             else if(op == 2){// Lista de 7 dias
-                var lista = _context.Pontuacoes.Where(x =>/* x.Data <= DateTime.Now &&*/ x.Data <= DateTime.Now.AddDays(-3));
+                var lista = _context.Pontuacoes.Where(x =>/* x.Data <= DateTime.Now &&*/ x.Data >= DateTime.Now.AddDays(-7));
                 var alunos = _context.Alunos;
                 foreach (var a in alunos)
                 {
@@ -56,7 +56,7 @@ namespace Projeto.Alfa12.Components
             }
             else if (op == 3)
             {// Lista do mês
-                var lista = _context.Pontuacoes.Where(x => x.Data <= DateTime.Now && x.Data >= DateTime.Now.AddDays(-DateTime.Now.Day));
+                var lista = _context.Pontuacoes.Where(x =>/* x.Data <= DateTime.Now &&*/ x.Data >= DateTime.Now.AddDays(-30));
                 var alunos = _context.Alunos;
                 foreach (var a in alunos)
                 {

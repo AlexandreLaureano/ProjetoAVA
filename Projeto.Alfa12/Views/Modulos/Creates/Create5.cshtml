@@ -1,7 +1,7 @@
 ﻿@model ModuloViewModel
 
 
-<h2 class="title">módulo resposta manual</h2>
+<h2 class="title">Módulo de correção manual</h2>
 
 <hr />
 <div class="columns">
@@ -20,16 +20,8 @@
                 <textarea asp-for="Descricao" class="textarea"></textarea>
                 <span asp-validation-for="Descricao" class="help is-danger"></span>
             </div>
-            <div class="field">
-                <label asp-for="Texto" class="label"></label>
-                <textarea asp-for="Texto" class="textarea"></textarea>
-                <span asp-validation-for="Texto" class="help is-danger"></span>
-            </div>
-            <div class="field">
-                <label asp-for="Resposta" class="label"></label>
-                <textarea asp-for="Resposta" class="textarea"></textarea>
-                <span asp-validation-for="Resposta" class="help is-danger"></span>
-            </div>
+            
+            
             <div class="field">
                 <label asp-for="TurmaId" class="label"></label>
                 <div class="control">
@@ -43,7 +35,12 @@
                 <input asp-for="MaxPonto" class="input" type="text" pattern="[0-9]+$" />
                 <span asp-validation-for="MaxPonto" class="help is-danger"></span>
             </div>
-            <div class="field"> 
+            <div class="field">
+                <label asp-for="DataMax" class="label"></label>
+                <input asp-for="DataMax" class="input" type="date" />
+                <span asp-validation-for="DataMax" class="help is-danger"></span>
+            </div>
+            <div class="field">
                 <input type="submit" value="Salvar" class="button is-primary" />
                 <a asp-action="Index" class="button is-danger">Voltar</a>
             </div>

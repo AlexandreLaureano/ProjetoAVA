@@ -387,7 +387,9 @@ namespace Projeto.Alfa12.Controllers
                     Texto = modulo.Texto,
                     Tipo = (TipoMod)modulo.Tipo,
                     MaxPonto = modulo.MaxPonto     ,
-                    Respondido = false
+                    Respondido = false,
+                    DataMax = modulo.DataMax
+                    
                 };
 
                
@@ -418,7 +420,7 @@ namespace Projeto.Alfa12.Controllers
                 await log.SetLog("Create Modulo :" + mod.Nome, user.Id);
                 TempData["alert"] = $"{mod.Nome} foi criado";
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToPage("/Turmas/Home/",mod.TurmaId);
             }
             ViewData["TurmaId"] = new SelectList(_context.Turmas.Where(x => x.ProfessorId == user.Id), "Id", "Id", modulo.TurmaId);
             return View(modulo);
@@ -550,10 +552,11 @@ namespace Projeto.Alfa12.Controllers
             }
             _context.Update(modulo);
             await _context.SaveChangesAsync();
-            
-            
-            
-            return  RedirectToAction("Home","Turmas", new  { id = ViewData["Turma"]});
+
+
+
+            return RedirectToAction("Home", "Turmas", turma);
+            //return  RedirectToAction("Home","Turmas",  ViewData["Turma"]);
 
         }
 

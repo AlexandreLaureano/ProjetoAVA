@@ -28,9 +28,17 @@
                 <span asp-validation-for="pontuacao.Resposta" class="help is-danger"></span>
             </div>
 
+            @if (Model.modulo.DataMax >= DateTime.Now)
+            {
             <div class="field">
                 <input type="submit" value="Salvar" class="button is-primary" />
             </div>
+            }
+            else
+            {
+            <p>Prazo Limite para publicar a resposta expirou</p>
+
+            }
 
         </form>
     }
@@ -52,11 +60,17 @@
 
                 <span asp-validation-for="pontuacao.Resposta" class="help is-danger"></span>
             </div>
+            @if (Model.modulo.DataMax >= DateTime.Now)
+    {
+        <div class="field">
+            <input type="submit" value="Salvar" class="button is-primary" />
+        </div>
+}
+else
+{
+        <p>Prazo Limite para publicar a resposta expirou</p>
 
-            <div class="field">
-                <input type="submit" value="Salvar" class="button is-primary" />
-            </div>
-
+}
         </form>
     }
     else if (Model.modulo.Tipo == (TipoMod)3)
